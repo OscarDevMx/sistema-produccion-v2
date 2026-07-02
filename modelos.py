@@ -155,7 +155,7 @@ class HistorialProduccion(db.Model):
 class Status(db.Model):
     __tablename__ = "status"
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(20), unique=True, nullable=False)
+    nombre = db.Column(db.String(50), unique=True, nullable=False)
     descripcion = db.Column(db.String(100), nullable=True)
     fase = db.Column(db.String(20), nullable=True)
 
@@ -184,7 +184,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), unique=True, nullable=False)
     rol = db.Column(db.String(30), nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

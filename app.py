@@ -20,16 +20,15 @@ import os
 
 
 from sqlalchemy import and_
+from config import Config
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///produccion.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app = Flask(__name__)
+app.config.from_object(Config)
 
 db.init_app(app)
 
-
-app.secret_key = "clave_secreta_segura_2025"
 
 with app.app_context():
     db.create_all()
