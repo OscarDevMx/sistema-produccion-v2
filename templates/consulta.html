@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+
+{% block title %}Consulta de Inventario{% endblock %}
+{% block header %}🗒️ Consulta de Inventario{% endblock %}
+
+{% block content %}
+<style>
+  /* Scroll suave en móvil */
+  .content {
+    padding-bottom: 200px !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Contenedor principal */
+  .consulta-container {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  /* Card de filtros - MÁS GRANDE Y VISIBLE */
+  .card-filtros {
+    border-radius: 16px;
+    border: 2px solid #0d6efd;
+    background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+  }
+
+  /* Título de filtros */
+  .filtros-titulo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0d6efd;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Labels grandes */
+  .label-filtro {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  /* Selects GRANDES */
+  .select-grande {
+    font-size: 1.1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    border: 2px solid #dee2e6;
+    background-color: #fff;
+    margin-bottom: 1rem;
+    height: auto;
+    min-height: 50px;
+  }
+
+  .select-grande:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+  }
+
+  /* Botones GRANDES Y MODERNOS */
+  .btn-grande {
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: 1.1rem 2rem;
+    border-radius: 12px;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    border: none;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-grande::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    z-index: 1;
+  }
+
+  .btn-grande:active::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .btn-buscar {
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    color: white;
+    width: 100%;
+    position: relative;
+  }
+
+  .btn-buscar:hover {
+    background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.35);
+  }
+
+  .btn-buscar:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+  }
+
+  .btn-limpiar {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    width: 100%;
+    position: relative;
+  }
+
+  .btn-limpiar:hover {
+    background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(32, 201, 151, 0.35);
+  }
+
+  .btn-limpiar:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(32, 201, 151, 0.25);
+  }
+
+  /* Contenedor de resultados */
+  .resultados-container {
+    background: #fff;
+    border-radius: 14px;
+    border: 2px solid #e9ecef;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Título del color en resultados */
+  .color-titulo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0d6efd;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Tabla wrapper con scroll */
+  .tabla-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 400px);
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+  }
+
+  /* Tabla responsiva */
+  .tabla-inventario {
+    margin: 0;
+    background: #fff;
+  }
+
+  .tabla-inventario thead {
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .tabla-inventario th {
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 1rem !important;
+    text-align: center;
+    border: none;
+  }
+
+  .tabla-inventario td {
+    font-size: 1rem;
+    padding: 1rem !important;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .tabla-inventario tbody tr {
+    background-color: #fff;
+    transition: background-color 0.2s;
+  }
+
+  .tabla-inventario tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+
+  .tabla-inventario tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Alerta de no resultados */
+  .sin-resultados {
+    background-color: #f8d7da;
+    border: 2px solid #f5c6cb;
+    border-radius: 10px;
+    padding: 1.5rem;
+    color: #721c24;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  /* Mensaje vacío */
+  .mensaje-inicio {
+    background-color: #d1ecf1;
+    border: 2px solid #bee5eb;
+    border-radius: 10px;
+    padding: 1.5rem;
+    color: #0c5460;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  /* Media queries para móvil */
+  @media (max-width: 768px) {
+    .consulta-container {
+      padding: 0.75rem;
+    }
+
+    .card-filtros {
+      padding: 1.25rem;
+      border-radius: 14px;
+    }
+
+    .filtros-titulo {
+      font-size: 1.3rem;
+    }
+
+    .label-filtro {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .select-grande {
+      font-size: 1rem;
+      padding: 0.75rem 0.75rem;
+      min-height: 48px;
+      margin-bottom: 1rem;
+    }
+
+    .btn-grande {
+      font-size: 1.05rem;
+      padding: 1rem 1.2rem;
+      min-height: 52px;
+      border-radius: 11px;
+    }
+
+    .resultados-container {
+      padding: 1.25rem;
+      border-radius: 12px;
+    }
+
+    .color-titulo {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .tabla-wrapper {
+      max-height: calc(100vh - 350px);
+    }
+
+    .tabla-inventario th {
+      font-size: 0.95rem;
+      padding: 0.75rem !important;
+    }
+
+    .tabla-inventario td {
+      font-size: 0.95rem;
+      padding: 0.75rem !important;
+    }
+
+    .sin-resultados,
+    .mensaje-inicio {
+      font-size: 1rem;
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content {
+      padding-bottom: 220px !important;
+    }
+
+    .card-filtros {
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filtros-titulo {
+      font-size: 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .select-grande {
+      font-size: 0.95rem;
+      padding: 0.7rem 0.6rem;
+      min-height: 46px;
+    }
+
+    .btn-grande {
+      font-size: 0.95rem;
+      padding: 0.85rem 0.8rem;
+      min-height: 48px;
+    }
+
+    .tabla-inventario th,
+    .tabla-inventario td {
+      font-size: 0.9rem;
+      padding: 0.65rem !important;
+    }
+  }
+</style>
+
+<div class="consulta-container">
+
+    <!-- ======================================
+         CARD DE FILTROS - GRANDE Y VISIBLE
+    ====================================== -->
+    <div class="card-filtros">
+        <h3 class="filtros-titulo">
+            🔍 Buscar en Inventario
+        </h3>
+
+        <form method="GET" action="{{ url_for('consulta') }}">
+
+            <!-- Select Color -->
+            <div class="mb-3">
+                <label class="label-filtro">🎨 Selecciona un Color:</label>
+                <select name="color_id" class="form-select select-grande">
+                    <option value="">📋Lista de Colores</option>
+                    {% for c in colores %}
+                        <option value="{{ c.id }}" {% if color_seleccionado == c.id|string %}selected{% endif %}>
+                            {{ c.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Select Talla -->
+            <div class="mb-3">
+                <label class="label-filtro">👕 Selecciona una Talla:</label>
+                <select name="talla_id" class="form-select select-grande">
+                    <option value="">📋Lista de Tallas</option>
+                    {% for t in tallas %}
+                        <option value="{{ t.id }}" {% if talla_seleccionada == t.id|string %}selected{% endif %}>
+                            {{ t.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Botones Grandes -->
+            <div class="mt-4">
+                <button class="btn-grande btn-buscar" type="submit">
+                    🔎 Buscar
+                </button>
+
+                <a href="{{ url_for('consulta') }}" class="btn-grande btn-limpiar" style="display: block;">
+                    🧹 Limpiar Búsqueda
+                </a>
+            </div>
+        </form>
+    </div>
+
+    {% if color_seleccionado and inventarios|length > 0 %}
+        
+        {# 👉 Caso normal: seleccionó color #}
+        <div class="resultados-container">
+            <div class="color-titulo">
+                🎨 <strong>Color:</strong> {{ inventarios[0].color.nombre }}
+            </div>
+
+            <div class="tabla-wrapper">
+                <table class="table table-hover tabla-inventario">
+                    <thead>
+                        <tr>
+                            <th>👕 Talla</th>
+                            <th>📦 Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for inv in inventarios %}
+                            <tr>
+                                <td class="fw-bold">{{ inv.talla.nombre }}</td>
+                                <td class="fw-bold text-primary">{{ inv.cantidad }} pzas</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    {% elif color_seleccionado and inventarios|length == 0 %}
+        {# 👉 SIN RESULTADOS: Seleccionó color pero no hay inventario #}
+        <div class="sin-resultados">
+            <h5 style="margin-bottom: 0.75rem;">😔 Sin Existencias</h5>
+            <p style="margin-bottom: 0.5;">
+                El color <strong>"{{ color_seleccionado_nombre or 'seleccionado' }}"</strong> 
+                no tiene inventario en este momento.
+            </p>
+        </div>
+
+    {% elif talla_seleccionada and not color_seleccionado %}
+
+        {# 👉 NUEVO: Agrupado por color cuando solo elige talla #}
+        {% if inventarios_agrupados|length > 0 %}
+            {% for color, items in inventarios_agrupados.items() %}
+                <div class="resultados-container mb-4">
+                    <div class="color-titulo">
+                        🎨 {{ color }}
+                    </div>
+
+                    <div class="tabla-wrapper">
+                        <table class="table table-hover tabla-inventario">
+                            <thead>
+                                <tr>
+                                    <th>👕 Talla</th>
+                                    <th>📦 Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inv in items %}
+                                    <tr>
+                                        <td class="fw-bold">{{ inv.talla.nombre }}</td>
+                                        <td class="fw-bold text-primary">{{ inv.cantidad }} pzas</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            {# 👉 SIN RESULTADOS: Seleccionó talla pero no hay inventario #}
+            <div class="sin-resultados">
+                <h5 style="margin-bottom: 0.75rem;">😔 Sin Existencias</h5>
+                <p style="margin-bottom: 0.5;">
+                    La talla <strong>"{{ talla_seleccionada_nombre or 'seleccionada' }}"</strong> 
+                    no tiene inventario en este momento.
+                </p>
+            </div>
+        {% endif %}
+
+    <!-- MENSAJE INICIAL (SIN BÚSQUEDA) -->
+    {% else %}
+    <div class="mensaje-inicio">
+        <h5 style="margin-bottom: 0.5rem;">ℹ️ Bienvenido</h5>
+        <p style="margin-bottom: 0;">
+            Selecciona un color o talla arriba
+            <br>
+            para buscar en el inventario
+        </p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

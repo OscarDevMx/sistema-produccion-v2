@@ -1,12 +1,9 @@
-from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 from pytz import timezone
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from utils import fecha_local_tijuana
 
-
-
-db = SQLAlchemy()
 
 # ==========================
 #   MODELO: COLORES

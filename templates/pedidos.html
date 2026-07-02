@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Listado de Pedidos{% endblock %}
+{% block header %}🗒️ Historial de Pedidos{% endblock %}
+
+{% block content %}
+<style>
+  .content {
+    padding-bottom: 200px !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-responsive {
+    max-height: calc(100vh - 500px);
+    overflow-y: auto;
+  }
+  @media (max-width: 767px) {
+    .table {
+      font-size: 0.85rem;
+    }
+    .table th, .table td {
+      padding: 0.5rem !important;
+    }
+    .card-header {
+      flex-wrap: wrap;
+    }
+    .card-header span:last-child {
+      font-size: 0.9rem;
+    }
+    .card-body p {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .card-footer {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .btn-sm {
+      font-size: 0.8rem;
+      padding: 0.4rem 0.6rem;
+    }
+  }
+</style>
+
+<div class="container py-3">
+
+    <!-- Barra de filtros -->
+    <form class="row g-2 mb-3" method="GET" action="{{ url_for('ver_pedidos') }}">
+    <div class="col-12 col-md-2">
+      <input type="text" name="numero_pedido" class="form-control form-control-sm"
+             placeholder="🔢 Pedido" value="{{ request.args.get('numero_pedido','') }}">
+    </div>
+    <div class="col-12 col-md-2">
+        <select name="estado" class="form-select form-select-sm">
+        <option value="">📌 Cualquier estado</option>
+        {% for s in status_pedidos %}
+            <option value="{{ s.id }}" {% if estado_seleccionado == s.id|string %}selected{% endif %}>{{ s.nombre }}</option>
+        {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-12 col-md-2 d-flex gap-1">
+        <button class="btn btn-primary btn-sm flex-fill" type="submit">
+        <i class="bi bi-funnel-fill me-1"></i> Filtrar
+        </button>
+        <a href="{{ url_for('ver_pedidos') }}" class="btn btn-outline-secondary btn-sm flex-fill">
+        <i class="bi bi-x-circle me-1"></i> Limpiar
+        </a>
+    </div>
+    </form>
+
+    {% if pedidos %}
+        {% for pedido in pedidos %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <span><strong>Pedido #{{ pedido.numero_pedido }}</strong></span>
+                <span>{{ pedido.fecha.strftime('%d-%m-%Y %H:%M') }}</span>
+            </div>
+
+            <div class="card-body">
+                <p><strong>Cliente:</strong> {{ pedido.cliente or "Sin especificar" }}</p>
+                <p><strong>Cantidad Total:</strong> {{ pedido.detalles | sum(attribute='cantidad') }}</p>
+                <p><strong>Costo Total:</strong> ${{ pedido.costo_total }}</p>
+                <p><strong>Observaciones:</strong> {{ pedido.observaciones or "N/A" }}</p>
+                <a href="{{ url_for('generar_pdf_pedido', pedido_id=pedido.id) }}" class="btn btn-danger">
+                Descargar PDF
+                </a>
+
+                <hr>
+
+                <h6 class="mb-3">Detalles del pedido</h6>
+
+                {% if pedido.detalles %}
+
+                    {# Ordenar por talla usando el ID numérico para evitar problemas alfanuméricos #}
+                    {% set detalles_ordenados = pedido.detalles|sort(attribute='talla.id') %}
+
+                    {# Agrupar por color #}
+                    {% set grupos_color = detalles_ordenados|groupby('color.nombre') %}
+
+                    {% for color, items in grupos_color %}
+
+                        {# Convertir items en lista para poder iterar y sumar correctamente #}
+                        {% set items_list = items|list %}
+
+                        <div class="mb-3 p-3 border rounded bg-light">
+
+                            <!-- Título del color -->
+                            <h6 class="text-primary mb-3">🎨<strong>{{ color }}</strong></h6>
+
+                            <div class="table-wrapper">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-secondary sticky-top">
+                                        <tr>
+                                            <th class="text-center" data-label="Talla">👕 Talla</th>
+                                            <th class="text-center" data-label="Cantidad">📦 Cantidad</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for item in items_list %}
+                                            <tr>
+                                                <td class="text-center" data-label="Talla">{{ item.talla.nombre }}</td>
+                                                <td class="text-center" data-label="Cantidad">{{ item.cantidad }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                    <tfoot>
+                                        <tr class="table-light fw-bold">
+                                            <td class="text-center">Total:</td>
+                                            <td class="text-center">{{ totales_por_color[pedido.id][color] }}</td>
+                                        </tr>
+                                    </tfoot>
+
+                                </table>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+                    <div class="alert alert-warning mb-0">
+                        Este pedido aún no tiene detalles registrados.
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <span>Registrado por: {{ pedido.usuario }}</span>
+
+                {% if pedido.status_pedido != 5 and pedido.status_pedido != 6 %} 
+                    <button class="btn btn-success btn-sm" onclick="marcarVendido({{ pedido.id }})">
+                        ✔ Marcar como Vendido
+                    </button>
+
+                    <button class="btn btn-danger btn-sm" onclick="cancelarPedido({{ pedido.id }})">
+                        ✖ Cancelar Pedido
+                    </button>
+                {% elif pedido.status_pedido == 5 %}
+                    <span class="badge bg-success">VENDIDO</span>
+                {% elif pedido.status_pedido == 6 %}
+                    <span class="badge bg-danger">CANCELADO</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center">
+            No hay pedidos registrados aún.
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- ===========================
+     🔥 JAVASCRIPT 
+=============================== -->
+<script>
+function marcarVendido(pedido_id) {
+
+    if (!confirm("¿Confirmas que este pedido ya fue VENDIDO?")) {
+        return;
+    }
+
+    fetch(`/pedido_vendido/${pedido_id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "ok") {
+            alert("Pedido marcado como VENDIDO correctamente.");
+            location.reload();
+        } else {
+            alert("Error: " + data.mensaje);
+        }
+    })
+    .catch(err => {
+        console.error("Error al marcar pedido:", err);
+        alert("Ocurrió un error al procesar la operación.");
+    });
+}
+function confirmarVendido() {
+    return confirm("¿Seguro que deseas marcar este pedido como VENDIDO?");
+}
+
+function cancelarPedido(pedido_id) {
+
+    if (!confirm("¿Seguro que deseas CANCELAR este pedido?\n\nEsto regresará las piezas al inventario.")) {
+        return;
+    }
+
+    fetch(`/pedido_cancelar/${pedido_id}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"}
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "ok") {
+            alert("Pedido CANCELADO correctamente.");
+            location.reload();
+        } else {
+            alert("Error: " + data.mensaje);
+        }
+    })
+    .catch(err => {
+        console.error("Error al cancelar pedido:", err);
+        alert("Ocurrió un error.");
+    });
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+{% block title %}Historial de Movimientos{% endblock %}
+{% block header %}📜 Historial de Movimientos del Inventario{% endblock %}
+
+{% block content %}
+<style>
+  /* Scroll suave en móvil */
+  .content {
+    padding-bottom: 200px !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Contenedor principal */
+  .historial-container {
+    padding: 1rem;
+  }
+
+  /* Selects mejorados */
+  .select-filtro {
+    border-radius: 6px;
+  }
+
+  .select-filtro:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1);
+  }
+
+  /* Botones filtros */
+  .btn-filtro {
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-filtro:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Tabla wrapper con scroll */
+  .tabla-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 350px);
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+    background: #fff;
+  }
+
+  /* Tabla responsiva */
+  .tabla-historial {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+  }
+
+  .tabla-historial thead {
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .tabla-historial th {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.75rem !important;
+    text-align: center;
+    white-space: nowrap;
+    border: none;
+  }
+
+  .tabla-historial td {
+    padding: 0.75rem !important;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 0.9rem;
+  }
+
+  .tabla-historial tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+
+  .tabla-historial tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Badges mejorados */
+  .badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* Paginador */
+  .pagination-wrapper {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .page-item .page-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+
+  /* Alerta sin datos */
+  .sin-datos {
+    background-color: #d1ecf1;
+    border: 2px solid #bee5eb;
+    border-radius: 10px;
+    padding: 1.5rem;
+    color: #0c5460;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  /* Media queries móvil */
+  @media (max-width: 768px) {
+    .historial-container {
+      padding: 0.75rem;
+    }
+
+    .select-filtro {
+      border-radius: 6px;
+    }
+
+    .btn-filtro {
+      border-radius: 6px;
+      min-height: 36px;
+    }
+
+    .tabla-wrapper {
+      max-height: calc(100vh - 280px);
+    }
+
+    .tabla-historial th {
+      font-size: 0.8rem;
+      padding: 0.6rem !important;
+    }
+
+    .tabla-historial td {
+      padding: 0.6rem !important;
+      font-size: 0.85rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.5rem;
+    }
+
+    .sin-datos {
+      font-size: 1rem;
+      padding: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content {
+      padding-bottom: 220px !important;
+    }
+
+    .historial-container {
+      padding: 0.5rem;
+    }
+
+    .tabla-wrapper {
+      max-height: calc(100vh - 260px);
+    }
+
+    .tabla-historial th,
+    .tabla-historial td {
+      font-size: 0.8rem;
+      padding: 0.5rem !important;
+    }
+  }
+</style>
+
+<div class="historial-container">
+
+    <!-- Barra de filtros -->
+    <form class="row g-2 mb-3" method="GET" action="{{ url_for('ver_historial_inventario') }}">
+        <div class="col-12 col-md-2">
+            <select name="color_id" class="form-select form-select-sm select-filtro">
+                <option value="">🎨 Todos los colores</option>
+                {% for c in colores %}
+                    <option value="{{ c.id }}" {% if color_seleccionado == c.id|string %}selected{% endif %}>{{ c.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-12 col-md-2">
+            <select name="talla_id" class="form-select form-select-sm select-filtro">
+                <option value="">👕 Todas las tallas</option>
+                {% for t in tallas %}
+                    <option value="{{ t.id }}" {% if talla_seleccionada == t.id|string %}selected{% endif %}>{{ t.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-12 col-md-2">
+            <select name="estado" class="form-select form-select-sm select-filtro">
+                <option value="">📌 Cualquier estado</option>
+                {% for s in estados %}
+                    <option value="{{ s.id }}" {% if estado_seleccionado == s.id|string %}selected{% endif %}>{{ s.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-12 col-md-2 d-flex gap-1">
+            <button class="btn btn-primary btn-sm btn-filtro flex-fill" type="submit">
+                <i class="bi bi-funnel-fill me-1"></i> Filtrar
+            </button>
+            <a href="{{ url_for('ver_historial_inventario') }}" class="btn btn-outline-secondary btn-sm btn-filtro flex-fill">
+                <i class="bi bi-x-circle me-1"></i> Limpiar
+            </a>
+        </div>
+    </form>
+
+    <!-- Tabla de movimientos -->
+    {% if movimientos %}
+    <div class="tabla-wrapper">
+        <table class="table table-hover tabla-historial">
+            <thead>
+                <tr>
+                    <th>🎨 Color</th>
+                    <th>👕 Talla</th>
+                    <th>📦 Cantidad</th>
+                    <th>⚙️ Movimiento</th>
+                    <th>📌 Estado</th>
+                    <th>👤 Usuario</th>
+                    <th>📅 Fecha</th>
+                    <th>📝 Observación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in movimientos %}    
+                <tr>
+                    <td>{{ m.inventario.color.nombre }}</td>
+                    <td>{{ m.inventario.talla.nombre }}</td>
+                    <td class="fw-bold">{{ m.cantidad_historial }}</td>
+                    <td>
+                        {% if m.tipo_movimiento == "Recepción Producción" %}
+                            <span class="badge bg-success">{{ m.tipo_movimiento }}</span>
+
+                        {% elif m.tipo_movimiento == "Ingreso Manual" %}
+                            <span class="badge bg-primary">{{ m.tipo_movimiento }}</span>
+
+                         {% elif m.tipo_movimiento == "Devolución" %}
+                            <span class="badge bg-info text-dark">{{ m.tipo_movimiento }}</span>                          
+                            
+
+                        {% elif m.tipo_movimiento == "Ajuste Alta" %}
+                            <span class="badge bg-warning text-dark">{{ m.tipo_movimiento }}</span>
+
+                        {% elif m.tipo_movimiento == "Ajuste Baja" %}
+                            <span class="badge bg-warning text-dark">{{ m.tipo_movimiento }}</span>
+
+                        {% elif m.tipo_movimiento == "Salidas" %}
+                            <span class="badge bg-warning text-dark">{{ m.tipo_movimiento }}</span>
+
+                        {% elif m.tipo_movimiento == "Ventas" %}
+                            <span class="badge bg-warning text-dark">{{ m.tipo_movimiento }}</span>
+
+                        {% else %}
+                            <span class="badge bg-danger">{{ m.tipo_movimiento }}</span>
+                        {% endif %}
+                    </td>                    
+                    <td>{{ m.status.nombre }}</td>
+                    <td>{{ m.usuario }}</td>
+                    <td>{{ m.fecha_movimiento.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ m.observaciones or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginador -->
+    {% if movimientos.pages > 1 %}
+    <nav class="pagination-wrapper">
+        <ul class="pagination">
+
+            <!-- Botón Anterior -->
+            <li class="page-item {% if not movimientos.has_prev %}disabled{% endif %}">
+                <a class="page-link"
+                    href="{{ url_for('ver_historial_inventario',
+                                    page=movimientos.prev_num,
+                                    color_id=color_seleccionado,
+                                    talla_id=talla_seleccionada,
+                                    estado=estado_seleccionado) }}">
+                    « Anterior
+                </a>
+            </li>
+
+            <!-- Números de página -->
+            {% for p in movimientos.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+            {% if p %}
+                <li class="page-item {% if movimientos.page == p %}active{% endif %}">
+                    <a class="page-link"
+                        href="{{ url_for('ver_historial_inventario',
+                                        page=p,
+                                        color_id=color_seleccionado,
+                                        talla_id=talla_seleccionada,
+                                        estado=estado_seleccionado) }}">
+                        {{ p }}
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+            {% endif %}
+            {% endfor %}
+
+            <!-- Botón Siguiente -->
+            <li class="page-item {% if not movimientos.has_next %}disabled{% endif %}">
+                <a class="page-link"
+                    href="{{ url_for('ver_historial_inventario',
+                                    page=movimientos.next_num,
+                                    color_id=color_seleccionado,
+                                    talla_id=talla_seleccionada,
+                                    estado=estado_seleccionado) }}">
+                    Siguiente »
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+    {% endif %}
+
+    <!-- Sin datos -->
+    {% else %}
+    <div class="sin-datos">
+        <h5 style="margin-bottom: 0.5rem;">ℹ️ Sin Movimientos</h5>
+        <p style="margin-bottom: 0;">
+            No se han registrado movimientos en el historial.
+        </p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

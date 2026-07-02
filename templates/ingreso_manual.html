@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Ingreso Manual al Inventario{% endblock %}
+{% block header %}📑Ingreso Manual al Inventario{% endblock %}
+
+{% block content %}
+<style>
+  /* Optimización para ingreso manual en móviles */
+  @media (max-width: 768px) {
+    /* Asegurar que el contenedor permite scroll */
+    .content {
+      overflow-y: scroll !important;
+      -webkit-overflow-scrolling: touch !important;
+      padding-bottom: 120px !important;
+    }
+    
+    .container {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      max-width: 100% !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    
+    .card {
+      border-radius: 8px !important;
+      margin-bottom: 15px;
+      break-inside: avoid;
+    }
+    
+    .card.shadow-sm {
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+    }
+    
+    .form-label {
+      font-size: 13px !important;
+      margin-bottom: 8px;
+    }
+    
+    .form-control,
+    .form-select {
+      font-size: 14px;
+      padding: 10px 12px;
+      border-radius: 6px;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+    }
+    
+    .d-flex.flex-wrap {
+      gap: 8px !important;
+    }
+    
+    .form-check-inline {
+      margin-right: 0;
+    }
+    
+    .btn-outline-primary {
+      font-size: 12px;
+      padding: 6px 12px !important;
+    }
+    
+    .btn-outline-primary:checked + label {
+      background-color: #0d6efd !important;
+      color: white !important;
+      border-color: #0d6efd !important;
+    }
+    
+    .btn-check:checked + label {
+      background-color: #0d6efd;
+      color: white;
+      border-color: #0d6efd;
+    }
+    
+    .text-center {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 14px;
+      margin: 0;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #0d6efd, #0856ca);
+      border: none;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+      border: none;
+      color: white;
+    }
+  }
+</style>
+<div class="container mt-4">
+    <div class="card shadow-sm p-4">
+        <form method="POST">
+            <!-- Fecha -->
+            <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
+                <label for="fecha" class="form-label fs-6 fw-bold">📅 Fecha</label>
+                <input type="date" class="form-control form-control-lg" id="fecha" name="fecha" value="{{ fecha_hoy }}" required>
+            </div>
+
+            <!-- Color -->
+            <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
+                <label for="color" class="form-label fs-6 fw-bold">🎨 Color</label>
+                <select class="form-select form-select-lg" id="color" name="color" required>
+                    <option value="">Selecciona un color</option>
+                    {% for c in colores %}
+                        <option value="{{ c.id }}">{{ c.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Tallas -->
+            <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
+                <label class="form-label fs-6 fw-bold">👕 Tallas</label>
+                <div class="d-flex flex-wrap gap-3">
+                    {% for t in tallas %}
+                        <div class="form-check form-check-inline">
+                            <input class="btn-check" type="checkbox" id="talla{{ t.id }}" name="tallas" value="{{ t.id }}">
+                            <label class="btn btn-outline-primary rounded-pill px-3" for="talla{{ t.id }}">
+                                {{ t.nombre }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Cantidad -->
+            <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
+                <label for="cantidad" class="form-label fs-6 fw-bold">📦 Cantidad por Talla</label>
+                <input type="number" class="form-control form-control-lg" id="cantidad" name="cantidad" min="1" required>
+            </div>
+            <!-- Observaciones -->
+            <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
+                <label for="observaciones" class="form-label fs-6 fw-bold">📝 Observaciones</label>
+                <textarea class="form-control form-control-lg" id="observaciones" name="observaciones" rows="2" placeholder="Opcional..."></textarea>
+            </div>
+            
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary px-4">Registrar en Inventario</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

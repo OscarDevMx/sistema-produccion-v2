@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Pagina Principal{% endblock %}
+
+{% block header %}Sistema de Administración{% endblock %}
+
+{% block content %}
+
+<!-- Tarjetas Dashboard -->
+<div class="dashboard-cards">
+    <div class="card-dashboard bg-cortes">
+        <div>
+            <h6>Total Cortes</h6>
+            <h3>120</h3>
+        </div>
+        <i class="bi bi-scissors fs-2"></i>
+    </div>
+    <div class="card-dashboard bg-inventario">
+        <div>
+            <h6>Inventario Disponible</h6>
+            <h3>450</h3>
+        </div>
+        <i class="bi bi-boxes fs-2"></i>
+    </div>
+    <div class="card-dashboard bg-ventas">
+        <div>
+            <h6>Ventas este mes</h6>
+            <h3>$35,200</h3>
+        </div>
+        <i class="bi bi-cash-coin fs-2"></i>
+    </div>
+    <div class="card-dashboard bg-otros">
+        <div>
+            <h6>Órdenes en Proceso</h6>
+            <h3>18</h3>
+        </div>
+        <i class="bi bi-gear fs-2"></i>
+    </div>
+</div>
+
+<!-- Sección dinámica -->
+<div>
+    <div class="table-modern p-3 table-responsive-cards">
+        <h5 class="mb-3">Listado General</h5>
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th># Corte</th>
+                    <th>Fecha</th>
+                    <th>Color</th>
+                    <th>Produccion</th>
+                    <th>Cantidad</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="# Corte">101</td>
+                    <td data-label="Fecha">2025-09-01</td>
+                    <td data-label="Color">Rojo</td>
+                    <td data-label="Produccion">Talla - Cantidad - Estado</td>
+                    <td data-label="Cantidad">50</td>
+                    <td data-label="Estado"><span class="badge bg-warning">En Proceso</span></td>
+                </tr>
+                <tr>
+                    <td data-label="# Corte">102</td>
+                    <td data-label="Fecha">2025-09-03</td>
+                    <td data-label="Color">Negro</td>
+                    <td data-label="Produccion">Talla - Cantidad - Estado</td>
+                    <td data-label="Cantidad">30</td>
+                    <td data-label="Estado"><span class="badge bg-success">Terminado</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

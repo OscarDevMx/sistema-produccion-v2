@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Pagina Principal{% endblock %}
+
+{% block header %}Sistema de Administración{% endblock %}
+
+{% block content %}
+
+
+
+<table class="table table-hover">
+    <tr>
+        <td>Color</td>
+        {% for talla in tallas %}
+        <td>
+            {{talla.nombre}}
+        </td>
+        {% endfor%}
+    </tr>
+    {% for color_id, datos in agrupado.items() %}
+    <tr>
+        <td>Color: {{ color_id }}</td>
+        {% for item in datos %}
+        <td>
+            Talla {{ item.talla_id }}: {{ item.cantidad }}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

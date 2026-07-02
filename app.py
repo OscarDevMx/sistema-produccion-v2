@@ -5,9 +5,24 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from io import BytesIO
 
-
 from flask import Flask, render_template, request, redirect, url_for, flash, session, Blueprint, jsonify, abort, send_file, make_response
-from modelos import db, Color, Talla, Corte, Produccion, Status, HistorialProduccion, User, Inventario, HistorialInventario, HistorialSalidas, Pedido, PedidoDetalle, StatusPedido, HistorialPedidos
+from extensions import db
+from modelos import (
+    Color,
+    Talla,
+    Corte,
+    Produccion,
+    Status,
+    HistorialProduccion,
+    User,
+    Inventario,
+    HistorialInventario,
+    HistorialSalidas,
+    Pedido,
+    PedidoDetalle,
+    StatusPedido,
+    HistorialPedidos,
+)
 from datetime import datetime, timedelta, date
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
@@ -17,7 +32,6 @@ from sqlalchemy import func, extract
 from sqlalchemy import desc
 import json
 import os
-
 
 from sqlalchemy import and_
 from config import Config

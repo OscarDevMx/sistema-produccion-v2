@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Color{% endblock %}
+
+{% block content %}
+<h3>Editar Color 🎨</h3>
+
+<form method="POST" class="mb-3">
+  <div class="input-group">
+    <input type="text" class="form-control" name="nombre" value="{{ color.nombre }}" required>
+    <button class="btn btn-primary" type="submit">Guardar</button>
+  </div>
+</form>
+{% endblock %}
