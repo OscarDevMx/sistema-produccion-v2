@@ -484,7 +484,7 @@
             <h5>{% block header %}Panel de Control{% endblock %}</h5>
             <span>Usuario: {{ session.get('usuario', 'Invitado') }}
             &nbsp;&nbsp;&nbsp;
-            <a href="{{ url_for('logout') }}" title="Salir">
+            <a href="{{ url_for('auth.logout') }}" title="Salir">
             <i class="bi bi-box-arrow-right"></i>
             Salir
             </a>

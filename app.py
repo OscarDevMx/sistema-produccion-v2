@@ -35,13 +35,17 @@ import os
 
 from sqlalchemy import and_
 from config import Config
-
-app = Flask(__name__)
+from routes.auth import auth
+from util.decorators import login_requerido
+from routes.inicio import inicio_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 db.init_app(app)
+
+app.register_blueprint(auth)
+app.register_blueprint(inicio_bp)
 
 
 with app.app_context():
@@ -132,51 +136,7 @@ def obtener_status_id(nombre_status):
     status = Status.query.filter_by(nombre=nombre_status).first()
     return status.id if status else None
 
-@app.route("/", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        nombre = request.form.get("nombre")
-        password = request.form.get("password")
-
-        user = User.query.filter_by(nombre=nombre).first()
-        if user and user.check_password(password):
-            session["usuario"] = user.nombre
-            flash(f"✅ Bienvenid@ {user.nombre}", "success")
-            return redirect(url_for("inicio"))  # o cualquier ruta principal
-        else:
-            flash("❌ Usuario o contraseña incorrectos", "danger")
-            return redirect(url_for("login"))
-
-    return render_template("login.html")
-
-
-@app.route("/logout")
-def logout():
-    usuario = session.pop("usuario", None)
-    flash(f"👋 {usuario} cerró sesión." if usuario else "Ningún usuario activo.", "info")
-    return redirect(url_for("login"))
-
-def login_requerido(f):
-    @wraps(f)
-    def decorador(*args, **kwargs):
-        if "usuario" not in session:
-            flash("⚠️ Debes iniciar sesión para acceder a esta sección.", "warning")
-            return redirect(url_for("login"))
-        return f(*args, **kwargs)
-    return decorador
-
-
-#----RUTA PRINCIPAL----
-@app.route("/inicio")
-@login_requerido
-def inicio():
-    return render_template("inicio.html")
-
-
-
-
 #---RUTA PARA GESTIONAR COLORES----
-
 @app.route("/colores", methods=["GET", "POST"])
 def gestionar_colores():
     if request.method == "POST":
