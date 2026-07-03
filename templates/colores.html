@@ -82,7 +82,7 @@
 <!-- Formulario para agregar color -->
 <div class="card p-4 shadow-sm border-0">
   <h5 class="mb-3 text-secondary"><i class="bi bi-plus-circle me-1 text-success"></i> Agregar nuevo color</h5>
-  <form method="POST" action="{{ url_for('gestionar_colores') }}">
+  <form method="POST" action="{{ url_for('catalogos.gestionar_colores') }}">
     <div class="input-group">
       <input type="text" class="form-control" name="nombre" placeholder="Nombre del Color" required>
       <button class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Registrar color">
@@ -110,10 +110,10 @@
         <tr>
           <td>{{ c.nombre }}</td>
           <td class="text-center">
-            <a href="{{ url_for('editar_color', id=c.id) }}" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Editar color">
+            <a href="{{ url_for('catalogos.editar_color', id=c.id) }}" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Editar color">
               <i class="bi bi-pencil"></i> Editar
             </a>
-            <a href="{{ url_for('eliminar_color', id=c.id) }}" class="btn btn-sm btn-outline-danger"
+            <a href="{{ url_for('catalogos.eliminar_color', id=c.id) }}" class="btn btn-sm btn-outline-danger"
                onclick="return confirm('¿Seguro que deseas eliminar este color?')" data-bs-toggle="tooltip" title="Eliminar color">
               <i class="bi bi-trash"></i> Eliminar
             </a>
