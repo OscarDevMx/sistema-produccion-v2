@@ -39,6 +39,7 @@ from routes.auth import auth
 from util.decorators import login_requerido
 from routes.inicio import inicio_bp
 from routes.catalogos import catalogos
+from routes.tallas import tallas
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -48,6 +49,7 @@ db.init_app(app)
 app.register_blueprint(auth)
 app.register_blueprint(inicio_bp)
 app.register_blueprint(catalogos)
+app.register_blueprint(tallas)
 
 with app.app_context():
     db.create_all()
@@ -136,87 +138,6 @@ with app.app_context():
 def obtener_status_id(nombre_status):
     status = Status.query.filter_by(nombre=nombre_status).first()
     return status.id if status else None
-
-# ---- RUTA PARA GESTIONAR TALLAS ----
-@app.route("/tallas", methods=["GET", "POST"])
-def gestionar_tallas():
-    if request.method == "POST":
-        nombre = request.form["nombre"].strip()
-
-        if nombre:
-            # Validar si ya existe
-            talla_existente = Talla.query.filter_by(nombre=nombre).first()
-            if talla_existente:
-                flash("⚠️ La talla ya existe, intenta con otro nombre.", "warning")
-            else:
-                try:
-                    nueva_talla = Talla(nombre=nombre)
-                    db.session.add(nueva_talla)
-                    db.session.commit()
-                    flash("✅ Talla agregada con éxito", "success")
-                except Exception as e:
-                    db.session.rollback()
-                    flash(f"❌ Error al agregar la talla: {str(e)}", "danger")
-        else:
-            flash("⚠️ El nombre no puede estar vacío.", "danger")
-
-        return redirect(url_for("gestionar_tallas"))
-
-    tallas = Talla.query.all()
-    return render_template("tallas.html", tallas=tallas)
-
-
-# ---- RUTA PARA ELIMINAR TALLA ----
-@app.route("/tallas/eliminar/<int:id>")
-def eliminar_talla(id):
-    talla = Talla.query.get_or_404(id)
-
-    # Verificar si tiene cortes asociados
-    if talla.producciones and len(talla.producciones) > 0:
-        flash("⚠️ No se puede eliminar la talla porque tiene cortes asociados.", "danger")
-    else:
-        try:
-            db.session.delete(talla)
-            db.session.commit()
-            flash("✅ Talla eliminada con éxito.", "info")
-        except Exception as e:
-            db.session.rollback()
-            flash(f"❌ Error al eliminar la talla: {str(e)}", "danger")
-
-    return redirect(url_for("gestionar_tallas"))
-
-
-# RUTA PARA EDITAR TALLA
-
-@app.route('/editar_talla/<int:id>', methods=['GET', 'POST'])
-def editar_talla(id):
-    talla = Talla.query.get_or_404(id)
-
-    if request.method == 'POST':
-        nuevo_nombre = request.form['nombre'].strip()
-
-        # Validar que no exista otra talla con el mismo nombre
-        existente = Talla.query.filter(
-            Talla.nombre == nuevo_nombre,
-            Talla.id != id
-        ).first()
-      
-        if existente:
-            flash('⚠️Ya existe una talla con ese nombre.', 'danger')
-            return redirect(url_for('editar_talla', id=id))
-
-        try:
-            talla.nombre = nuevo_nombre
-            db.session.commit()
-            flash('✅ Talla actualizada correctamente.', 'success')
-            return redirect(url_for('editar_talla', id=id))
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Ocurrió un error al actualizar la talla: {str(e)}', 'error')
-            return redirect(url_for('editar_talla', id=id))
-
-    return render_template('editar_talla.html', talla=talla)
-
 
 #----PAGINA DE CORTES----
 
@@ -2051,25 +1972,23 @@ def consulta():
         talla_seleccionada=talla_id, inventarios_agrupados=inventarios_agrupados,
     )
 
-@app.route('/notapdf')
-def generar_pdf_pedido():
-    # === 1. CONSULTAR PEDIDO Y DETALLES ===
-    pedido = Pedido.query.filter_by(id=2).first()
-    detalles = PedidoDetalle.query.filter(PedidoDetalle.pedido_id == 2).all()
-    tallas = Talla.query.all()
+# ==============================
+#   RUTA: Generar PDF de Pedido
+# ==============================
 
-    # Agrupar por color_id
-    agrupado = {}
+@app.route("/pedido/<int:pedido_id>/imprimir")
+@login_requerido
+def vista_previa_pedido(pedido_id):
 
-    for d in detalles:
-        if d.color_id not in agrupado:
-            agrupado[d.color_id] = []
-        agrupado[d.color_id].append({
-            "talla_id": d.talla_id,
-            "cantidad": d.cantidad
-        })
+    pedido = Pedido.query.get_or_404(pedido_id)
 
-    return render_template("notapdf.html", detalles=detalles, agrupado=agrupado, tallas=tallas,)
-    
+
+    return render_template(
+        "pedido_impresion.html",
+        pedido=pedido,
+    )
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

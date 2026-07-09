@@ -306,6 +306,7 @@ class Pedido(db.Model):
 
     # 🔥 Nuevo estatus del pedido (independiente del inventario)
     status_pedido = db.Column(db.Integer, db.ForeignKey("status_pedido.id"), nullable=False)
+    status = db.relationship("StatusPedido", backref="pedidos")
 
     def __repr__(self):
         return f"<Pedido #{self.numero_pedido} - {self.status_pedido}>"

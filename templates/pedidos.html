@@ -82,7 +82,7 @@
                 <p><strong>Cantidad Total:</strong> {{ pedido.detalles | sum(attribute='cantidad') }}</p>
                 <p><strong>Costo Total:</strong> ${{ pedido.costo_total }}</p>
                 <p><strong>Observaciones:</strong> {{ pedido.observaciones or "N/A" }}</p>
-                <a href="{{ url_for('generar_pdf_pedido', pedido_id=pedido.id) }}" class="btn btn-danger">
+                <a href="{{ url_for('vista_previa_pedido', pedido_id=pedido.id) }}" class="btn btn-danger">
                 Descargar PDF
                 </a>
 

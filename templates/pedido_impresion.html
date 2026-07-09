@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pedido #{{ pedido.numero_pedido }}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f5f5;
+            padding: 40px;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        .documento {
+            background: white;
+            max-width: 900px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, .10);
+        }
+
+        .contenedor-final {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .observaciones {
+            flex: 2;
+        }
+
+        .resumen {
+            flex: 1;
+        }
+
+        .caja {
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            padding: 15px;
+            min-height: 140px;
+            background: #f8f9fa;
+        }
+
+        .encabezado-info {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            flex: 1;
+        }
+
+        .info-item:nth-child(2),
+        .info-item:nth-child(3) {
+            text-align: center;
+        }
+
+        .acciones {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }        
+
+        .table th {
+            background: #e9ecef;
+        }
+
+        .table tfoot tr {
+            background: #f1f3f5;
+            font-weight: bold;
+        }
+
+        .footer {
+            border-top: 1px solid #dee2e6;
+            margin-top: 40px;
+            padding-top: 10px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .bloque-color{
+            border:1px solid #ced4da;
+            border-radius:8px;
+            margin-bottom:20px;
+            overflow:hidden;
+            background:#fff;
+        }
+
+        .titulo-color{
+            background:#e9ecef;
+            padding:10px 15px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border-bottom:1px solid #ced4da;
+        }
+
+        .contenido-color{
+            padding:15px;
+        }
+
+        .encabezado-documento{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .empresa h2{
+            font-size:2rem;
+            font-weight:600;
+            color:#212529;
+            margin-bottom:10px;
+        }
+
+        .titulo-documento{
+            font-size:1rem;
+            letter-spacing:3px;
+            font-weight:600;
+            color:#6c757d;
+            margin-bottom:15px;
+        }
+
+        .numero-pedido{
+            font-size:2rem;
+            font-weight:700;
+            letter-spacing:2px;
+            color:#0d6efd;
+            margin:15px 0;
+        }
+
+        .ficha-pedido{
+            background:#f8f9fa;
+            border:1px solid #dee2e6;
+            border-radius:8px;
+            padding:20px;
+            margin-bottom:30px;
+        }
+
+        .info-item strong{
+            display:block;
+            font-size:.85rem;
+            text-transform:uppercase;
+            color:#6c757d;
+            margin-bottom:6px;
+            letter-spacing:1px;
+        }
+
+        .info-valor{
+            font-size:1.05rem;
+            font-weight:500;
+            color:#212529;
+        }
+
+        .footer{
+            margin-top:40px;
+            border-top:1px solid #ced4da;
+            padding-top:15px;
+        }
+
+        .footer-superior{
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            margin-bottom:12px;
+            font-size:.90rem;
+        }
+
+        .footer-inferior{
+            text-align:center;
+            font-size:.80rem;
+            color:#6c757d;
+            letter-spacing:.5px;
+        }
+
+        .encabezado-print{
+            display:none;
+        }
+        .ficha-print{
+            display:none;
+        }
+
+        @media print{
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .documento {
+                max-width: 100%;
+                width: 100%;
+                margin: 0;
+                padding:12px;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .no-print{
+                display:none;
+            }  
+            
+            .bloque-color{
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .empresa h2{
+                font-size:1.5rem;
+                margin-bottom:4px;
+            }
+
+            .titulo-documento{
+                font-size:.85rem;
+                letter-spacing:2px;
+                margin-bottom:6px;
+            }
+
+            .numero-pedido{
+                font-size:1rem;
+                margin:2px 0;
+            }
+
+            .encabezado-documento{
+                margin:4px 0;
+            }
+
+            .ficha-pedido{
+                padding:10px;
+                margin-bottom:15px;
+            }
+
+            .info-item strong{
+                font-size:.75rem;
+                margin-bottom:3px;
+            }
+
+            .info-valor{
+                font-size:.90rem;
+            }
+
+            /* ===== Bloques de colores ===== */
+            .bloque-color{
+                margin-bottom:10px;
+            }
+
+            .bloque-color h6{
+                font-size:.95rem;
+                margin-bottom:2px;
+            }
+
+            .bloque-color .d-flex{
+                margin-bottom:4px !important;
+            }
+
+            .bloque-color .badge{
+                font-size:.70rem;
+                padding:2px 6px;
+            }
+
+            .bloque-color .p-3{
+                padding:10px !important;
+            }
+
+            .contenido-color{
+                padding:10px;
+            }
+
+            .titulo-color{
+                padding:8px 12px;
+            }
+
+            /* ===== Tabla ===== */
+            .table{
+                margin-bottom:0;
+            }
+
+            .table th{
+                padding:4px 6px;
+                font-size:.82rem;
+                vertical-align:middle;
+            }
+
+            .table td{
+                padding:3px 6px;
+                font-size:.82rem;
+                vertical-align:middle;
+            }
+
+            .table tfoot td{
+                padding:5px 6px;
+                font-weight:600;
+            }
+
+            /* ===== Pie ===== */
+            .footer{
+                margin-top:20px;
+                padding-top:8px;
+            }
+
+            hr{
+                margin:4px 0;
+            }            
+            .encabezado-info{
+                margin-bottom:8px;
+                gap:10px;
+            }
+
+            .encabezado-documento{
+                display:none;
+            }
+
+            .encabezado-print{
+                display:block;
+                margin-bottom:15px;
+            }
+
+            .print-superior{
+                display:flex;
+                justify-content:space-between;
+                align-items:flex-end;
+                border-bottom:1px solid #999;
+                padding-bottom:4px;
+            }
+
+            .empresa-print{
+                font-size:1.2rem;
+                font-weight:600;
+            }
+
+            .pedido-print{
+                font-size:1rem;
+                font-weight:600;
+            }
+
+            .titulo-print{
+                text-align:center;
+                margin-top:6px;
+                font-size:.90rem;
+                letter-spacing:2px;
+                font-weight:600;
+            }
+            .ficha-pedido{
+                display:none;
+            }
+
+            .ficha-print{
+                display:block;
+                border:1px solid #ced4da;
+                padding:8px 10px;
+                margin-bottom:15px;
+                font-size:.90rem;
+                background:#f8f9fa;
+                border-radius:8px;
+            }
+
+            h5{
+                margin-bottom:10px !important;
+            }
+            .bloque-color:first-of-type{
+                margin-top:0 !important;
+            }
+
+            .icono-print{
+                display:none;
+            }
+            .bloque-color .text-primary{
+                color:#000 !important;
+            }
+        }
+
+        /* ==========================================
+        RESPONSIVE
+        ========================================== */
+
+        @media (max-width:768px){
+
+            .empresa-print{
+                font-size:.90rem;
+                font-weight:600;
+            }
+
+            .pedido-print{
+                font-size:.85rem;
+                font-weight:500;
+            }
+
+            .titulo-print{
+                display:none;
+            }
+
+            .print-superior{
+                gap:0;
+                padding-bottom:6px;
+            }
+
+            /* ===== Acciones ===== */
+
+            .acciones{
+                flex-direction:column;
+                gap:4px;
+                margin-bottom:10px;
+            }
+
+            .acciones .btn{
+                width:100%;
+                padding:8px 10px;
+                font-size:.90rem;
+                border-radius:8px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="acciones no-print">
+    <a href="{{ url_for('ver_pedidos') }}" class="btn btn-outline-secondary">
+        ← Regresar
+    </a>
+    &nbsp;&nbsp;
+    <button class="btn btn-outline-secondary" onclick="window.print()">
+        🖨️ Imprimir
+    </button>
+</div>
+
+<div class="documento">
+
+    <!-- Encabezado para impresión -->
+    <div class="encabezado-print">
+
+        <div class="print-superior">
+            <div class="empresa-print">
+                Sistema de Producción
+            </div>
+
+            <div class="pedido-print">
+                Pedido #{{ pedido.numero_pedido }}
+            </div>
+        </div>
+
+        <div class="titulo-print">
+            COMPROBANTE DE PEDIDO
+        </div>
+
+    </div>
+
+    <!-- Encabezado corporativo -->
+    <div class="encabezado-documento">
+
+        <div class="empresa">
+            <h2>🧵 Sistema de Producción</h2>
+        </div>
+
+        <div class="titulo-documento">
+            COMPROBANTE DE PEDIDO
+        </div>
+
+        <div class="numero-pedido">
+            PEDIDO #{{ pedido.numero_pedido }}
+        </div>
+    </div>
+    <hr>
+    <!-- Información principal del pedido para impresion-->
+    <div class="ficha-print">
+
+        <strong>Cliente:</strong>
+        {{ pedido.cliente or "Sin especificar" }}
+
+        &nbsp;&nbsp;&nbsp;
+
+        <strong>Fecha:</strong>
+        {{ pedido.fecha.strftime('%d/%m/%Y') }}
+
+        &nbsp;&nbsp;&nbsp;
+
+        <strong>Estado:</strong>
+        {{ pedido.status.nombre }}
+
+    </div>
+    <!-- Info principal -->
+    <div class="ficha-pedido">
+        <div class="encabezado-info">
+            <div class="info-item">
+                <strong>Cliente</strong>
+                <div class="info-valor">
+                    {{ pedido.cliente or "Sin especificar" }}
+                </div>
+            </div>
+            <div class="info-item">
+                <strong>Fecha</strong>
+                <div class="info-valor">
+                    {{ pedido.fecha.strftime('%d/%m/%Y') }}
+                </div>
+            </div>
+            <div class="info-item">
+                <strong>Estado</strong>
+                <div class="info-valor">
+                    <span class="badge bg-primary">
+                        {{ pedido.status.nombre }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detalles -->
+    <div>
+        <h5 class="mb-3 text-secondary">Detalles del pedido</h5>
+
+        {% set detalles_ordenados = pedido.detalles|sort(attribute='talla.id') %}
+        {% set grupos_color = detalles_ordenados|groupby('color.nombre') %}
+        {% set total_pedido = namespace(total=0) %}
+
+        {% for color, items in grupos_color %}
+            {% set total_color = namespace(total=0) %}
+            {% set items_list = items|list %}
+
+            <div class="bloque-color">
+                <div class="titulo-color">
+                    <h6 class="text-primary mb-0"><span class="icono-print">🎨</span>
+                    <strong>{{ color }}</strong></h6>
+                    <span class="badge bg-secondary">{{ items_list|length }} talla(s)</span>
+                </div>
+                <div class="contenido-color">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center"><span class="icono-print">👕</span> Talla</th>
+                                <th class="text-center"><span class="icono-print">📦</span> Cantidad</th>
+                                <th class="text-center"><span class="icono-print">💲</span> Precio</th>
+                                <th class="text-center"><span class="icono-print">💰</span> Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items_list %}
+                                {% set total_color.total = total_color.total + (item.cantidad * item.talla.costo) %}
+                                <tr>
+                                    <td class="text-center">{{ item.talla.nombre }}</td>
+                                    <td class="text-center">{{ item.cantidad }}</td>
+                                    <td class="text-end">${{ "%.2f"|format(item.talla.costo) }}</td>
+                                    <td class="text-end">${{ "{:,.2f}".format(item.cantidad * item.talla.costo) }}</td>
+                                </tr>
+                            {% endfor %}
+                            {% set total_pedido.total = total_pedido.total + total_color.total %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="text-center"><span class="icono-print">💰</span> Total color</td>
+                                <td class="text-center">{{ items_list | sum(attribute='cantidad') }}</td>
+                                <td></td>
+                                <td class="text-end">${{ "{:,.2f}".format(total_color.total) }}</td>                            
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}        
+
+        <hr class="my-4">
+
+        <!-- Observaciones y Resumen -->
+        <div class="contenedor-final">
+            <div class="observaciones">
+                <h5>Observaciones</h5>
+                <div class="caja">
+                    {{ pedido.observaciones or "" }}
+                </div>
+            </div>
+            <div class="resumen">
+                <h5>Resumen del Pedido</h5>
+                <div class="caja">
+                    <div class="d-flex justify-content-between">
+                        <strong>Total de piezas:</strong>
+                        <strong>{{ pedido.detalles | sum(attribute='cantidad') }}</strong>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong>Importe total:</strong>
+                        <strong>${{ "{:,.2f}".format(total_pedido.total) }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="footer">
+
+        <div class="footer-superior">
+
+            <div>
+                <strong>Registró:</strong><br>
+                {{ pedido.usuario }}
+            </div>
+
+            <div class="text-end">
+                <strong>Impreso:</strong><br>
+                {{ pedido.fecha.strftime('%d/%m/%Y %H:%M') }}
+            </div>
+
+        </div>
+
+        <div class="footer-inferior">
+            Sistema de Producción · Documento generado automáticamente
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
