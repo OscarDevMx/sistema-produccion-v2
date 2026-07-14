@@ -52,6 +52,9 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
+  .produccion-container{
+      margin-bottom:16px;
+  }
 
   /* Tabla responsiva */
   .table {
@@ -69,6 +72,72 @@
   .table th {
     font-weight: 600;
     border: none;
+  }
+  .color-nombre{
+
+    font-size:1rem;
+
+    font-weight:600;
+
+ }
+
+  .color-piezas{
+
+      background:#eef2ff;
+
+      color:#0d6efd;
+
+      padding:4px 10px;
+
+      border-radius:20px;
+
+      font-size:.80rem;
+
+      font-weight:600;
+
+  }
+
+  .color-card{
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:16px;
+
+    margin-bottom:14px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+  }
+
+  .color-header{
+
+      width:100%;
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      background:none;
+
+      border:none;
+
+      padding:0;
+
+      cursor:pointer;
+
+      text-align:left;
+
+  }
+  .color-header:focus{
+
+      outline:none;
+
+      box-shadow:none;
+
   }
 
   /* Mobile: tabla se convierte en cards */
@@ -122,6 +191,7 @@
     }
   }
 
+
   /* Tablet: tabla responsiva con scroll horizontal si es necesario */
   @media (max-width: 768px) and (min-width: 421px) {
     .table {
@@ -137,6 +207,7 @@
       font-size: 12px;
     }
   }
+
 </style>
 
 <!-- Barra de filtros compactos -->
@@ -169,27 +240,28 @@
   </div>
 </form>
 
-<!-- Encabezado compacto -->
-<div class="row fw-semibold text-center mb-2 header-colores">
-  <div class="col-3">🎨 Color</div>
-  <div class="col-2">📦 Cantidad Total</div>
-</div>
-
 <!-- Acordeón de colores -->
-<div class="accordion" id="accordionColores">
+<div class="produccion-container" id="accordionColores">
+  {% if inventarios|length == 0 %}
+    <div id="sin-items-msg" class="alert alert-info text-center mt-3">
+      No hay unidades agregadas al inventario aún.
+    </div>
+  {% endif %}
   {% for color in colores %}
     {% set inventarios_color = inventarios | selectattr('color_id', 'equalto', color.id) | list %}
-    <div class="accordion-item mb-3 border rounded shadow-sm">
-      <h2 class="accordion-header" id="heading{{ color.id }}">
-        <button class="accordion-button collapsed bg-light" type="button"
-                data-bs-toggle="collapse" data-bs-target="#collapse{{ color.id }}"
-                aria-expanded="false" aria-controls="collapse{{ color.id }}">
-          <div class="row text-center w-100 m-0">
-            <div class="col-3">{{ color.nombre }}</div>
-            <div class="col-2">{{ inventarios_color | map(attribute='cantidad') | sum }}</div>
+    <div class="color-card">
+      <button class="color-header" type="button"
+      data-bs-toggle="collapse" data-bs-target="#collapse{{ color.id }}"
+      aria-expanded="false" aria-controls="collapse{{ color.id }}">
+
+          <div class="color-nombre">🎨{{ color.nombre }}</div>
+          <div class="d-flex align-items-center gap-2">
+            <div class="color-piezas">{{ inventarios_color | map(attribute='cantidad') | sum }} piezas</div>
+            <div class="color-piezas">{{ inventarios_color | length }} talla(s) </div>
+            <span class="flecha-acordeon">▼</span>
           </div>
-        </button>
-      </h2>
+
+      </button>
 
       <div id="collapse{{ color.id }}" class="accordion-collapse collapse"
            aria-labelledby="heading{{ color.id }}" data-bs-parent="#accordionColores">
@@ -203,7 +275,6 @@
                   <th>👕 Talla</th>
                   <th>📦 Cantidad</th>
                   <th>📌 Estado</th>
-                  <th>📅 Fecha</th>
                   <th>⚙️ Acciones</th>
                 </tr>
               </thead>
@@ -219,7 +290,6 @@
                       {% endif %}
                     </td>
                     <td data-label="📌 Estado">{{ inv.status.nombre }}</td>
-                    <td data-label="📅 Fecha">{{ inv.fecha.strftime('%d/%m/%Y %H:%M') }}</td>
                     <td data-label="⚙️ Acciones">
                       <!-- Botón que abre el modal -->
                       <button class="btn btn-sm btn-outline-primary"
@@ -314,27 +384,38 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.addEventListener('hidden.bs.modal', () => {
             const input = modal.querySelector('.cantidad-input');
             if (input) {
-                const valorOriginal = input.getAttribute('value');  
+                const valorOriginal = input.getAttribute('value');
                 input.value = valorOriginal;  // Reset al cerrar
             }
         });
     });
 
-    // 🔥 Nuevo: limpiar formularios en modales de Salidas
+    // Limpiar formularios en modales de Salidas
     document.querySelectorAll("[id^='modalSalida']").forEach(modal => {
         modal.addEventListener("hidden.bs.modal", () => {
-
-            // Selecciona el formulario dentro del modal
             const form = modal.querySelector("form");
 
             if (form) {
-                form.reset();  // Limpia todos los campos del formulario
+                form.reset();
             }
         });
     });
+
+    document.querySelectorAll(".color-header").forEach(header => {
+        const body = header.nextElementSibling;
+        const flecha = header.querySelector(".flecha-acordeon");
+
+        if (!body || !flecha) return;
+
+        body.addEventListener("shown.bs.collapse", () => {
+            flecha.textContent = "▲";
+        });
+
+        body.addEventListener("hidden.bs.collapse", () => {
+            flecha.textContent = "▼";
+        });
+    });
 });
-
-
 </script>
 
 {% endblock %}

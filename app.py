@@ -1981,14 +1981,26 @@ def consulta():
 def vista_previa_pedido(pedido_id):
 
     pedido = Pedido.query.get_or_404(pedido_id)
+    auto_print = request.args.get("auto_print", "0")
 
 
     return render_template(
         "pedido_impresion.html",
         pedido=pedido,
+        auto_print=auto_print
     )
 
 
+@app.route("/pedido/<int:pedido_id>/mobile")
+@login_requerido
+def vista_mobile_pedido(pedido_id):
+
+    pedido = Pedido.query.get_or_404(pedido_id)
+
+    return render_template(
+        "pedido_mobile.html",
+        pedido=pedido,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

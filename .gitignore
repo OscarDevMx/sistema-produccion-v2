@@ -4,6 +4,7 @@ venv/
 
 # Variables de entorno
 .env
+.env.production
 
 # Caché de Python
 __pycache__/

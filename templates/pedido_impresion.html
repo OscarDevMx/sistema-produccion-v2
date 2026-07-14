@@ -419,6 +419,22 @@
 
         }
 
+        .badge-piezas{
+
+            background:#eef2ff;
+
+            color:#0d6efd;
+
+            padding:4px 10px;
+
+            border-radius:20px;
+
+            font-size:.80rem;
+
+            font-weight:600;
+
+        }
+
     </style>
 
 </head>
@@ -531,7 +547,7 @@
                 <div class="titulo-color">
                     <h6 class="text-primary mb-0"><span class="icono-print">🎨</span>
                     <strong>{{ color }}</strong></h6>
-                    <span class="badge bg-secondary">{{ items_list|length }} talla(s)</span>
+                    <span class="badge-piezas">{{ items_list|length }} talla(s)</span>
                 </div>
                 <div class="contenido-color">
                     <table class="table table-sm table-bordered">
@@ -619,5 +635,24 @@
     </div>
 
 </div>
+
+{% if auto_print == "1" %}
+<script>
+
+window.addEventListener("load", function(){
+
+    window.print();
+
+});
+
+window.onafterprint = function(){
+
+    window.close();
+
+};
+
+</script>
+{% endif %}
+
 </body>
 </html>

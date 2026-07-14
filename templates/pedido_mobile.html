@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pedido #{{ pedido.numero_pedido }}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            margin:0;
+            background:#f3f4f6;
+            font-family:"Segoe UI",sans-serif;
+        }
+
+        .mobile-container{
+            max-width:500px;
+            margin:auto;
+            padding:16px;
+        }
+
+        .mobile-header{
+
+            margin-bottom:20px;
+
+        }
+
+        .btn-regresar{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:8px;
+
+            text-decoration:none;
+
+            color:#495057;
+
+            font-weight:600;
+
+            margin-bottom:16px;
+
+            padding:14px 16px;
+
+            transition:.2s;
+
+        }
+
+        .btn-regresar:hover{
+
+            color:#0d6efd;
+
+        }
+
+        .pedido-card{
+
+            background:#ffffff;
+
+            border-radius:18px;
+
+            padding:22px;
+
+            box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+        }
+
+        .pedido-numero{
+
+            font-size:1.5rem;
+
+            font-weight:700;
+
+            color:#212529;
+
+        }
+
+        .pedido-cliente{
+
+            margin-top:8px;
+
+            font-size:1rem;
+
+            color:#6c757d;
+
+        }
+
+        .pedido-estado{
+
+            display:inline-block;
+
+            margin-top:15px;
+
+            background:#0d6efd;
+
+            color:white;
+
+            padding:6px 14px;
+
+            border-radius:20px;
+
+            font-size:.85rem;
+
+            font-weight:600;
+
+        }
+        
+        .info-card{
+
+            background:white;
+
+            border-radius:18px;
+
+            padding:18px;
+
+            margin-bottom:16px;
+
+            box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+        }
+
+        .info-row{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+        }
+
+        .info-label{
+
+            font-size:.85rem;
+
+            color:#6c757d;
+
+        }
+
+        .info-value{
+
+            font-weight:600;
+
+            color:#212529;
+
+        }
+        /* ============================
+        PRODUCCIÓN
+        ============================ */
+
+        .produccion-container{
+            margin-bottom:16px;
+        }
+
+        /* ============================
+        OBSERVACIONES
+        ============================ */
+
+        .observaciones-card,
+        .resumen-card{
+
+            background:#fff;
+
+            border-radius:18px;
+
+            padding:18px;
+
+            margin-bottom:16px;
+
+            box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+        }
+
+        .observaciones-card h5,
+        .resumen-card h5{
+
+            margin:0 0 14px 0;
+
+            font-size:1rem;
+
+            font-weight:600;
+
+        }
+
+        .texto-observacion{
+
+            min-height:70px;
+
+            color:#555;
+
+            line-height:1.4;
+
+            font-size:.85rem;
+
+        }
+
+        .titulo-seccion{
+
+            font-size:1rem;
+
+            font-weight:600;
+
+            margin-bottom:14px;
+
+        }
+
+        .color-card{
+
+            background:#fff;
+
+            border-radius:16px;
+
+            padding:16px;
+
+            margin-bottom:14px;
+
+            box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+        }
+
+        .color-header{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+        }
+
+        .color-nombre{
+
+            font-size:1rem;
+
+            font-weight:600;
+
+        }
+
+        .color-piezas{
+
+            background:#eef2ff;
+
+            color:#0d6efd;
+
+            padding:4px 10px;
+
+            border-radius:20px;
+
+            font-size:.80rem;
+
+            font-weight:600;
+
+        }
+        .color-header{
+
+            width:100%;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            background:none;
+
+            border:none;
+
+            padding:0;
+
+            cursor:pointer;
+
+            text-align:left;
+
+        }
+        .color-header:focus{
+
+            outline:none;
+
+            box-shadow:none;
+
+        }
+        .color-body{
+
+            display:block;
+
+            margin-top:15px;
+
+        }
+        .tabla-mobile{
+
+            margin-top:15px;
+
+        }
+
+        .tabla-mobile th{
+
+            background:#f8f9fa;
+
+            font-size:.78rem;
+
+            font-weight:600;
+
+            white-space:nowrap;
+
+        }
+
+        .tabla-mobile td{
+
+            font-size:.82rem;
+
+            vertical-align:middle;
+
+        }
+
+        .tabla-mobile th,
+        .tabla-mobile td{
+
+            padding:.45rem;
+
+        }
+
+        .tabla-mobile tfoot{
+
+            background:#f8f9fa;
+
+            font-weight:600;
+
+        }
+
+        .resumen-card .info-row{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+        }
+
+        .resumen-card .info-value{
+
+            font-size:1rem;
+
+            font-weight:700;
+
+            color:#0d6efd;
+
+        }
+
+        .resumen-badge{
+
+            background:#eef2ff;
+
+            color:#0d6efd;
+
+            padding:6px 12px;
+
+            border-radius:20px;
+
+            font-size:.90rem;
+
+            font-weight:600;
+
+            min-width:95px;
+
+            text-align:center;
+
+        }
+
+        .card-mobile{
+
+            background:#fff;
+
+            border-radius:12px;
+
+            padding:16px;
+
+            margin-bottom:16px;
+
+            box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+        }
+        
+        .acciones-mobile{
+
+            display:flex;
+            padding:0;
+            overflow:hidden;
+            border:2px solid #93c5fd;
+            background:linear-gradient(135deg, #f8fbff 0%, #eef6ff 100%);
+            box-shadow:0 4px 12px rgba(59, 130, 246, 0.12), inset 0 0 0 1px rgba(59, 130, 246, 0.08);
+            border-radius:14px;
+
+        }
+
+        .accion-btn{
+
+            flex:1;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            padding:14px;
+
+            text-decoration:none;
+
+            color:#495057;
+
+            font-weight:600;
+
+            transition:.2s;
+
+        }
+
+        .accion-btn:first-child{
+
+            border-right:1px solid #d6dde5;
+
+        }
+
+        .accion-btn:hover{
+
+            background:#f8f9fa;
+
+            color:#0d6efd;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+<div class="mobile-container">
+
+    <div class="mobile-header">
+
+        <div class="acciones-mobile card-mobile">
+
+            <a href="{{ url_for('ver_pedidos') }}" class="accion-btn">
+
+                ← Pedidos
+
+            </a>
+
+            <a href="{{ url_for('vista_previa_pedido', pedido_id=pedido.id, auto_print=1) }}"
+            target="_blank"
+            class="accion-btn">
+
+                🖨 PDF
+
+            </a>
+
+        </div>
+
+        <div class="pedido-card card-mobile">
+
+            <div class="pedido-numero">
+                Pedido #{{ pedido.numero_pedido }}
+            </div>
+
+            <div class="pedido-cliente">
+                {{ pedido.cliente or "Sin cliente" }}
+            </div>
+
+            <div class="pedido-estado">
+                {{ pedido.status.nombre }}
+            </div>
+
+        </div>
+        <br>
+        <div class="info-card card-mobile">
+
+            <div class="info-row">
+                <span class="info-label">Fecha</span>
+                <span class="info-value">
+                    {{ pedido.fecha.strftime('%d/%m/%Y') }}
+                </span>
+            </div>
+            <hr>
+            <div class="info-row">
+                <span class="info-label">Registró</span>
+                <span class="info-value">
+                    {{ pedido.usuario }}
+                </span>
+            </div>
+        </div>
+        <!-- Producción -->
+        <div class="produccion-container">
+            <div class="observaciones-card card-mobile">
+                <h4 class="titulo-seccion">Producción</h4>        
+                {% set detalles_ordenados = pedido.detalles|sort(attribute='talla.id') %}
+                {% set grupos_color = detalles_ordenados|groupby('color.nombre') %}
+
+                {% for color, items in grupos_color %}
+
+                    {% set items_list = items|list %}
+
+                    <div class="color-card card-mobile">                    
+                        <div class="color-header">
+
+                            <div class="color-nombre">
+                                🎨 {{ color }}
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <div class="color-piezas">
+                                    {{ items_list|length }} talla(s)
+                                </div>
+                                <div class="color-piezas">
+                                    {{ items_list | sum(attribute='cantidad') }} piezas
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% set total_color = namespace(total=0) %}
+
+                        <table class="table table-sm tabla-mobile mb-0">
+
+                            <thead>
+                                <tr>
+                                    <th class="text-center">T</th>
+                                    <th class="text-center">Cant.</th>
+                                    <th class="text-end">$</th>
+                                    <th class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for item in items_list %}
+
+                                    {% set subtotal = item.cantidad * item.talla.costo %}
+                                    {% set total_color.total = total_color.total + subtotal %}
+
+                                    <tr>
+
+                                        <td class="text-center">{{ item.talla.nombre }}</td>
+                                        <td class="text-center">{{ item.cantidad }}</td>
+                                        <td class="text-end">${{ "%.0f"|format(item.talla.costo) }}</td>
+                                        <td class="text-end">${{ "{:,.0f}".format(subtotal) }}</td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                            <tfoot>
+
+                                <tr>
+
+                                    <td colspan="3">
+                                        <strong>Total</strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <strong>${{ "{:,.0f}".format(total_color.total) }}</strong>
+                                    </td>
+
+                                </tr>
+
+                            </tfoot>
+
+                        </table>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <!-- Observaciones -->        
+        <div class="observaciones-card card-mobile">  
+            <h4 class="titulo-seccion">Observaciones</h4>          
+
+            <div class="texto-observacion">
+
+                {{ pedido.observaciones or "Sin observaciones." }}
+
+            </div>
+
+        </div>
+
+        <!-- Resumen -->
+        
+        <div class="resumen-card card-mobile">
+            <h4 class="titulo-seccion">Resumen</h4>
+            {% set total_pedido = namespace(total=0) %}
+
+            {% for item in pedido.detalles %}
+                {% set total_pedido.total = total_pedido.total + (item.cantidad * item.talla.costo) %}
+            {% endfor %}
+
+            <div class="info-row">
+                <span class="info-label">Total Piezas</span>
+                <span class="resumen-badge">
+                    {{ pedido.detalles | sum(attribute='cantidad') }}
+                </span>
+            </div>
+
+            <hr>
+
+            <div class="info-row">
+                <span class="info-label">Importe Total</span>
+                <span class="resumen-badge">
+                    ${{ "{:,.2f}".format(total_pedido.total) }}
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+</html>
