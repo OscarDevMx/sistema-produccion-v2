@@ -76,14 +76,82 @@ Administración de Colores
       padding: 15px !important;
     }
   }
+  /* ===== MODAL PREMIUM ===== */
+  .modal-premium-header{
+      border-bottom:1px solid #eef2f7;
+      padding:20px 24px;
+  }
+
+  .modal-content{
+      border:none;
+      border-radius:20px;
+      box-shadow:
+          0 18px 45px rgba(0,0,0,.12);
+  }
+  .modal-title{
+      color:#1f2937;
+      font-weight:700;
+  }
+
+  .modal-title i{
+      color:#ef4444;
+  }
+
+  /* Boton Cancelar Modal */
+
+  .btn-cancel-modal{
+      border-radius:8px;
+      padding:7px 14px;
+      font-size:14px;
+      font-weight:500;
+      background:#fff;
+      border:1px solid #4e4e4e;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:none !important;
+      transition:.18s ease;
+      text-decoration:none;
+  }
+
+  .btn-cancel-modal:hover{
+      background:#616161;
+      border-color:#8b8b8b;
+      color:#fff;
+      transform:none;
+  }
+  
+  .btn-edit{
+      border-radius:8px;
+      padding:7px 14px;
+      font-size:14px;
+      font-weight:500;
+      background:#fff;
+      border:1px solid #10946c;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:none !important;
+      transition:.18s ease;
+      text-decoration:none;
+      color:#10946c;
+  }
+
+  .btn-edit:hover{
+      background:#0c7454;
+      border-color:#1a775b;
+      color:#fff;
+      transform:none;
+  }
+
 </style>
 <!-- Formulario para agregar color -->
 <div class="card p-4 shadow-sm border-0">
   <h5 class="mb-3 text-secondary"><i class="bi bi-plus-circle me-1 text-success"></i> Agregar nuevo color</h5>
-  <form method="POST" action="{{ url_for('catalogos.gestionar_colores') }}">
+  <form id="formNuevoColor" method="POST" action="{{ url_for('catalogos.gestionar_colores') }}">
     <div class="input-group">
       <input type="text" class="form-control" name="nombre" placeholder="Nombre del Color" required>
-      <button class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Registrar color">
+      <button id="btnGuardarColor" class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Registrar color">
         <i class="bi bi-plus-circle"></i> Agregar
       </button>
     </div>
@@ -108,9 +176,17 @@ Administración de Colores
         <tr>
           <td>{{ c.nombre }}</td>
           <td class="text-center">
-            <a href="{{ url_for('catalogos.editar_color', id=c.id) }}" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Editar color">
-              <i class="bi bi-pencil"></i> Editar
-            </a>
+            <button
+                class="btn btn-sm btn-outline-primary me-2 btn-editar-color"
+                data-id="{{ c.id }}"
+                data-url="{{ url_for('catalogos.editar_color', id=c.id) }}"
+                data-nombre="{{ c.nombre }}"
+                data-bs-toggle="tooltip"
+                title="Editar color">
+
+                <i class="bi bi-pencil"></i> Editar
+
+            </button>
             <a href="{{ url_for('catalogos.eliminar_color', id=c.id) }}" class="btn btn-sm btn-outline-danger"
                onclick="return confirm('¿Seguro que deseas eliminar este color?')" data-bs-toggle="tooltip" title="Eliminar color">
               <i class="bi bi-trash"></i> Eliminar
@@ -129,9 +205,134 @@ Administración de Colores
   </div>
 </div>
 
+<!-- Modal Editar Color -->
+<div class="modal fade" id="modalEditarColor" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <form id="formEditarColor" method="POST">
+
+                <div class="modal-header modal-premium-header">
+
+                    <h5
+                        class="modal-title d-flex align-items-center gap-2">
+
+                        <i class="bi bi-pencil-square"></i>
+
+                        Editar Color
+
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <label class="form-label">
+                        Nombre del color
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="nombreColor"
+                        name="nombre"
+                        required>
+
+                </div>
+
+                <div class="modal-footer border-0 pt-0">
+
+                    <button
+                        type="button"
+                        class="btn btn-cancel-modal"
+                        data-bs-dismiss="modal">
+
+                        <i class="bi bi-x-circle"></i>
+
+                        Cancelar
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-edit">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        Guardar
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
 <!-- Activar tooltips -->
 <script>
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
   [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
+</script>
+
+
+<!--Modal Editar Color-->
+<script>
+
+console.log("Script cargado");
+const modalEditarColor = new bootstrap.Modal(
+    document.getElementById("modalEditarColor")
+);
+
+document.querySelectorAll(".btn-editar-color").forEach(btn => {
+
+    btn.addEventListener("click", function(){
+
+        console.log("Click en editar");
+        const url = this.dataset.url;
+        const nombre = this.dataset.nombre;
+
+        document.getElementById("nombreColor").value = nombre;
+
+        document.getElementById("formEditarColor").action = url;
+
+        modalEditarColor.show();
+
+    });
+
+});
+
+const formNuevoColor = document.getElementById("formNuevoColor");
+
+if (formNuevoColor) {
+
+    formNuevoColor.addEventListener("submit", function () {
+
+        const btn = document.getElementById("btnGuardarColor");
+
+        btn.disabled = true;
+
+        btn.innerHTML = `
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            Guardando...
+        `;
+
+    });
+
+}
 </script>
 {% endblock %}

@@ -8,7 +8,7 @@ catalogos = Blueprint("catalogos", __name__)
 @catalogos.route("/colores", methods=["GET", "POST"])
 def gestionar_colores():
     if request.method == "POST":
-        nombre = request.form["nombre"].strip()
+        nombre = request.form["nombre"].strip().capitalize()
 
         if nombre:
             # Verificar si ya existe un color con ese nombre
@@ -66,25 +66,30 @@ def editar_color(id):
     color = Color.query.get_or_404(id)
 
     if request.method == "POST":
-        nuevo_nombre = request.form.get("nombre", "").strip()
+        nuevo_nombre = request.form.get("nombre", "").strip().capitalize()
         if not nuevo_nombre:
             flash("El nombre del color no puede estar vacío.", "warning")
-            return redirect(url_for("catalogos.editar_color", id=id))
+            return redirect(url_for("catalogos.gestionar_colores"))
+
+        # Verificar si el nombre ha cambiado
+        if color.nombre == nuevo_nombre:
+            flash("No se realizaron cambios.", "info")
+            return redirect(url_for("catalogos.gestionar_colores"))
 
         # Revisar si ya existe otro color con el mismo nombre
         color_existente = Color.query.filter(Color.nombre == nuevo_nombre, Color.id != id).first()
         if color_existente:
             flash(f"Ya existe un color con el nombre '{nuevo_nombre}'.", "danger")
-            return redirect(url_for("catalogos.editar_color", id=id))
+            return redirect(url_for("catalogos.gestionar_colores"))
 
         try:
             color.nombre = nuevo_nombre
             db.session.commit()
             flash(f"Color actualizado correctamente a '{nuevo_nombre}'.", "success")
-            return redirect(url_for("catalogos.editar_color", id=color.id))  # Ajusta a tu ruta de lista de colores
+            return redirect(url_for("catalogos.gestionar_colores")) # Ajusta a tu ruta de lista de colores
         except Exception as e:
             db.session.rollback()
             flash(f"Ocurrió un error al actualizar el color: {str(e)}", "danger")
-            return redirect(url_for("catalogos.editar_color", id=id))
+            return redirect(url_for("catalogos.gestionar_colores"))
 
     return render_template("editar_color.html", color=color)
