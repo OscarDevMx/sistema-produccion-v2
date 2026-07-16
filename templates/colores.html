@@ -105,18 +105,19 @@ Administración de Colores
       font-size:14px;
       font-weight:500;
       background:#fff;
-      border:1px solid #4e4e4e;
+      border:1px solid #777777;
       display:flex;
       align-items:center;
       gap:6px;
       box-shadow:none !important;
       transition:.18s ease;
       text-decoration:none;
+      color:#131212;
   }
 
   .btn-cancel-modal:hover{
-      background:#616161;
-      border-color:#8b8b8b;
+      background:#575757;
+      border-color:#575757;
       color:#fff;
       transform:none;
   }
@@ -144,6 +145,30 @@ Administración de Colores
       transform:none;
   }
 
+  .btn-eliminar{
+      border-radius:8px;
+      padding:7px 14px;
+      font-size:14px;
+      font-weight:500;
+      background:#fff;
+      border:1px solid #d63e3e;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:none !important;
+      transition:.18s ease;
+      text-decoration:none;
+      color:#d63e3e;
+  }
+
+  .btn-eliminar:hover{
+      background:#d63e3e;
+      border-color:#d63e3e;
+      color:#fff;
+      transform:none;
+  }
+
+
 </style>
 <!-- Formulario para agregar color -->
 <div class="card p-4 shadow-sm border-0">
@@ -151,7 +176,7 @@ Administración de Colores
   <form id="formNuevoColor" method="POST" action="{{ url_for('catalogos.gestionar_colores') }}">
     <div class="input-group">
       <input type="text" class="form-control" name="nombre" placeholder="Nombre del Color" required>
-      <button id="btnGuardarColor" class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Registrar color">
+      <button id="btnGuardarColor" class="btn btn-success btn-loading" type="submit" data-bs-toggle="tooltip" title="Registrar color">
         <i class="bi bi-plus-circle"></i> Agregar
       </button>
     </div>
@@ -187,10 +212,17 @@ Administración de Colores
                 <i class="bi bi-pencil"></i> Editar
 
             </button>
-            <a href="{{ url_for('catalogos.eliminar_color', id=c.id) }}" class="btn btn-sm btn-outline-danger"
-               onclick="return confirm('¿Seguro que deseas eliminar este color?')" data-bs-toggle="tooltip" title="Eliminar color">
-              <i class="bi bi-trash"></i> Eliminar
-            </a>
+            <button
+                type="button"
+                class="btn btn-sm btn-outline-danger btn-eliminar-color"
+                data-id="{{ c.id }}"
+                data-nombre="{{ c.nombre }}"
+                data-url="{{ url_for('catalogos.eliminar_color', id=c.id) }}">
+
+                <i class="bi bi-trash"></i>
+                Eliminar
+
+            </button>
           </td>
         </tr>
         {% else %}
@@ -263,7 +295,7 @@ Administración de Colores
 
                     <button
                         type="submit"
-                        class="btn btn-edit">
+                        class="btn btn-edit btn-loading">
 
                         <i class="bi bi-check-circle"></i>
 
@@ -280,6 +312,89 @@ Administración de Colores
     </div>
 
 </div>
+
+<!-- Modal Eliminar Color -->
+<div class="modal fade" id="modalEliminarColor" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title text-danger">
+                    <i class="bi bi-trash"></i>
+                    Eliminar color
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <form
+                id="formEliminarColor"
+                method="POST">
+
+                <div class="modal-body">
+
+                    <p class="mb-2">
+
+                        Se eliminará el siguiente color:
+
+                    </p>
+
+                    <div class="alert alert-light border">
+
+                        <strong id="nombreColorEliminar"></strong>
+
+                    </div>
+
+                    <p class="text-danger mb-0">
+
+                        <small>
+
+                            Esta acción no se puede deshacer.
+
+                        </small>
+
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-cancel-modal"
+                        data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i>
+                        Cancelar
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-eliminar btn-loading"
+                        data-loading-text="Eliminando...">
+                        <i class="bi bi-trash"></i>
+                        Eliminar
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -316,23 +431,28 @@ document.querySelectorAll(".btn-editar-color").forEach(btn => {
 
 });
 
-const formNuevoColor = document.getElementById("formNuevoColor");
+const modalEliminarColor = new bootstrap.Modal(
+    document.getElementById("modalEliminarColor")
+);
 
-if (formNuevoColor) {
+document.querySelectorAll(".btn-eliminar-color").forEach(btn => {
 
-    formNuevoColor.addEventListener("submit", function () {
+    btn.addEventListener("click", function(){
 
-        const btn = document.getElementById("btnGuardarColor");
+        const nombre = this.dataset.nombre;
+        const url = this.dataset.url;
 
-        btn.disabled = true;
+        document.getElementById("nombreColorEliminar").textContent = nombre;
 
-        btn.innerHTML = `
-            <span class="spinner-border spinner-border-sm me-2"></span>
-            Guardando...
-        `;
+        document.getElementById("formEliminarColor").action = url;
+
+        modalEliminarColor.show();
 
     });
 
-}
+});
+
+activarBotonesDeCarga();
 </script>
+
 {% endblock %}

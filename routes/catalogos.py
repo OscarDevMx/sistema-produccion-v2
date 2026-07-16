@@ -34,7 +34,7 @@ def gestionar_colores():
 
 
 #----RUTA PARA ELIMINAR COLOR CON VALIDACIÓN DE ASOCIACIONES----
-@catalogos.route("/colores/eliminar/<int:id>")
+@catalogos.route("/colores/eliminar/<int:id>", methods=["POST"])
 def eliminar_color(id):
     color = Color.query.get_or_404(id)
     
