@@ -417,7 +417,8 @@
                           <div class="modal-footer">
                             <button type="button" class="btn btn-cancel-modal" data-bs-dismiss="modal">
                               <i class="bi bi-x-circle"></i>Cancelar</button>
-                            <button type="submit" class="btn btn-edit btn-loading" data-loading-text="Guardando...">
+                              
+                            <button type="submit" class="btn btn-success btn-loading" data-loading-text="Guardando...">
                               <i class="bi bi-check-circle"></i>Guardar cambios</button>
                           </div>
                         </form>
@@ -473,7 +474,9 @@
     </div>
   {% endfor %}
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     // Para todos los modales de edición
