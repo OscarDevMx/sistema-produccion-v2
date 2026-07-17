@@ -383,6 +383,66 @@
 
         @media (max-width:768px){
 
+            body {
+                padding: 12px;
+            }
+
+            .documento {
+                padding: 16px;
+                max-width: 100%;
+            }
+
+            .empresa h2 {
+                font-size: 1.55rem;
+            }
+
+            .numero-pedido {
+                font-size: 1.45rem;
+                letter-spacing: 1px;
+            }
+
+            .encabezado-info {
+                flex-direction: column;
+                gap: 12px;
+                margin-bottom: 15px;
+            }
+
+            .info-item {
+                min-width: 0;
+            }
+
+            .info-item:nth-child(2),
+            .info-item:nth-child(3) {
+                text-align: left;
+            }
+
+            .contenedor-final {
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .observaciones,
+            .resumen {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .caja {
+                min-height: auto;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .contenido-color {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table {
+                min-width: 420px;
+                margin-bottom: 0;
+            }
+
             .empresa-print{
                 font-size:.90rem;
                 font-weight:600;
@@ -400,6 +460,16 @@
             .print-superior{
                 gap:0;
                 padding-bottom:6px;
+            }
+
+            .footer-superior {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+
+            .text-end {
+                text-align: left !important;
             }
 
             /* ===== Acciones ===== */
@@ -496,7 +566,7 @@
 
         &nbsp;&nbsp;&nbsp;
 
-        <strong>Fecha:</strong>
+        <strong>Fecha de pedido:</strong>
         {{ pedido.fecha.strftime('%d/%m/%Y') }}
 
         &nbsp;&nbsp;&nbsp;
@@ -515,7 +585,7 @@
                 </div>
             </div>
             <div class="info-item">
-                <strong>Fecha</strong>
+                <strong>Fecha de pedido</strong>
                 <div class="info-valor">
                     {{ pedido.fecha.strftime('%d/%m/%Y') }}
                 </div>

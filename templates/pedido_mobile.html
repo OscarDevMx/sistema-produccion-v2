@@ -69,14 +69,37 @@
 
         }
 
-        .pedido-numero{
-
-            font-size:1.5rem;
-
+        .numero-pedido{
+            font-size:1.45rem;
             font-weight:700;
+            letter-spacing:1px;
+            color:#0d6efd;
+            margin:15px 0;
+            text-align:center;
+        }
 
+        .encabezado-documento{
+            padding: 16px;
+            margin-bottom:30px;
+            text-align:center;
+        }
+
+
+        .empresa h2{
+            font-size:1.5rem;
+            font-weight:600;
             color:#212529;
+            margin-bottom:10px;
+            text-align:center;
+        }
 
+        .titulo-documento{
+            font-size:1rem;
+            letter-spacing:3px;
+            font-weight:600;
+            color:#6c757d;
+            margin-bottom:15px;
+            text-align:center;
         }
 
         .pedido-cliente{
@@ -433,6 +456,20 @@
 
         }
 
+        .footer-superior{
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            margin-bottom:12px;
+            font-size:.90rem;
+        }
+
+        .footer-inferior{
+            text-align:center;
+            font-size:.80rem;
+            color:#6c757d;
+            letter-spacing:.5px;
+        }
     </style>
 
 </head>
@@ -462,33 +499,37 @@
 
         <div class="pedido-card card-mobile">
 
-            <div class="pedido-numero">
-                Pedido #{{ pedido.numero_pedido }}
+            <div class="empresa">
+                <h2>🧵 Sistema de Producción</h2>
             </div>
 
-            <div class="pedido-cliente">
-                {{ pedido.cliente or "Sin cliente" }}
+            <div class="titulo-documento">
+                COMPROBANTE DE PEDIDO
             </div>
 
-            <div class="pedido-estado">
-                {{ pedido.status.nombre }}
+            <div class="numero-pedido">
+                PEDIDO #{{ pedido.numero_pedido }}
             </div>
 
         </div>
-        <br>
         <div class="info-card card-mobile">
 
+             <div class="info-row">
+                <strong>Cliente:</strong>
+                <span class="info-value">
+                    {{ pedido.cliente or "Sin especificar" }}
+                </span>
+            </div>           
             <div class="info-row">
-                <span class="info-label">Fecha</span>
+                <strong>Fecha de pedido:</strong>
                 <span class="info-value">
                     {{ pedido.fecha.strftime('%d/%m/%Y') }}
                 </span>
             </div>
-            <hr>
             <div class="info-row">
-                <span class="info-label">Registró</span>
-                <span class="info-value">
-                    {{ pedido.usuario }}
+                <strong>Estado:</strong>
+                <span class="badge bg-primary">
+                    {{ pedido.status.nombre }}
                 </span>
             </div>
         </div>
@@ -616,6 +657,29 @@
                 <span class="resumen-badge">
                     ${{ "{:,.2f}".format(total_pedido.total) }}
                 </span>
+            </div>
+
+        </div>
+        
+        <!-- Pie de página -->
+        <div class="piepagina-card card-mobile">
+
+            <div class="footer-superior">
+
+                <div>
+                    <strong>Registró:</strong><br>
+                    {{ pedido.usuario }}
+                </div>
+
+                <div class="text-end">
+                    <strong>Impreso:</strong><br>
+                    {{ pedido.fecha.strftime('%d/%m/%Y %H:%M') }}
+                </div>
+
+            </div>
+
+            <div class="footer-inferior">
+                Sistema de Producción · Documento generado automáticamente
             </div>
 
         </div>
