@@ -1,0 +1,73 @@
+/* ===========================================
+   Loading Overlay Global
+=========================================== */
+
+#loadingOverlay{
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.55);
+
+    display: none;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 99999;
+
+    backdrop-filter: blur(2px);
+
+}
+
+.loading-overlay-content{
+
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 35px 45px;
+
+    min-width: 320px;
+
+    text-align: center;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+
+}
+
+.loading-overlay-content .spinner-border{
+
+    width: 3rem;
+
+    height: 3rem;
+
+    color: #0d6efd;
+
+}
+
+.loading-overlay-content h5{
+
+    margin-top: 15px;
+
+    margin-bottom: 0;
+
+    color: #444;
+
+    font-weight: 600;
+
+}
+
+.loading-overlay-subtitle{
+
+    margin-top:10px;
+
+    margin-bottom:0;
+
+    font-size:.92rem;
+
+    color:#777;
+
+}

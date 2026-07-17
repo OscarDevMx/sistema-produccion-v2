@@ -322,11 +322,11 @@
                 <span>Registrado por: {{ pedido.usuario }}</span>
 
                 {% if pedido.status_pedido != 5 and pedido.status_pedido != 6 %} 
-                    <button class="btn btn-success btn-sm" onclick="marcarVendido({{ pedido.id }})">
+                    <button id="btnVendido{{ pedido.id }}" class="btn btn-success btn-sm" onclick="marcarVendido({{ pedido.id }})">
                         ✔ Marcar como Vendido
                     </button>
 
-                    <button class="btn btn-danger btn-sm" onclick="cancelarPedido({{ pedido.id }})">
+                    <button id="btnCancelar{{ pedido.id }}" class="btn btn-danger btn-sm" onclick="cancelarPedido({{ pedido.id }})">
                         ✖ Cancelar Pedido
                     </button>
                 {% elif pedido.status_pedido == 5 %}
@@ -351,9 +351,32 @@
 <script>
 function marcarVendido(pedido_id) {
 
-    if (!confirm("¿Confirmas que este pedido ya fue VENDIDO?")) {
-        return;
-    }
+    confirmarAccion({
+        titulo: "Marcar pedido como vendido",
+        mensaje: "¿Confirmas que este pedido ya fue vendido?",
+        color: "success",
+        textoBoton: "Sí, marcar vendido",
+        onConfirm: function () {
+
+            ejecutarVenta(pedido_id);
+
+        }
+    });
+
+}
+
+function ejecutarVenta(pedido_id) {
+
+    const boton = document.getElementById(`btnVendido${pedido_id}`);
+
+    boton.disabled = true;
+
+    boton.innerHTML = `
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Marcando...
+    `;
+
+    mostrarOverlay("Marcando como vendido...");
 
     fetch(`/pedido_vendido/${pedido_id}`, {
         method: "POST",
@@ -361,18 +384,41 @@ function marcarVendido(pedido_id) {
     })
     .then(res => res.json())
     .then(data => {
+
         if (data.status === "ok") {
-            alert("Pedido marcado como VENDIDO correctamente.");
+
             location.reload();
+
         } else {
+
+            ocultarOverlay();
+
+            boton.disabled = false;
+
+            boton.innerHTML = "✔ Marcar como Vendido";
+
             alert("Error: " + data.mensaje);
+
         }
+
     })
     .catch(err => {
-        console.error("Error al marcar pedido:", err);
-        alert("Ocurrió un error al procesar la operación.");
+
+        ocultarOverlay();
+
+        boton.disabled = false;
+
+        boton.innerHTML = "✔ Marcar como Vendido";
+
+        console.error(err);
+
+        alert("Ocurrió un error.");
+
     });
+
 }
+
+
 function confirmarVendido() {
     return confirm("¿Seguro que deseas marcar este pedido como VENDIDO?");
 }
@@ -382,6 +428,15 @@ function cancelarPedido(pedido_id) {
     if (!confirm("¿Seguro que deseas CANCELAR este pedido?\n\nEsto regresará las piezas al inventario.")) {
         return;
     }
+
+    const boton = document.getElementById(`btnCancelar${pedido_id}`);
+
+    boton.disabled = true;
+    boton.innerHTML = `
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Cancelando...
+    `;
+    mostrarOverlay("Cancelando pedido...");
 
     fetch(`/pedido_cancelar/${pedido_id}`, {
         method: "POST",
