@@ -208,6 +208,99 @@
     }
   }
 
+  /* ===== MODAL PREMIUM ===== */
+  .modal-premium-header{
+      border-bottom:1px solid #eef2f7;
+      padding:20px 24px;
+  }
+
+  .modal-content{
+      border:none;
+      border-radius:20px;
+      box-shadow:
+          0 18px 45px rgba(0,0,0,.12);
+  }
+  .modal-title{
+      color:#1f2937;
+      font-weight:700;
+  }
+
+  .modal-title i{
+      color:#ef4444;
+  }
+
+  /* Boton Cancelar Modal */
+
+  .btn-cancel-modal{
+      border-radius:8px;
+      padding:7px 14px;
+      font-size:14px;
+      font-weight:500;
+      background:#fff;
+      border:1px solid #777777;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:none !important;
+      transition:.18s ease;
+      text-decoration:none;
+      color:#131212;
+  }
+
+  .btn-cancel-modal:hover{
+      background:#575757;
+      border-color:#575757;
+      color:#fff;
+      transform:none;
+  }
+  
+  .btn-edit{
+      border-radius:8px;
+      padding:7px 14px;
+      font-size:14px;
+      font-weight:500;
+      background:#fff;
+      border:1px solid #10946c;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:none !important;
+      transition:.18s ease;
+      text-decoration:none;
+      color:#10946c;
+  }
+
+  .btn-edit:hover{
+      background:#0c7454;
+      border-color:#1a775b;
+      color:#fff;
+      transform:none;
+  }
+
+  .btn-eliminar{
+      border-radius:8px;
+      padding:7px 14px;
+      font-size:14px;
+      font-weight:500;
+      background:#fff;
+      border:1px solid #d63e3e;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:none !important;
+      transition:.18s ease;
+      text-decoration:none;
+      color:#d63e3e;
+  }
+
+  .btn-eliminar:hover{
+      background:#d63e3e;
+      border-color:#d63e3e;
+      color:#fff;
+      transform:none;
+  }
+
+
 </style>
 
 <!-- Barra de filtros compactos -->
@@ -308,8 +401,8 @@
                   <div class="modal fade" id="modalEditar{{ inv.id }}" tabindex="-1" aria-labelledby="modalLabel{{ inv.id }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
-                        <form method="POST" action="{{ url_for('editar_inventario', id=inv.id) }}">
-                          <div class="modal-header bg-primary text-white">
+                        <form id="formEditarInventario{{ inv.id }}" method="POST" action="{{ url_for('editar_inventario', id=inv.id) }}">
+                          <div class="modal-header modal-premium-header">
                             <h5 class="modal-title" id="modalLabel{{ inv.id }}">
                               Editar Cantidad de la Talla: {{ inv.talla.nombre }} - Color: {{ inv.color.nombre }}
                             </h5>
@@ -322,8 +415,10 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-success">Guardar cambios</button>
+                            <button type="button" class="btn btn-cancel-modal" data-bs-dismiss="modal">
+                              <i class="bi bi-x-circle"></i>Cancelar</button>
+                            <button type="submit" class="btn btn-edit btn-loading" data-loading-text="Guardando...">
+                              <i class="bi bi-check-circle"></i>Guardar cambios</button>
                           </div>
                         </form>
                       </div>
@@ -334,7 +429,7 @@
                   <div class="modal fade" id="modalSalida{{ inv.id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
-                        <form action="{{ url_for('salida_simple', id=inv.id) }}" method="POST">
+                        <form id="formSalida{{ inv.id }}" action="{{ url_for('salida_simple', id=inv.id) }}" method="POST">
                           <div class="modal-header">
                             <h5 class="modal-title">Registrar salida de la Talla: {{ inv.talla.nombre }} - Color: {{ inv.color.nombre }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -359,8 +454,10 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                              <button class="btn btn-danger" type="submit">Registrar salida</button>
+                              <button type="button" class="btn btn-cancel-modal" data-bs-dismiss="modal">
+                                <i class="bi bi-x-circle"></i>Cancelar</button>
+                              <button class="btn btn-eliminar btn-loading" type="submit" data-loading-text="Registrando...">
+                                <i class="bi bi-check-circle"></i>Registrar salida</button>
                           </div>
                         </form>
                       </div>
@@ -415,6 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
             flecha.textContent = "▼";
         });
     });
+    activarBotonesDeCarga();
 });
 </script>
 

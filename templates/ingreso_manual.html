@@ -102,7 +102,7 @@
 </style>
 <div class="container mt-4">
     <div class="card shadow-sm p-4">
-        <form method="POST">
+        <form id="formIngresoManual" method="POST">
             <!-- Fecha -->
             <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
                 <label for="fecha" class="form-label fs-6 fw-bold">📅 Fecha</label>
@@ -146,9 +146,14 @@
             </div>
             
             <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary px-4">Registrar en Inventario</button>
+                <button type="submit" class="btn btn-primary px-4 btn-loading" data-loading-text="Registrando..."> Registrar en Inventario </button>
             </div>
         </form>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script>
+activarBotonesDeCarga();
+</script>
 {% endblock %}
