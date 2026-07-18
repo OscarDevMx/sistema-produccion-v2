@@ -323,11 +323,13 @@
 
                 {% if pedido.status_pedido != 5 and pedido.status_pedido != 6 %} 
                     <button id="btnVendido{{ pedido.id }}" class="btn btn-success btn-sm" onclick="marcarVendido({{ pedido.id }})">
-                        ✔ Marcar como Vendido
+                        <i class="bi bi-check-circle"></i>
+                        Marcar como Vendido
                     </button>
 
                     <button id="btnCancelar{{ pedido.id }}" class="btn btn-danger btn-sm" onclick="cancelarPedido({{ pedido.id }})">
-                        ✖ Cancelar Pedido
+                        <i class="bi bi-x-circle"></i>
+                        Cancelar Pedido
                     </button>
                 {% elif pedido.status_pedido == 5 %}
                     <span class="badge bg-success">VENDIDO</span>
@@ -387,7 +389,15 @@ function ejecutarVenta(pedido_id) {
 
         if (data.status === "ok") {
 
-            location.reload();
+            mostrarToast({
+                tipo: "success",
+                titulo: "Pedido vendido",
+                mensaje: "El pedido fue marcado correctamente."
+            });
+
+            setTimeout(() => {
+                location.reload();
+            }, 1200);
 
         } else {
 
@@ -397,7 +407,11 @@ function ejecutarVenta(pedido_id) {
 
             boton.innerHTML = "✔ Marcar como Vendido";
 
-            alert("Error: " + data.mensaje);
+            mostrarToast({
+                tipo: "danger",
+                titulo: "Error",
+                mensaje: data.mensaje
+            });
 
         }
 
@@ -410,24 +424,42 @@ function ejecutarVenta(pedido_id) {
 
         boton.innerHTML = "✔ Marcar como Vendido";
 
-        console.error(err);
+        console.error("Error al marcar pedido:", err);
 
-        alert("Ocurrió un error.");
+        mostrarToast({
+            tipo: "danger",
+            titulo: "Error",
+            mensaje: "Ocurrió un error al procesar la operación."
+        });
 
     });
 
 }
 
 
-function confirmarVendido() {
-    return confirm("¿Seguro que deseas marcar este pedido como VENDIDO?");
+function cancelarPedido(pedido_id){
+
+    confirmarAccion({
+
+        titulo: "Cancelar pedido",
+
+        mensaje: "¿Seguro que deseas CANCELAR este pedido?<br><br>Las piezas regresarán automáticamente al inventario.",
+
+        color: "danger",
+
+        textoBoton: "Sí, cancelar",
+
+        onConfirm: function(){
+
+            ejecutarCancelacion(pedido_id);
+
+        }
+
+    });
+
 }
 
-function cancelarPedido(pedido_id) {
-
-    if (!confirm("¿Seguro que deseas CANCELAR este pedido?\n\nEsto regresará las piezas al inventario.")) {
-        return;
-    }
+function ejecutarCancelacion(pedido_id){
 
     const boton = document.getElementById(`btnCancelar${pedido_id}`);
 
@@ -436,7 +468,7 @@ function cancelarPedido(pedido_id) {
         <span class="spinner-border spinner-border-sm me-2"></span>
         Cancelando...
     `;
-    mostrarOverlay("Cancelando pedido...");
+    mostrarOverlay("Regresando piezas al inventario...");
 
     fetch(`/pedido_cancelar/${pedido_id}`, {
         method: "POST",
@@ -444,16 +476,50 @@ function cancelarPedido(pedido_id) {
     })
     .then(res => res.json())
     .then(data => {
+        
         if (data.status === "ok") {
-            alert("Pedido CANCELADO correctamente.");
-            location.reload();
+            mostrarToast({
+                tipo: "success",
+                titulo: "Pedido cancelado",
+                mensaje: "Las piezas regresaron al inventario correctamente."
+            });
+
+            setTimeout(() => {
+                location.reload();
+            }, 1200);
+            
         } else {
-            alert("Error: " + data.mensaje);
+
+            ocultarOverlay();
+
+            boton.disabled = false;
+
+            boton.innerHTML = "✖ Cancelar Pedido";
+
+            mostrarToast({
+                tipo: "danger",
+                titulo: "Error",
+                mensaje: data.mensaje
+            });
         }
+
     })
     .catch(err => {
+
+        ocultarOverlay();
+
+        boton.disabled = false;
+
+        boton.innerHTML = "✖ Cancelar Pedido";
+
         console.error("Error al cancelar pedido:", err);
-        alert("Ocurrió un error.");
+
+        mostrarToast({
+            tipo: "danger",
+            titulo: "Error",
+            mensaje: "Ocurrió un error al procesar la operación."
+        });
+
     });
 }
 

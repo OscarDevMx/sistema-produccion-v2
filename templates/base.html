@@ -14,6 +14,9 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/loading-overlay.css') }}">
 
+    <!-- Estilos para notificaciones tipo toast -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/toast-notifications.css') }}">
+
 
     <style>
         * {
@@ -711,6 +714,7 @@
     <script src="{{ url_for('static', filename='js/loading-buttons.js') }}"></script>
     <script src="{{ url_for('static', filename='js/loading-overlay.js') }}"></script>
     <script src="{{ url_for('static', filename='js/confirm-modal.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/toast-notifications.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

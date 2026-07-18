@@ -1,0 +1,211 @@
+/* ==========================
+   Toast Notifications Premium
+========================== */
+
+.toast-container-custom{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 99999;
+
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.toast-custom{
+
+    min-width:320px;
+    max-width:420px;
+
+    background:#ffffff;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.20);
+
+    animation:toastEntrada .35s ease;
+
+    position:relative;
+
+}
+
+.toast-header-custom{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:14px 18px;
+
+    font-weight:700;
+
+    font-size:15px;
+
+}
+
+.toast-body-custom{
+
+    padding:0 18px 16px;
+
+    color:#555;
+
+    font-size:14px;
+
+}
+
+.toast-icon{
+
+    font-size:22px;
+
+}
+
+.toast-success{
+
+    border-left:6px solid #198754;
+
+}
+
+.toast-success .toast-header-custom{
+
+    color:#198754;
+
+}
+
+.toast-danger{
+
+    border-left:6px solid #dc3545;
+
+}
+
+.toast-danger .toast-header-custom{
+
+    color:#dc3545;
+
+}
+
+.toast-warning{
+
+    border-left:6px solid #ffc107;
+
+}
+
+.toast-warning .toast-header-custom{
+
+    color:#c79100;
+
+}
+
+.toast-info{
+
+    border-left:6px solid #0d6efd;
+
+}
+
+.toast-info .toast-header-custom{
+
+    color:#0d6efd;
+
+}
+
+.toast-progress{
+
+    height:4px;
+
+    background:#e9ecef;
+
+}
+
+.toast-progress-bar{
+
+    height:100%;
+
+    width:100%;
+
+    animation:progressBar linear forwards;
+
+}
+
+.toast-success .toast-progress-bar{
+
+    background:#198754;
+
+}
+
+.toast-danger .toast-progress-bar{
+
+    background:#dc3545;
+
+}
+
+.toast-warning .toast-progress-bar{
+
+    background:#ffc107;
+
+}
+
+.toast-info .toast-progress-bar{
+
+    background:#0d6efd;
+
+}
+
+@keyframes progressBar{
+
+    from{
+        width:100%;
+    }
+
+    to{
+        width:0%;
+    }
+
+}
+
+@keyframes toastEntrada{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+@keyframes toastSalida{
+
+    from{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        opacity:0;
+
+        transform:translateX(60px);
+
+    }
+
+}
+
+.toast-hide{
+
+    animation:toastSalida .30s ease forwards;
+
+}

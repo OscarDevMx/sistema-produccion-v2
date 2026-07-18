@@ -186,6 +186,73 @@
             display:none;
         }
 
+        .card-mobile{
+
+            background:#fff;
+
+            border-radius:8px;
+
+            padding:40px;
+
+            margin:0 auto 16px;
+            width:100%;
+            max-width:900px;
+            box-sizing:border-box;
+
+            box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+        }
+        
+        .acciones-mobile{
+
+            display:flex;
+            width:100%;
+            max-width:900px;
+            padding:0;
+            overflow:hidden;
+            border:2px solid #93c5fd;
+            background:linear-gradient(135deg, #f8fbff 0%, #eef6ff 100%);
+            box-shadow:0 4px 12px rgba(59, 130, 246, 0.12), inset 0 0 0 1px rgba(59, 130, 246, 0.08);
+            border-radius:8px;
+
+        }
+
+        .accion-btn{
+
+            flex:1;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            padding:14px;
+
+            text-decoration:none;
+
+            color:#495057;
+
+            font-weight:600;
+
+            transition:.2s;
+
+        }
+
+        .accion-btn:first-child{
+
+            border-right:1px solid #d6dde5;
+
+        }
+
+        .accion-btn:hover{
+
+            background:#f8f9fa;
+
+            color:#0d6efd;
+
+        }
+
         @media print{
 
             body {
@@ -511,14 +578,22 @@
 
 <body>
 
-<div class="acciones no-print">
-    <a href="{{ url_for('ver_pedidos') }}" class="btn btn-outline-secondary">
-        ← Regresar
+<div class="acciones-mobile card-mobile">
+
+    <a href="{{ url_for('ver_pedidos') }}" class="accion-btn">
+
+        ← Pedidos
+
     </a>
-    &nbsp;&nbsp;
-    <button class="btn btn-outline-secondary" onclick="window.print()">
-        🖨️ Imprimir
-    </button>
+
+    <a href="{{ url_for('vista_previa_pedido', pedido_id=pedido.id, auto_print=1) }}"
+    target="_blank"
+    class="accion-btn">
+
+        🖨 PDF
+
+    </a>
+
 </div>
 
 <div class="documento">
