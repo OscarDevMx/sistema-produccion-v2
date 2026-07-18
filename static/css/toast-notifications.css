@@ -209,3 +209,35 @@
     animation:toastSalida .30s ease forwards;
 
 }
+
+/* ==========================
+   Responsive
+========================== */
+
+@media (max-width: 768px){
+
+    .toast-container-custom{
+
+        left:50%;
+
+        right:auto;
+
+        transform:translateX(-50%);
+
+        width:92%;
+
+        top:16px;
+
+    }
+
+    .toast-custom{
+
+        min-width:auto;
+
+        max-width:none;
+
+        width:100%;
+
+    }
+
+}

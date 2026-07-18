@@ -5,41 +5,41 @@
 
 {% block content %}
 <style>
-  .content {
+    .content {
     padding-bottom: 200px !important;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-  }
-  .table-responsive {
+    }
+    .table-responsive {
     max-height: calc(100vh - 500px);
     overflow-y: auto;
-  }
+    }
 
-  .color-nombre{
+    .color-nombre{
 
     font-size:1rem;
 
     font-weight:600;
 
- }
+    }
 
-  .color-piezas{
+    .color-piezas{
 
-      background:#eef2ff;
+        background:#eef2ff;
 
-      color:#0d6efd;
+        color:#0d6efd;
 
-      padding:4px 10px;
+        padding:4px 10px;
 
-      border-radius:20px;
+        border-radius:20px;
 
-      font-size:.80rem;
+        font-size:.80rem;
 
-      font-weight:600;
+        font-weight:600;
 
-  }
+    }
 
-  .color-card{
+    .color-card{
 
     background:#fff;
 
@@ -51,132 +51,203 @@
 
     box-shadow:0 2px 8px rgba(0,0,0,.08);
 
- }
+    }
 
-  .produccion-container{
+    .produccion-container{
     margin-bottom:8px;
- }
+    }
 
-  .color-header{
+    .color-header{
 
-      width:100%;
+        width:100%;
 
-      display:flex;
+        display:flex;
 
-      justify-content:space-between;
+        justify-content:space-between;
 
-      align-items:center;
+        align-items:center;
 
-      background:none;
+        background:none;
 
-      border:none;
+        border: none;
 
-      padding:0;
+        padding:0;
 
-      cursor:pointer;
+        cursor:pointer;
 
-      text-align:left;
+        text-align:left;
 
-  }
-  .color-header .d-flex {
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
-  .color-header:focus{
+    }
 
-      outline:none;
+    .color-header .d-flex {
+        flex-wrap: wrap;
+        gap: 0.35rem;
+    }
 
-      box-shadow:none;
+    .color-header:focus{
 
-  }
-  .accordion-item.color-card {
-    border: none;
+        outline:none;
+
+        box-shadow:none;
+
+    }
+
+    .accordion-item.color-card {
+    border:none;
     background: #fff;
-  }
-  .accordion-button.color-header {
+    }
+
+    .accordion-button.color-header {
     padding: 0.55rem 0.75rem;
     background-color: #fff;
     border: 0;
     border-radius: 14px;
     box-shadow: none;
-    color: #1f2937;
-  }
-  .accordion-button.color-header::after {
+    color: #000307;
+    }
+
+    .accordion-button.color-header::after {
     display: none;
-  }
-  .accordion-button.color-header:not(.collapsed) {
+    }
+
+    .accordion-button.color-header:not(.collapsed) {
     background-color: #f8f9ff;
     color: #0d6efd;
     box-shadow: none;
-  }
+    }
 
-  .accordion-body {
+    .accordion-body {
     max-height: calc(100vh - 330px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     border-top: 1px solid #eef2ff;
     padding: 0.6rem;
     transition: all 0.2s ease;
-  }
-  .accordion-collapse {
+    }
+
+    .accordion-collapse {
     transition: height 0.2s ease;
-  }
-  .accordion-item {
+    }
+
+    .accordion-item {
     overflow: hidden;
-  }
-  .table-wrapper {
+    }
+
+    .table-wrapper {
     overflow-x: hidden;
-  }
-  .table {
+    }
+
+    .table {
     width: 100%;
     font-size: 0.82rem;
     table-layout: fixed;
-  }
-  .table th, .table td {
+    }
+
+    .table th, .table td {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  @media (max-width: 767px) {
-    .table {
-      font-size: 0.76rem;
-      table-layout: auto;
     }
-    .table th, .table td {
-      padding: 0.35rem !important;
-      white-space: normal;
-      word-break: break-word;
+
+    /* Success */
+
+    .btn-success{
+
+        border-radius:8px;
+        padding:7px 14px;
+        font-size:14px;
+        font-weight:500;
+        background:#fff;
+        border:1px solid #10946c;
+        display:flex;
+        align-items:center;
+        gap:6px;
+        box-shadow:none !important;
+        transition:.18s ease;
+        text-decoration:none;
+        color:#10946c;
+
     }
-    .card-header {
-      flex-wrap: wrap;
-      gap: 0.35rem;
+
+    .btn-success:hover{
+
+        background:#0c7454;
+        border-color:#1a775b;
+        color:#fff;
+        transform:none;
+
     }
-    .card-header span:last-child {
-      font-size: 0.9rem;
+
+    /* Danger */
+
+    .btn-danger{
+
+        border-radius:8px;
+        padding:7px 14px;
+        font-size:14px;
+        font-weight:500;
+        background:#fff;
+        border:1px solid #d63e3e;
+        display:flex;
+        align-items:center;
+        gap:6px;
+        box-shadow:none !important;
+        transition:.18s ease;
+        text-decoration:none;
+        color:#d63e3e;
+
     }
-    .card-body p {
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
+
+    .btn-danger:hover{
+
+        background:#d63e3e;
+        border-color:#d63e3e;
+        color:#fff;
+        transform:none;
+
     }
-    .card-footer {
-      flex-wrap: wrap;
-      gap: 0.5rem;
+
+   
+    @media (max-width: 767px) {
+        .table {
+            font-size: 0.76rem;
+            table-layout: auto;
+        }
+        .table th, .table td {
+            padding: 0.35rem !important;
+            white-space: normal;
+            word-break: break-word;
+        }
+        .card-header {
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+        .card-header span:last-child {
+            font-size: 0.9rem;
+        }
+        .card-body p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .card-footer {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .btn-sm {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.6rem;
+        }
+        .accordion-button.color-header {
+            padding: 0.5rem 0.7rem;
+        }
+        .color-nombre {
+            font-size: 0.95rem;
+        }
+        .color-piezas {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+        }
     }
-    .btn-sm {
-      font-size: 0.8rem;
-      padding: 0.4rem 0.6rem;
-    }
-    .accordion-button.color-header {
-      padding: 0.5rem 0.7rem;
-    }
-    .color-nombre {
-      font-size: 0.95rem;
-    }
-    .color-piezas {
-      font-size: 0.72rem;
-      padding: 3px 8px;
-    }
-  }
 </style>
 
 <div class="container py-3">
@@ -219,11 +290,11 @@
                 <p><strong>Cantidad Total:</strong> {{ pedido.detalles | sum(attribute='cantidad') }}</p>
                 <p><strong>Costo Total:</strong> ${{ pedido.costo_total }}</p>
                 <p><strong>Observaciones:</strong> {{ pedido.observaciones or "N/A" }}</p>
-                <a href="{{ url_for('vista_previa_pedido', pedido_id=pedido.id) }}" class="btn btn-danger">
-                Vista PDF
+                <a href="{{ url_for('vista_previa_pedido', pedido_id=pedido.id) }}" class="accion-btn">
+                🖨 PDF
                 </a>
-                <a href="{{ url_for('vista_mobile_pedido', pedido_id=pedido.id) }}" class="btn btn-danger">
-                Ver Pedido
+                <a href="{{ url_for('vista_mobile_pedido', pedido_id=pedido.id) }}" class="accion-btn">
+                🖨 PDF
                 </a>
 
                 <hr>
@@ -319,7 +390,7 @@
                 {% endif %}
             </div>
             <div class="card-footer text-muted d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <span>Registrado por: {{ pedido.usuario }}</span>
+                
 
                 {% if pedido.status_pedido != 5 and pedido.status_pedido != 6 %} 
                     <button id="btnVendido{{ pedido.id }}" class="btn btn-success btn-sm" onclick="marcarVendido({{ pedido.id }})">
@@ -336,6 +407,7 @@
                 {% elif pedido.status_pedido == 6 %}
                     <span class="badge bg-danger">CANCELADO</span>
                 {% endif %}
+                <span>Registrado por: {{ pedido.usuario }}</span>
             </div>
         </div>
         {% endfor %}

@@ -1,0 +1,317 @@
+/* ==========================================================
+   MODAL PREMIUM
+   ========================================================== */
+
+.modal-premium .modal-content{
+    border: none;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 18px 50px rgba(0,0,0,.18);
+}
+
+
+/* =======================
+   HEADER
+======================= */
+
+.modal-premium-header{
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:18px 22px;
+
+    background:#ffffff;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.modal-premium-title{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:1.45rem;
+    font-weight:700;
+
+    margin:0;
+
+}
+
+
+/* Colores de títulos */
+
+.modal-title{
+    color:#1f2937;
+    font-weight:700;
+}
+
+.modal-title-success{
+
+    color:#0c7454;
+
+}
+
+.modal-title-danger{
+
+    color:#d63e3e;
+
+}
+
+.modal-title-primary{
+
+    color:#2563eb;
+
+}
+
+.modal-title-warning{
+
+    color:#d97706;
+
+}
+
+
+/* =======================
+   BODY
+======================= */
+
+.modal-premium-body{
+
+    padding:22px;
+
+}
+
+.modal-premium-body label{
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+}
+
+.modal-premium-body .form-control,
+.modal-premium-body .form-select{
+
+    border-radius:10px;
+
+}
+
+.modal-premium-message{
+
+    margin-bottom:12px;
+
+    color:#555;
+
+}
+
+.modal-premium-highlight{
+
+    padding:14px;
+
+    border-radius:10px;
+
+    background:#f8fafc;
+
+    border:1px solid #e5e7eb;
+
+    font-weight:600;
+
+}
+
+
+/* =======================
+   ADVERTENCIA
+======================= */
+
+.modal-premium-warning{
+
+    margin-top:16px;
+
+    color:#ef4444;
+
+    font-size:.95rem;
+
+}
+
+
+/* =======================
+   FOOTER
+======================= */
+
+.modal-premium-footer{
+
+    padding:16px 22px;
+
+    border-top:1px solid #ececec;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:10px;
+
+}
+
+
+/* =======================
+   BOTONES
+======================= */
+
+.btn-modal{
+
+    min-width:120px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.btn-modal:hover{
+
+    transform:translateY(-1px);
+
+}
+
+
+/* Cancelar */
+
+.btn-modal-cancel{
+
+    border-radius:8px;
+    padding:7px 14px;
+    font-size:14px;
+    font-weight:500;
+    background:#fff;
+    border:1px solid #777777;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    box-shadow:none !important;
+    transition:.18s ease;
+    text-decoration:none;
+    color:#131212;
+
+}
+
+.btn-modal-cancel:hover{
+
+    background:#575757;
+    border-color:#575757;
+    color:#fff;
+    transform:none;
+
+}
+
+
+/* Success */
+
+.btn-modal-success{
+
+    border-radius:8px;
+    padding:7px 14px;
+    font-size:14px;
+    font-weight:500;
+    background:#fff;
+    border:1px solid #10946c;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    box-shadow:none !important;
+    transition:.18s ease;
+    text-decoration:none;
+    color:#10946c;
+
+}
+
+.btn-modal-success:hover{
+
+      background:#0c7454;
+      border-color:#1a775b;
+      color:#fff;
+      transform:none;
+
+}
+
+
+/* Danger */
+
+.btn-modal-danger{
+
+      border-radius:8px;
+      padding:7px 14px;
+      font-size:14px;
+      font-weight:500;
+      background:#fff;
+      border:1px solid #d63e3e;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:none !important;
+      transition:.18s ease;
+      text-decoration:none;
+      color:#d63e3e;
+
+}
+
+.btn-modal-danger:hover{
+
+      background:#d63e3e;
+      border-color:#d63e3e;
+      color:#fff;
+      transform:none;
+
+}
+
+
+/* Primary */
+
+.btn-modal-primary{
+
+    background:white;
+
+    border:1px solid #2563eb;
+
+    color:#2563eb;
+
+}
+
+.btn-modal-primary:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+@media (max-width:768px){
+
+    .modal-premium-body{
+
+        padding:18px;
+
+    }
+
+    .modal-premium-footer{
+
+        flex-direction:column;
+
+    }
+
+    .btn-modal{
+
+        width:100%;
+
+    }
+
+}

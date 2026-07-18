@@ -17,6 +17,8 @@
     <!-- Estilos para notificaciones tipo toast -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/toast-notifications.css') }}">
 
+    <!--Estilos personalizados para Modal-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modal-premium.css') }}">
 
     <style>
         * {
@@ -643,43 +645,56 @@
 
         <div class="modal-dialog modal-dialog-centered">
 
-            <div class="modal-content">
+            <div class="modal-content modal-premium">
 
                 <div class="modal-header modal-premium-header">
 
-                    <h5 class="modal-title" id="confirmModalTitle">
-                        Confirmar acción
-                    </h5>
+                    <h4 id="tituloConfirmacion" class="modal-title modal-premium-title modal-title-primary">
 
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal">
+                        <i id="iconoConfirmacion"
+                        class="bi bi-question-circle"></i>
+
+                        Confirmación
+
+                    </h4>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
                     </button>
 
                 </div>
 
-                <div class="modal-body">
+                <div class="modal-body modal-premium-body">
 
-                    <p id="confirmModalMessage" class="mb-0"></p>
+                    <div
+                        id="mensajeConfirmacion"
+                        class="modal-premium-message">
+
+                    </div>
 
                 </div>
 
-                <div class="modal-footer">
+                <div class="modal-footer modal-premium-footer">
 
                     <button
                         type="button"
-                        class="btn btn-cancel-modal"
+                        class="btn btn-modal btn-modal-cancel"
                         data-bs-dismiss="modal">
 
                         <i class="bi bi-x-circle"></i>
+
                         Cancelar
 
                     </button>
 
                     <button
+                        id="btnConfirmarAccion"
                         type="button"
-                        id="confirmModalBtn"
-                        class="btn btn-success">
+                        class="btn btn-modal btn-modal-success">
+
+                        <i class="bi bi-check-circle"></i>
 
                         Confirmar
 
