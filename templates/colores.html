@@ -75,99 +75,19 @@ Administración de Colores
     .card.p-4 {
       padding: 15px !important;
     }
-  }
-  /* ===== MODAL PREMIUM ===== */
-  .modal-premium-header{
-      border-bottom:1px solid #eef2f7;
-      padding:20px 24px;
-  }
 
-  .modal-content{
-      border:none;
-      border-radius:20px;
-      box-shadow:
-          0 18px 45px rgba(0,0,0,.12);
-  }
-  .modal-title{
-      color:#1f2937;
-      font-weight:700;
-  }
+    .btn-modal-success{
 
-  .modal-title i{
-      color:#ef4444;
-  }
+      min-width:160px;
 
-  /* Boton Cancelar Modal */
-
-  .btn-cancel-modal{
-      border-radius:8px;
       padding:7px 14px;
+
+      white-space:nowrap;
+
       font-size:14px;
-      font-weight:500;
-      background:#fff;
-      border:1px solid #777777;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:none !important;
-      transition:.18s ease;
-      text-decoration:none;
-      color:#131212;
-  }
 
-  .btn-cancel-modal:hover{
-      background:#575757;
-      border-color:#575757;
-      color:#fff;
-      transform:none;
-  }
-  
-  .btn-edit{
-      border-radius:8px;
-      padding:7px 14px;
-      font-size:14px;
-      font-weight:500;
-      background:#fff;
-      border:1px solid #10946c;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:none !important;
-      transition:.18s ease;
-      text-decoration:none;
-      color:#10946c;
-  }
-
-  .btn-edit:hover{
-      background:#0c7454;
-      border-color:#1a775b;
-      color:#fff;
-      transform:none;
-  }
-
-  .btn-eliminar{
-      border-radius:8px;
-      padding:7px 14px;
-      font-size:14px;
-      font-weight:500;
-      background:#fff;
-      border:1px solid #d63e3e;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:none !important;
-      transition:.18s ease;
-      text-decoration:none;
-      color:#d63e3e;
-  }
-
-  .btn-eliminar:hover{
-      background:#d63e3e;
-      border-color:#d63e3e;
-      color:#fff;
-      transform:none;
-  }
-
+    }
+}
 
 </style>
 <!-- Formulario para agregar color -->
@@ -206,8 +126,7 @@ Administración de Colores
                 data-id="{{ c.id }}"
                 data-url="{{ url_for('catalogos.editar_color', id=c.id) }}"
                 data-nombre="{{ c.nombre }}"
-                data-bs-toggle="tooltip"
-                title="Editar color">
+                data-bs-toggle="tooltip">
 
                 <i class="bi bi-pencil"></i> Editar
 
@@ -240,158 +159,149 @@ Administración de Colores
 <!-- Modal Editar Color -->
 <div class="modal fade" id="modalEditarColor" tabindex="-1">
 
-    <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">    
 
-        <div class="modal-content">
+    <div class="modal-content modal-premium"> 
+      
+      <div class="modal-header modal-premium-header">
 
-            <form id="formEditarColor" method="POST">
+        <h5 class="modal-title modal-premium-title">
 
-                <div class="modal-header modal-premium-header">
+            <i class="bi bi-pencil-square modal-title-danger i"></i>
 
-                    <h5
-                        class="modal-title d-flex align-items-center gap-2">
+            Editar Color
 
-                        <i class="bi bi-pencil-square"></i>
+        </h5>
 
-                        Editar Color
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+        </button>
 
-                    </h5>
+      </div>
 
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal">
-                    </button>
+      <form id="formEditarColor" method="POST">
 
-                </div>
+        <div class="modal-body modal-premium-body">
 
-                <div class="modal-body">
+          <p class="modal-premium-message">
+            Nombre del color:
+          </p>
 
-                    <label class="form-label">
-                        Nombre del color
-                    </label>
-
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="nombreColor"
-                        name="nombre"
-                        required>
-
-                </div>
-
-                <div class="modal-footer border-0 pt-0">
-
-                    <button
-                        type="button"
-                        class="btn btn-cancel-modal"
-                        data-bs-dismiss="modal">
-
-                        <i class="bi bi-x-circle"></i>
-
-                        Cancelar
-
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="btn btn-edit btn-loading">
-
-                        <i class="bi bi-check-circle"></i>
-
-                        Guardar
-
-                    </button>
-
-                </div>
-
-            </form>
+          <input type="text" class="form-control" id="nombreColor" name="nombre" required>
 
         </div>
 
+        <div class="modal-footer modal-premium-footer">
+
+          <button
+              type="submit"
+              class="btn btn-modal btn-modal-success btn-loading"
+              data-loading-text="Guardando...">
+
+              <i class="bi bi-check-circle"></i>
+
+              Guardar cambios
+
+          </button>
+
+          <button
+              type="button"
+              class="btn btn-modal btn-modal-cancel"
+              data-bs-dismiss="modal">
+
+              <i class="bi bi-x-circle"></i>
+
+              Cancelar
+
+          </button>
+
+        </div>     
+
+      </form> 
+
     </div>
+     
+  </div>
 
 </div>
 
 <!-- Modal Eliminar Color -->
 <div class="modal fade" id="modalEliminarColor" tabindex="-1">
 
-    <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered">
 
-        <div class="modal-content">
+    <div class="modal-content modal-premium">
 
-            <div class="modal-header">
+      <div class="modal-header modal-premium-header">
 
-                <h5 class="modal-title text-danger">
-                    <i class="bi bi-trash"></i>
-                    Eliminar color
-                </h5>
+          <h5 class="modal-title modal-premium-title">
+              <i class="bi bi-trash modal-title-danger i"></i>
+              Eliminar color
+          </h5>
 
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal">
-                </button>
+          <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal">
+          </button>
+
+      </div>
+
+      <form id="formEliminarColor" method="POST">
+
+        <div class="modal-body modal-premium-body">
+
+            <p class="modal-premium-message">
+
+                Estás a punto de eliminar el siguiente color:
+
+            </p>
+
+            <div class="form-control">
+
+                <strong id="nombreColorEliminar"></strong>
 
             </div>
 
-            <form
-                id="formEliminarColor"
-                method="POST">
+            <p class="modal-premium-warning">
 
-                <div class="modal-body">
+                <i class="bi bi-exclamation-triangle-fill"></i>
 
-                    <p class="mb-2">
+                Si el color tiene registros asociados, la operación será cancelada automáticamente.
 
-                        Se eliminará el siguiente color:
-
-                    </p>
-
-                    <div class="alert alert-light border">
-
-                        <strong id="nombreColorEliminar"></strong>
-
-                    </div>
-
-                    <p class="text-danger mb-0">
-
-                        <small>
-
-                            Esta acción no se puede deshacer.
-
-                        </small>
-
-                    </p>
-
-                </div>
-
-                <div class="modal-footer">
-
-                    <button
-                        type="button"
-                        class="btn btn-cancel-modal"
-                        data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle"></i>
-                        Cancelar
-
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="btn btn-eliminar btn-loading"
-                        data-loading-text="Eliminando...">
-                        <i class="bi bi-trash"></i>
-                        Eliminar
-
-                    </button>
-
-                </div>
-
-            </form>
+            </p>
 
         </div>
 
+        <div class="modal-footer modal-premium-footer">
+
+          <button
+              type="submit"
+              class="btn btn-modal btn-modal-danger btn-loading"
+              data-loading-text="Eliminando...">
+              <i class="bi bi-trash"></i>
+              Si, Eliminar
+
+          </button>
+
+          <button
+              type="button"
+              class="btn btn-modal btn-modal-cancel"
+              data-bs-dismiss="modal">
+              <i class="bi bi-x-circle"></i>
+              Cancelar
+
+          </button>
+
+        </div>
+
+      </form>
+
     </div>
+
+  </div>
 
 </div>
 
