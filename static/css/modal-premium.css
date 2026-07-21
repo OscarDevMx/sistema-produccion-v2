@@ -74,9 +74,14 @@
 }
 
 .modal-title-danger i{
-    color:#ef4444;
+    color:#d63e3e;
 }
 
+.modal-title-primary i{
+
+    color:#2563eb;
+
+}
 
 /* =======================
    BODY

@@ -208,97 +208,6 @@
     }
   }
 
-  /* ===== MODAL PREMIUM ===== */
-  .modal-premium-header{
-      border-bottom:1px solid #eef2f7;
-      padding:20px 24px;
-  }
-
-  .modal-content{
-      border:none;
-      border-radius:20px;
-      box-shadow:
-          0 18px 45px rgba(0,0,0,.12);
-  }
-  .modal-title{
-      color:#1f2937;
-      font-weight:700;
-  }
-
-  .modal-title i{
-      color:#ef4444;
-  }
-
-  /* Boton Cancelar Modal */
-
-  .btn-cancel-modal{
-      border-radius:8px;
-      padding:7px 14px;
-      font-size:14px;
-      font-weight:500;
-      background:#fff;
-      border:1px solid #777777;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:none !important;
-      transition:.18s ease;
-      text-decoration:none;
-      color:#131212;
-  }
-
-  .btn-cancel-modal:hover{
-      background:#575757;
-      border-color:#575757;
-      color:#fff;
-      transform:none;
-  }
-  
-  .btn-edit{
-      border-radius:8px;
-      padding:7px 14px;
-      font-size:14px;
-      font-weight:500;
-      background:#fff;
-      border:1px solid #10946c;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:none !important;
-      transition:.18s ease;
-      text-decoration:none;
-      color:#10946c;
-  }
-
-  .btn-edit:hover{
-      background:#0c7454;
-      border-color:#1a775b;
-      color:#fff;
-      transform:none;
-  }
-
-  .btn-eliminar{
-      border-radius:8px;
-      padding:7px 14px;
-      font-size:14px;
-      font-weight:500;
-      background:#fff;
-      border:1px solid #d63e3e;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:none !important;
-      transition:.18s ease;
-      text-decoration:none;
-      color:#d63e3e;
-  }
-
-  .btn-eliminar:hover{
-      background:#d63e3e;
-      border-color:#d63e3e;
-      color:#fff;
-      transform:none;
-  }
 
 
 </style>
@@ -399,72 +308,233 @@
 
                   <!-- Modal de edición -->
                   <div class="modal fade" id="modalEditar{{ inv.id }}" tabindex="-1" aria-labelledby="modalLabel{{ inv.id }}" aria-hidden="true">
+
                     <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
+
+                      <div class="modal-content modal-premium">
+
                         <form id="formEditarInventario{{ inv.id }}" method="POST" action="{{ url_for('editar_inventario', id=inv.id) }}">
+
                           <div class="modal-header modal-premium-header">
-                            <h5 class="modal-title" id="modalLabel{{ inv.id }}">
-                              Editar Cantidad de la Talla: {{ inv.talla.nombre }} - Color: {{ inv.color.nombre }}
+
+                            <h5 class="modal-title modal-premium-title" id="modalLabel{{ inv.id }}">
+
+                              <i class="bi bi-pencil-square modal-title-primary i"></i>
+
+                              Editar inventario
+
                             </h5>
+
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+
                           </div>
-                          <div class="modal-body">
-                            <div class="mb-3">
-                              <label class="form-label">Cantidad actual:</label>
-                              <input type="number" class="form-control cantidad-input" value="{{ inv.cantidad }}" name="cantidad" min="0" required>
+
+                          <div class="modal-body modal-premium-body">
+
+                            <p class="modal-premium-message">
+
+                                Modifica la cantidad disponible para:
+
+                            </p>
+
+                            <div class="modal-premium-highlight">
+
+                                <strong>🎨 {{ inv.color.nombre }}</strong><br>
+
+                                👕 Talla {{ inv.talla.nombre }}
+
                             </div>
+
+                            <div class="mt-3">
+
+                                <label class="form-label">
+
+                                    Cantidad disponible
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-control cantidad-input"
+                                    value="{{ inv.cantidad }}"
+                                    name="cantidad"
+                                    min="0"
+                                    step="1"
+                                    required>
+
+                            </div>
+
                           </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-cancel-modal" data-bs-dismiss="modal">
-                              <i class="bi bi-x-circle"></i>Cancelar</button>
-                              
-                            <button type="submit" class="btn btn-edit btn-loading" data-loading-text="Guardando...">
-                              <i class="bi bi-check-circle"></i>
-                              Guardar Cambios
+                          <div class="modal-footer modal-premium-footer">
+
+                            <button
+                                type="submit"
+                                class="btn btn-modal btn-modal-success btn-loading"
+                                data-loading-text="Guardando...">
+
+                                <i class="bi bi-check-circle"></i>
+
+                                Guardar cambios
+
                             </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-modal btn-modal-cancel"
+                                data-bs-dismiss="modal">
+
+                                <i class="bi bi-x-circle"></i>
+
+                                Cancelar
+
+                            </button>
+
                           </div>
+
                         </form>
+
                       </div>
-                    </div>                    
+
+                    </div> 
+
                   </div>
 
                   <!-- Modal de Salidas -->
                   <div class="modal fade" id="modalSalida{{ inv.id }}" tabindex="-1" aria-hidden="true">
+
                     <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
+
+                      <div class="modal-content modal-premium">
+
                         <form id="formSalida{{ inv.id }}" action="{{ url_for('salida_simple', id=inv.id) }}" method="POST">
-                          <div class="modal-header">
-                            <h5 class="modal-title">Registrar salida de la Talla: {{ inv.talla.nombre }} - Color: {{ inv.color.nombre }}</h5>
+
+                          <div class="modal-header modal-premium-header">
+
+                            <h5 class="modal-title modal-premium-title">
+
+                              <i class="bi bi-box-arrow-down modal-title-danger i"></i>
+
+                              Registrar salida
+
+                            </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                           </div>
-                          <div class="modal-body">
-                            <div class="mb-3">
-                              <label class="form-label">Tipo de salida</label>
-                              <select class="form-select" name="tipo_salida" required>
-                                <option value="">Seleccione...</option>
-                                <option>Dañadas</option>
-                                <option>Donadas</option>
-                                <option>Perdidas</option>
-                              </select>
+
+                          <div class="modal-body modal-premium-body">
+
+                            <p class="modal-premium-message">
+
+                                Registrar una salida para:
+
+                            </p>
+
+                            <div class="modal-premium-highlight">
+
+                                <strong>🎨 {{ inv.color.nombre }}</strong><br>
+
+                                👕 Talla {{ inv.talla.nombre }}
+
                             </div>
-                            <div class="mb-3">
-                              <label class="form-label">Cantidad</label>
-                              <input type="number" class="form-control" name="cantidad" min="1" required>
+
+                            <div class="mt-3">
+
+                                <label class="form-label">
+
+                                    Tipo de salida
+
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="tipo_salida"
+                                    required>
+
+                                    <option value="">Seleccione...</option>
+
+                                    <option>Dañadas</option>
+
+                                    <option>Donadas</option>
+
+                                    <option>Perdidas</option>
+
+                                </select>
+
                             </div>
-                            <div class="mb-3">
-                              <label class="form-label">Observaciones</label>
-                              <textarea class="form-control" name="observacion" rows="2" required></textarea>
+
+                            <div class="mt-3">
+
+                                <label class="form-label">
+
+                                    Cantidad
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-control cantidad-salida"
+                                    name="cantidad"
+                                    min="1"
+                                    step="1"
+                                    required>
+
                             </div>
+
+                            <div class="mt-3">
+
+                                <label class="form-label">
+
+                                    Observaciones
+
+                                </label>
+
+                                <textarea
+                                    class="form-control"
+                                    name="observacion"
+                                    rows="2"
+                                    required></textarea>
+
+                            </div>
+
+                            <p class="modal-premium-warning">
+
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                                Esta operación disminuirá el inventario disponible.
+
+                            </p>
+
                           </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-cancel-modal" data-bs-dismiss="modal">
-                                <i class="bi bi-x-circle"></i>Cancelar</button>
-                              <button class="btn btn-eliminar btn-loading" type="submit" data-loading-text="Registrando...">
-                                <i class="bi bi-check-circle"></i>Registrar salida</button>
+
+                          <div class="modal-footer modal-premium-footer">
+
+                              <button
+                                  type="submit"
+                                  class="btn btn-modal btn-modal-danger btn-loading"
+                                  data-loading-text="Registrando Salida...">
+                                  <i class="bi bi-box-arrow-down"></i>
+                                  Registrar salida
+
+                              </button>
+
+                              <button
+                                  type="button"
+                                  class="btn btn-modal btn-modal-cancel"
+                                  data-bs-dismiss="modal">
+
+                                  <i class="bi bi-x-circle"></i>
+
+                                  Cancelar
+
+                              </button>
+
                           </div>
+
                         </form>
+
                       </div>
+
                     </div>
+
                   </div> 
 
                 {% endfor %}
@@ -518,6 +588,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
     activarBotonesDeCarga();
+});
+
+document.querySelectorAll(".cantidad-input").forEach(input => {
+
+    input.addEventListener("input", function () {
+
+        this.value = this.value.replace(/[^0-9]/g, "");
+
+    });
+
+});
+
+document.querySelectorAll(".cantidad-salida").forEach(input => {
+
+    input.addEventListener("input", function () {
+
+        this.value = this.value.replace(/[^0-9]/g, "");
+
+    });
+
 });
 </script>
 
