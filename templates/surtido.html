@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Salidas por Lote - Producción{% endblock %}
-{% block header %}🛒 Registro de Salida por Surtido{% endblock %}
+{% block header %}<i class="bi bi-cart-check-fill text-warning"></i> Registro de Salida por Surtido{% endblock %}
 
 {% block content %}
 <style>
@@ -80,25 +80,25 @@
 
   <!-- 1️⃣ Datos del Pedido -->
   <div class="card shadow-sm p-3 mb-4">
-    <h5 class="fw-bold text-primary mb-3">Datos del Pedido🗒️</h5>
+    <h5 class="fw-bold text-primary mb-3">Datos del Pedido <i class="bi bi-clipboard-data"></i></h5>
     <div class="row g-3">
       <div class="col-md-3">
-        <label class="form-label fw-semibold">🔢 Pedido</label>
+        <label class="form-label fw-semibold"><i class="bi bi-card-list"></i> Pedido</label>
         <input type="text" class="form-control" name="pedido" value="{{ultimo_pedido}}" readonly>
       </div>
       <div class="col-md-3">
-        <label class="form-label fw-semibold">📅Fecha</label>
+        <label class="form-label fw-semibold"><i class="bi bi-calendar3"></i> Fecha</label>
         <input type="date" class="form-control" name="fecha" value="{{ fecha_hoy }}" required>
       </div>
       <div class="col-md-3">
-        <label class="form-label fw-semibold">👤Cliente</label>
+        <label class="form-label fw-semibold"><i class="bi bi-person-circle"></i> Cliente</label>
         <input type="text" class="form-control" name="cliente" required>
       </div>
     </div>
 
     <div class="row g-3 mt-2">
       <div class="col-md-5">
-        <label class="form-label fw-semibold">Observaciones✏️</label>
+        <label class="form-label fw-semibold"><i class="bi bi-chat-left-text"></i> Observaciones</label>
         <input type="text" class="form-control" name="observaciones">
       </div>
     </div>
@@ -106,7 +106,7 @@
 
   <!-- 2️⃣ Selección de color -->
   <div class="card shadow-sm p-3 mb-4">
-    <h5 class="fw-bold text-primary mb-3">Selecciona el Color 🎨</h5>
+    <h5 class="fw-bold text-primary mb-3">Selecciona el Color <i class="bi bi-palette-fill"></i></h5>
     <div class="d-flex align-items-center gap-2">
       <select class="form-select w-50" id="color">
         <option value="">-- Selecciona un color --</option>
@@ -115,7 +115,7 @@
         {% endfor %}
       </select>
       <button type="button" class="btn btn-primary" id="btn_ver_inventario" disabled data-bs-toggle="modal" data-bs-target="#modalInventario" aria-label="Ver inventario del color seleccionado">
-        <i class="bi bi-eye me-1"></i> Ver Inventario
+        <i class="bi bi-eye"></i> Ver Inventario
       </button>
     </div>
   </div>
@@ -123,30 +123,37 @@
   <!-- Modal Inventario -->
   <div class="modal fade" id="modalInventario" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-light">
-          <h4 class="fw-bold text-primary">Inventario del color:<span id="nombre_color_modal"></span> </h4>
+      <div class="modal-content modal-premium">
+        <div class="modal-header modal-premium-header">
+          <h4 class="modal-title modal-premium-title modal-title-primary">Inventario del color:<span id="nombre_color_modal"></span> </h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body modal-premium-body">
           <div id="modal_body_inventario"></div>
           <div class="d-flex justify-content-between align-items-center mt-3">
             <h6>Inventario total disponible: <span id="modal_total_disponible" class="text-success fw-bold">0</span></h6>
             <h6>Total surtido: <span id="modal_total_surtido" class="text-primary fw-bold">0</span></h6>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" id="btn_agregar_modal">
+        <div class="modal-footer modal-premium-footer">
+          <button type="button" class="btn btn-modal btn-modal-success" id="btn_agregar_modal">
             <i class="bi bi-plus-circle"></i> Agregar al lote
           </button>
         </div>
       </div>
     </div>
   </div>
+  <p class="modal-premium-warning">
+
+      <i class="bi bi-info-circle-fill"></i>
+
+      Solo puedes agregar un mismo color una vez por lote.
+
+  </p>
 
   <!-- 4️⃣ Resumen del Surtido -->
   <div class="mb-3 p-3 border rounded bg-light">
-    <h5 class="fw-bold text-primary mb-3">Resumen del Surtido 📑</h5>
+    <h5 class="fw-bold text-primary mb-3">Resumen del Surtido <i class="bi bi-file-earmark"></i></h5>
     
     <!-- Contenedor vertical del resumen -->
     <div class="resumen-vertical" id="contenedor_vertical"></div>
@@ -185,69 +192,86 @@ document.getElementById("color").addEventListener("change", (e) => {
 btnVerInventario.addEventListener("click", async () => {
   const colorId = document.getElementById("color").value;
   if (!colorId) return;
-  const modalBody = document.getElementById("modal_body_inventario");
-  const totalDisponible = document.getElementById("modal_total_disponible");
-  const totalSurtido = document.getElementById("modal_total_surtido");
+  mostrarOverlay("Cargando inventario disponible...");
+  try{
+    const modalBody = document.getElementById("modal_body_inventario");
+    const totalDisponible = document.getElementById("modal_total_disponible");
+    const totalSurtido = document.getElementById("modal_total_surtido");
 
-  modalBody.innerHTML = "";
-  totalDisponible.textContent = "0";
-  totalSurtido.textContent = "0";
+    modalBody.innerHTML = "";
+    totalDisponible.textContent = "0";
+    totalSurtido.textContent = "0";
 
-  const res = await fetch(`/inventario_por_color/${colorId}`);
-  const data = await res.json();
+    const res = await fetch(`/inventario_por_color/${colorId}`);
+    const data = await res.json();
 
-  colorActual = data.color_id;
-  colorNombre = data.color_nombre;
-  tallasOrdenadas = data.tallas;
+    colorActual = data.color_id;
+    colorNombre = data.color_nombre;
+    tallasOrdenadas = data.tallas;
 
-  document.getElementById("nombre_color_modal").textContent = colorNombre;
+    document.getElementById("nombre_color_modal").textContent = colorNombre;
 
-  let totalInv = 0;
-  const table = document.createElement("table");
-  table.className = "table table-bordered align-middle";
-  const thead = document.createElement("thead");
-  thead.innerHTML = `
-    <tr class="table-light text-center">
-      <th>Talla</th>
-      <th>Disponible</th>
-      <th>Surtir</th>
-    </tr>`;
-  table.appendChild(thead);
+    let totalInv = 0;
+    const table = document.createElement("table");
+    table.className = "table table-bordered align-middle";
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+      <tr class="table-light text-center">
+        <th>Talla</th>
+        <th>Disponible</th>
+        <th>Surtir</th>
+      </tr>`;
+    table.appendChild(thead);
 
-  const tbody = document.createElement("tbody");
-  data.tallas.forEach(t => {
-    totalInv += t.cantidad;
-    const fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td class="fw-bold text-center">${t.nombre}</td>
-      <td class="text-center">${t.cantidad}</td>
-      <td><input type="number" class="form-control form-control-sm text-center surtido-input"
-        name="surtido_${t.id}" min="0" max="${t.cantidad}" value="0"></td>`;
-    if (t.cantidad === 0) {
-      fila.classList.add("table-secondary");
-      fila.querySelector("input").disabled = true;
-    }
-    tbody.appendChild(fila);
-  });
-  table.appendChild(tbody);
-  modalBody.appendChild(table);
-  totalDisponible.textContent = totalInv;
-
-  modalBody.querySelectorAll(".surtido-input").forEach(input => {
-    input.addEventListener("input", () => {
-      let total = 0;
-      modalBody.querySelectorAll(".surtido-input").forEach(i => {
-        let val = parseInt(i.value) || 0;
-        if (val < 0) val = 0;
-        if (val > parseInt(i.max)) val = parseInt(i.max);
-        i.value = val;
-        total += val;
-      });
-      totalSurtido.textContent = total;
+    const tbody = document.createElement("tbody");
+    data.tallas.forEach(t => {
+      totalInv += t.cantidad;
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td class="fw-bold text-center">${t.nombre}</td>
+        <td class="text-center">${t.cantidad}</td>
+        <td><input type="number" class="form-control form-control-sm text-center surtido-input"
+          name="surtido_${t.id}" min="0" max="${t.cantidad}" value="0"></td>`;
+      if (t.cantidad === 0) {
+        fila.classList.add("table-secondary");
+        fila.querySelector("input").disabled = true;
+      }
+      tbody.appendChild(fila);
     });
-  });
-});
+    table.appendChild(tbody);
+    modalBody.appendChild(table);
+    totalDisponible.textContent = totalInv;
 
+    modalBody.querySelectorAll(".surtido-input").forEach(input => {
+      input.addEventListener("input", () => {
+        let total = 0;
+        modalBody.querySelectorAll(".surtido-input").forEach(i => {
+          let val = parseInt(i.value) || 0;
+          if (val < 0) val = 0;
+          if (val > parseInt(i.max)) val = parseInt(i.max);
+          i.value = val;
+          total += val;
+        });
+        totalSurtido.textContent = total;
+      });
+    });
+
+  ocultarOverlay();
+
+  } catch(err) {
+
+      ocultarOverlay();
+
+      console.error(err);
+
+      mostrarToast({
+          tipo: "danger",
+          titulo: "Error",
+          mensaje: "No fue posible cargar el inventario.",
+          duracion: 3000
+      });
+  }
+});
 // Agregar al lote
 document.getElementById("btn_agregar_modal").addEventListener("click", () => {
   const inputs = document.querySelectorAll(".surtido-input");
@@ -262,13 +286,25 @@ document.getElementById("btn_agregar_modal").addEventListener("click", () => {
   });
 
   if (total === 0) {
-    Swal.fire("Sin cantidades", "Debes surtir al menos una prenda.", "warning");
+    mostrarToast({
+        tipo: "warning",
+        titulo: "Sin cantidades",
+        mensaje: "Debes surtir al menos una prenda.",
+        duracion: 2500
+    }); 
     return;
   }
 
   // Verificar que el color no esté ya agregado
   if (document.querySelector(`#contenedor_vertical [data-color-id='${colorActual}']`)) {
-    Swal.fire("Color duplicado", "Este color ya está en el lote.", "warning");
+    
+    mostrarToast({
+        tipo: "warning",
+        titulo: "Color duplicado",
+        mensaje: "Este color ya está agregado al lote.",
+        duracion: 2500
+    });    
+
     return;
   }
 
@@ -286,11 +322,11 @@ document.getElementById("btn_agregar_modal").addEventListener("click", () => {
   // Ocultar mensaje si no hay items
   ocultarMensajeSinItems();
 
-  Swal.fire({
-    icon: "success",
-    title: "Color agregado al lote",
-    timer: 1000,
-    showConfirmButton: false
+  mostrarToast({
+      tipo: "success",
+      titulo: "Color agregado",
+      mensaje: "Color agregado al lote.",
+      duracion: 1800
   });
 
   const modal = bootstrap.Modal.getInstance(document.getElementById("modalInventario"));
@@ -384,12 +420,12 @@ function eliminarResumenVertical(colorId) {
       document.getElementById("sin-items-msg").style.display = "block";
     }
 
-    Swal.fire({
-      icon: "info",
-      title: "Color eliminado",
-      timer: 800,
-      showConfirmButton: false
-    });
+    mostrarToast({
+        tipo: "info",
+        titulo: "Color eliminado",
+        mensaje: "Color eliminado del lote.",
+        duracion: 2000
+    });    
   }
 }
 
@@ -411,28 +447,78 @@ function actualizarTotalGeneral() {
 }
 
 // Enviar salida del lote
-document.getElementById("btn_dar_salida").addEventListener("click", async () => {
+document.getElementById("btn_dar_salida").addEventListener("click", () => {
+
+    const cards = document.querySelectorAll("#contenedor_vertical .resumen-card");
+
+    if(cards.length === 0){
+
+        mostrarToast({
+            tipo:"warning",
+            titulo:"Sin datos",
+            mensaje:"No hay colores agregados al lote.",
+            duracion: 2500
+
+        });
+
+        return;
+
+    }
+
+    const pedidoNumero = document.querySelector("[name='pedido']").value.trim();
+
+    if(!pedidoNumero){
+
+        mostrarToast({
+            tipo:"warning",
+            titulo:"Pedido",
+            mensaje:"Debes ingresar un número o código de pedido.",
+            duracion: 2500
+        });
+
+        return;
+
+    }
+
+    confirmarAccion({
+
+        titulo:"Registrar salida",
+
+        mensaje:`
+            Se registrará el surtido del pedido:
+            <br><br>
+            <strong>${pedidoNumero}</strong>
+            <br><br>
+            Esta operación descontará permanentemente el inventario disponible.
+        `,
+
+        color:"success",
+
+        textoBoton:"Sí, registrar salida",
+
+        onConfirm:function(){
+
+          ejecutarSalida();
+
+        }
+
+    });
+});
+
+async function ejecutarSalida(){
+
+  const btn = document.getElementById("btn_dar_salida");
+
   const cards = document.querySelectorAll("#contenedor_vertical .resumen-card");
-  if (cards.length === 0) {
-    Swal.fire("Sin datos", "No hay colores agregados al lote.", "warning");
-    return;
-  }
 
-  const pedidoNumero = document.querySelector("[name='pedido']").value.trim();
-  if (!pedidoNumero) {
-    Swal.fire("Falta número de pedido", "Debes ingresar un número o código de pedido.", "warning");
-    return;
-  }
+  const pedidoNumero = document
+      .querySelector("[name='pedido']")
+      .value
+      .trim();
 
-  const confirmacion = await Swal.fire({
-    title: "¿Dar salida al lote?",
-    text: `Pedido: ${pedidoNumero}`,
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Sí, continuar",
-    cancelButtonText: "Cancelar"
-  });
-  if (!confirmacion.isConfirmed) return;
+  mostrarOverlay("Registrando salida del lote...");
+
+  activarLoadingBoton(btn);
 
   // Recopilar datos del lote desde las tarjetas verticales
   const datos = [];
@@ -462,10 +548,7 @@ document.getElementById("btn_dar_salida").addEventListener("click", async () => 
     detalles: datos
   };
 
-  const btn = document.getElementById("btn_dar_salida");
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Procesando...';
-
+  
   try {
     const res = await fetch("/salida_lote", {
       method: "POST",
@@ -497,18 +580,34 @@ document.getElementById("btn_dar_salida").addEventListener("click", async () => 
       const dataPedido = await respPedido.json();
       document.querySelector("[name='pedido']").value = dataPedido.siguiente_pedido;
 
-      Swal.fire("Éxito", result.mensaje || "Lote registrado correctamente.", "success");
+      mostrarToast({
+          tipo: "success",
+          titulo: "Correcto",
+          mensaje: result.mensaje || "Lote registrado correctamente.",
+          duracion: 2000
+      });
 
     } else {
-      Swal.fire("Error", result.mensajes?.join("\n") || "Error desconocido.", "error");
+      mostrarToast({
+          tipo: "danger",
+          titulo: "Error",
+          mensaje: result.mensajes?.join("<br>") || "Error desconocido.",
+          duracion: 5000
+      });
     }
   } catch (err) {
-    Swal.fire("Error", "Error de conexión con el servidor.", "error");
+    mostrarToast({
+        tipo: "danger",
+        titulo: "Error",
+        mensaje: "Error de conexión con el servidor.",
+        duracion: 5000
+    });
+
   } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="bi bi-box-arrow-up-right"></i> Dar Salida';
+      ocultarOverlay();
+      desactivarLoadingBoton(btn);
   }
-});
+}
 </script>
 
 {% endblock %}

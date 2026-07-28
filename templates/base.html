@@ -20,6 +20,9 @@
     <!--Estilos personalizados para Modal-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/modal-premium.css') }}">
 
+    <!--Estilo para Botones PDF-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf-buttons.css') }}">
+
     <style>
         * {
             margin: 0;
@@ -565,7 +568,7 @@
         </a>
 
         <a href="{{ url_for('ingreso_manual') }}" title="Ingreso Manual">
-            <i class="bi bi-inbox-fill"></i>
+            <i class="bi bi-plus-circle"></i>
             <span>Ingreso</span>
         </a>
 

@@ -1,0 +1,140 @@
+/* ==========================================================
+   OSCARDEV UI COMPONENTS
+   Secondary Action Buttons
+   Versión: 1.0
+   ========================================================== */
+/*
+Este archivo contiene los botones secundarios de OscarDev UI Components.
+
+Actualmente implementa:
+
+• PDF
+• PDF Mobile
+
+En futuras versiones se agregarán:
+
+• Excel
+• Descargar
+• XML
+• Vista previa
+• Compartir
+
+Todos los botones deberán heredar de:
+
+.btn-action-secondary
+*/
+
+/* ==========================================================
+   BASE
+   ========================================================== */
+
+.btn-action-secondary{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    min-height:34px;
+    min-width:90px;
+
+    padding:3px 9px;
+
+    border-radius:18px;
+
+    font-size:.82rem;
+    font-weight:500;
+
+    text-decoration:none;
+
+    cursor:pointer;
+
+    transition:all .18s ease;
+
+    user-select:none;
+
+}
+
+.btn-action-secondary i{
+
+    font-size:.95rem;
+
+}
+
+
+/* ==========================================================
+   PDF ESCRITORIO
+   ========================================================== */
+
+.btn-pdf{
+
+    background:#f8f9fa;
+
+    color:#0d6efd;
+
+    border:1px solid #bcbcbc;
+
+}
+
+
+.btn-pdf:hover{
+
+    background:#f8f9fa;
+
+    border-color:#0469ff;
+
+    color:#0469ff;
+
+    font-size:.86rem;
+
+    text-decoration:none;
+
+}
+
+
+/* ==========================================================
+   PDF MÓVIL
+   ========================================================== */
+
+.btn-pdf-mobile{
+
+    background:#f8f9fa;
+
+    color:#0d6efd;
+
+    border:1px solid #bcbcbc;
+
+}
+
+.btn-pdf-mobile:hover{
+
+    background:#f8f9fa;
+
+    border-color:#0469ff;
+
+    color:#0d6efd;
+
+    font-size:.86rem;
+
+    text-decoration:none;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media(max-width:768px){
+
+    .btn-action-secondary{
+
+        min-width:82px;
+
+        padding:5px 10px;
+
+        font-size:.80rem;
+
+    }
+
+}

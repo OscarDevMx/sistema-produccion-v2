@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}Listado de Pedidos{% endblock %}
-{% block header %}🗒️ Historial de Pedidos{% endblock %}
+{% block header %}<i class="bi bi-clipboard-check text-warning"></i> Historial de Pedidos{% endblock %}
 
 {% block content %}
 <style>
@@ -207,7 +207,6 @@
 
     }
 
-   
     @media (max-width: 767px) {
         .table {
             font-size: 0.76rem;
@@ -249,6 +248,7 @@
         }
     }
 </style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pdf-buttons.css') }}">
 
 <div class="container py-3">
 
@@ -290,11 +290,21 @@
                 <p><strong>Cantidad Total:</strong> {{ pedido.detalles | sum(attribute='cantidad') }}</p>
                 <p><strong>Costo Total:</strong> ${{ pedido.costo_total }}</p>
                 <p><strong>Observaciones:</strong> {{ pedido.observaciones or "N/A" }}</p>
-                <a href="{{ url_for('vista_previa_pedido', pedido_id=pedido.id) }}" class="accion-btn">
-                🖨 PDF
+                <a href="{{ url_for('vista_previa_pedido', pedido_id=pedido.id) }}"
+                class="btn-action-secondary btn-pdf btn-loading" data-loading-text="Guardando..." >
+
+                    <i class="bi bi-file-earmark-pdf"></i>
+
+                    PDF
+
                 </a>
-                <a href="{{ url_for('vista_mobile_pedido', pedido_id=pedido.id) }}" class="accion-btn">
-                🖨 PDF
+                <a href="{{ url_for('vista_mobile_pedido', pedido_id=pedido.id) }}"
+                class="btn-action-secondary btn-pdf-mobile">
+
+                    <i class="bi bi-phone"></i>
+
+                    PDF
+
                 </a>
 
                 <hr>
@@ -329,7 +339,7 @@
                                         aria-expanded="false"
                                         aria-controls="{{ accordion_id }}">
                                     <div class="d-flex justify-content-between align-items-center w-100 gap-2">
-                                        <div class="color-nombre">🎨{{ color }}</div>
+                                        <div class="color-nombre"> <i class="bi bi-plus-circle"></i> {{ color }}</div>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="color-piezas">{{ items_list | sum(attribute='cantidad') }} piezas</div>
                                             <div class="color-piezas">{{ items_list | length }} talla(s)</div>

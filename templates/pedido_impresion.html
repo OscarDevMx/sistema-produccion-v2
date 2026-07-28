@@ -442,6 +442,14 @@
             .bloque-color .text-primary{
                 color:#000 !important;
             }
+            .acciones-mobile{
+                display:none !important;
+            }
+            .text-right-print{
+
+                text-align:right !important;
+
+            }
         }
 
         /* ==========================================
@@ -710,8 +718,8 @@
                                 <tr>
                                     <td class="text-center">{{ item.talla.nombre }}</td>
                                     <td class="text-center">{{ item.cantidad }}</td>
-                                    <td class="text-end">${{ "%.2f"|format(item.talla.costo) }}</td>
-                                    <td class="text-end">${{ "{:,.2f}".format(item.cantidad * item.talla.costo) }}</td>
+                                    <td class="text-right-print">${{ "%.2f"|format(item.talla.costo) }}</td>
+                                    <td class="text-right-print">${{ "{:,.2f}".format(item.cantidad * item.talla.costo) }}</td>
                                 </tr>
                             {% endfor %}
                             {% set total_pedido.total = total_pedido.total + total_color.total %}
@@ -721,7 +729,7 @@
                                 <td class="text-center"><span class="icono-print">💰</span> Total color</td>
                                 <td class="text-center">{{ items_list | sum(attribute='cantidad') }}</td>
                                 <td></td>
-                                <td class="text-end">${{ "{:,.2f}".format(total_color.total) }}</td>                            
+                                <td class="text-right-print">${{ "{:,.2f}".format(total_color.total) }}</td>                            
                             </tr>
                         </tfoot>
                     </table>

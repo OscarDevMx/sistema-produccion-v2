@@ -20,6 +20,16 @@ function mostrarToast({
 
     }
 
+    // ==========================
+    // Validar tipo de Toast
+    // ==========================
+
+    const tiposValidos = ["success", "danger", "warning", "info"];
+
+    if (!tiposValidos.includes(tipo)) {
+        tipo = "info";
+    }
+    
     const iconos = {
 
         success: "bi-check-circle-fill",
