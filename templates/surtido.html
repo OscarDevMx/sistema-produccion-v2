@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Salidas por Lote - Producción{% endblock %}
-{% block header %}<i class="bi bi-cart-check-fill text-warning"></i> Registro de Salida por Surtido{% endblock %}
+{% block header %}<h3 class="fw-bold"><i class="bi bi-box-arrow-up-right text-primary me-2"></i>Salida por Surtido</h3>{% endblock %}
 
 {% block content %}
 <style>
@@ -80,25 +80,25 @@
 
   <!-- 1️⃣ Datos del Pedido -->
   <div class="card shadow-sm p-3 mb-4">
-    <h5 class="fw-bold text-primary mb-3">Datos del Pedido <i class="bi bi-clipboard-data"></i></h5>
+    <h5 class="fw-bold text-primary mb-3"><i class="bi bi-card-list me-2"></i>Datos del Pedido</h5>
     <div class="row g-3">
       <div class="col-md-3">
-        <label class="form-label fw-semibold"><i class="bi bi-card-list"></i> Pedido</label>
+        <label class="form-label fw-semibold"><i class="bi bi-123 me-1"></i>Pedido</label>
         <input type="text" class="form-control" name="pedido" value="{{ultimo_pedido}}" readonly>
       </div>
       <div class="col-md-3">
-        <label class="form-label fw-semibold"><i class="bi bi-calendar3"></i> Fecha</label>
+        <label class="form-label fw-semibold"><i class="bi bi-calendar3 me-1"></i>Fecha</label>
         <input type="date" class="form-control" name="fecha" value="{{ fecha_hoy }}" required>
       </div>
       <div class="col-md-3">
-        <label class="form-label fw-semibold"><i class="bi bi-person-circle"></i> Cliente</label>
+        <label class="form-label fw-semibold"><i class="bi bi-person-circle me-1"></i>Cliente</label>
         <input type="text" class="form-control" name="cliente" required>
       </div>
     </div>
 
     <div class="row g-3 mt-2">
       <div class="col-md-5">
-        <label class="form-label fw-semibold"><i class="bi bi-chat-left-text"></i> Observaciones</label>
+        <label class="form-label fw-semibold"><i class="bi bi-chat-left-text me-1"></i>Observaciones</label>
         <input type="text" class="form-control" name="observaciones">
       </div>
     </div>
@@ -106,7 +106,7 @@
 
   <!-- 2️⃣ Selección de color -->
   <div class="card shadow-sm p-3 mb-4">
-    <h5 class="fw-bold text-primary mb-3">Selecciona el Color <i class="bi bi-palette-fill"></i></h5>
+    <h5 class="fw-bold text-primary mb-3"><i class="bi bi-palette me-2"></i>Selecciona el Color </h5>
     <div class="d-flex align-items-center gap-2">
       <select class="form-select w-50" id="color">
         <option value="">-- Selecciona un color --</option>
@@ -115,7 +115,7 @@
         {% endfor %}
       </select>
       <button type="button" class="btn btn-primary" id="btn_ver_inventario" disabled data-bs-toggle="modal" data-bs-target="#modalInventario" aria-label="Ver inventario del color seleccionado">
-        <i class="bi bi-eye"></i> Ver Inventario
+        <i class="bi bi-eye me-1"></i> Ver Inventario
       </button>
     </div>
   </div>
@@ -137,7 +137,7 @@
         </div>
         <div class="modal-footer modal-premium-footer">
           <button type="button" class="btn btn-modal btn-modal-success" id="btn_agregar_modal">
-            <i class="bi bi-plus-circle"></i> Agregar al lote
+            <i class="bi bi-plus-circle me-1"></i>Agregar al lote
           </button>
         </div>
       </div>
@@ -153,7 +153,7 @@
 
   <!-- 4️⃣ Resumen del Surtido -->
   <div class="mb-3 p-3 border rounded bg-light">
-    <h5 class="fw-bold text-primary mb-3">Resumen del Surtido <i class="bi bi-file-earmark"></i></h5>
+    <h5 class="fw-bold text-primary mb-3"><i class="bi bi-clipboard-data me-2"></i>Resumen del Surtido</h5>
     
     <!-- Contenedor vertical del resumen -->
     <div class="resumen-vertical" id="contenedor_vertical"></div>
@@ -167,7 +167,7 @@
       <h6 class="fw-bold">Total general: <span id="total_general" class="text-primary">0</span></h6>
 
       <button class="btn btn-primary" id="btn_dar_salida">
-        <i class="bi bi-box-arrow-up-right"></i> Dar Salida
+        <i class="bi bi-box-arrow-up-right me-1"></i> Dar Salida
       </button>
     </div>
   </div>
@@ -350,7 +350,7 @@ function agregarResumenVertical(colorId, colorNombre, tallas, cantidadesPorTalla
   const header = document.createElement("div");
   header.className = "resumen-card-header";
   header.innerHTML = `
-    <span class="color-name">🎨 ${colorNombre}</span>
+    <span class="color-name"><i class="bi bi-palette me-1"></i> ${colorNombre}</span>
     <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar-vertical">
       <i class="bi bi-trash"></i> Eliminar
     </button>
@@ -368,8 +368,8 @@ function agregarResumenVertical(colorId, colorNombre, tallas, cantidadesPorTalla
   thead.className = "table-secondary sticky-top";
   thead.innerHTML = `
     <tr>
-      <th class="text-center">👕 Talla</th>
-      <th class="text-center">📦 Cantidad</th>
+      <th class="text-center"><i class="bi bi-tag me-1"></i>Talla</th>
+      <th class="text-center"><i class="bi bi-box-seam me-1"></i>Cantidad</th>
     </tr>
   `;
   table.appendChild(thead);

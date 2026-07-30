@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 
 {% block title %}Listado de Pedidos{% endblock %}
-{% block header %}<i class="bi bi-clipboard-check text-warning"></i> Historial de Pedidos{% endblock %}
+{% block header %}
+
+<h3 class="fw-bold">
+    <i class="bi bi-clipboard-check text-primary me-2"></i>
+    Pedidos
+</h3>
+{% endblock %}
 
 {% block content %}
 <style>
@@ -254,27 +260,71 @@
 
     <!-- Barra de filtros -->
     <form class="row g-2 mb-3" method="GET" action="{{ url_for('ver_pedidos') }}">
-    <div class="col-12 col-md-2">
-      <input type="text" name="numero_pedido" class="form-control form-control-sm"
-             placeholder="🔢 Pedido" value="{{ request.args.get('numero_pedido','') }}">
-    </div>
-    <div class="col-12 col-md-2">
-        <select name="estado" class="form-select form-select-sm">
-        <option value="">📌 Cualquier estado</option>
-        {% for s in status_pedidos %}
-            <option value="{{ s.id }}" {% if estado_seleccionado == s.id|string %}selected{% endif %}>{{ s.nombre }}</option>
-        {% endfor %}
-        </select>
-    </div>
 
-    <div class="col-12 col-md-2 d-flex gap-1">
-        <button class="btn btn-primary btn-sm flex-fill" type="submit">
-        <i class="bi bi-funnel-fill me-1"></i> Filtrar
-        </button>
-        <a href="{{ url_for('ver_pedidos') }}" class="btn btn-outline-secondary btn-sm flex-fill">
-        <i class="bi bi-x-circle me-1"></i> Limpiar
-        </a>
-    </div>
+        <div class="col-12 col-md-auto">
+
+            <div class="input-group input-group-sm">
+
+                <span class="input-group-text">
+                    <i class="bi bi-123"></i>
+                </span>
+
+                <input
+                    type="text"
+                    name="numero_pedido"
+                    class="form-control"
+                    placeholder="Pedido"
+                    value="{{ request.args.get('numero_pedido','') }}">
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-auto">
+
+            <div class="input-group input-group-sm">
+
+                <span class="input-group-text">
+                    <i class="bi bi-bookmark"></i>
+                </span>
+
+                <select name="estado" class="form-select">
+
+                    <option value="">Cualquier estado</option>
+
+                    {% for s in status_pedidos %}
+                        <option
+                            value="{{ s.id }}"
+                            {% if estado_seleccionado == s.id|string %}selected{% endif %}>
+                            {{ s.nombre }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-auto d-flex gap-2">
+
+            <button class="btn btn-primary btn-sm flex-fill" type="submit">
+
+                <i class="bi bi-funnel-fill me-1"></i>
+
+                Filtrar
+
+            </button>
+
+            <a href="{{ url_for('ver_pedidos') }}"
+            class="btn btn-outline-secondary btn-sm flex-fill">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Limpiar         
+            </a>
+
+        </div>
+
     </form>
 
     {% if pedidos %}
@@ -301,7 +351,7 @@
                 <a href="{{ url_for('vista_mobile_pedido', pedido_id=pedido.id) }}"
                 class="btn-action-secondary btn-pdf-mobile">
 
-                    <i class="bi bi-phone"></i>
+                    <i class="bi bi-file-earmark-pdf"></i>
 
                     PDF
 
@@ -339,7 +389,7 @@
                                         aria-expanded="false"
                                         aria-controls="{{ accordion_id }}">
                                     <div class="d-flex justify-content-between align-items-center w-100 gap-2">
-                                        <div class="color-nombre"> <i class="bi bi-plus-circle"></i> {{ color }}</div>
+                                        <div class="color-nombre"><i class="bi bi-plus-circle icon-reports me-1"></i>{{ color }}</div>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="color-piezas">{{ items_list | sum(attribute='cantidad') }} piezas</div>
                                             <div class="color-piezas">{{ items_list | length }} talla(s)</div>
@@ -355,10 +405,10 @@
                                         <table class="table table-sm table-bordered mb-0">
                                             <thead class="table-secondary sticky-top">
                                                 <tr>
-                                                    <th class="text-center">Talla</th>
-                                                    <th class="text-center">Cant.</th>
-                                                    <th class="text-center">Precio</th>
-                                                    <th class="text-center">Subtotal</th>
+                                                    <th class="text-center"><i class="bi bi-tag"></i> Talla</th>
+                                                    <th class="text-center"><i class="bi bi-box-seam"></i> Cantidad</th>
+                                                    <th class="text-center"><i class="bi bi-currency-dollar"></i> Precio</th>
+                                                    <th class="text-center"><i class="bi bi-cash-stack"></i> Subtotal</th>
                                                 </tr>
                                             </thead>
 

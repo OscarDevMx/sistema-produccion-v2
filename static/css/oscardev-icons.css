@@ -1,0 +1,111 @@
+/* ==========================================================
+   OscarDev Design System
+   Módulo: Icon Theme
+   Archivo: oscardev-icons.css
+   ----------------------------------------------------------
+   Este archivo contiene los estilos oficiales para los
+   iconos de encabezado de cada pantalla del sistema.
+   ========================================================== */
+
+
+/* ==========================================================
+   ESTILO BASE
+   ========================================================== */
+
+.oscardev-icon{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    vertical-align:middle;
+
+}
+
+
+/* ==========================================================
+   ICONOS DE MÓDULOS
+   ========================================================== */
+
+
+/* Inicio */
+
+.icon-home{
+
+    color:#2563eb;
+
+}
+
+
+/* Colores */
+
+.icon-colors{
+
+    color:#7c3aed;
+
+}
+
+
+/* Ingreso Manual */
+
+.icon-input{
+
+    color:#0f766e;
+
+}
+
+
+/* Inventario Disponible */
+
+.icon-available{
+
+    color:#059669;
+
+}
+
+
+/* Inventario General */
+
+.icon-inventory{
+
+    color:#047857;
+
+}
+
+
+/* Salida por Surtido */
+
+.icon-output{
+
+    color:#d97706;
+
+}
+
+
+/* Pedidos */
+
+.icon-orders{
+
+    color:#0284c7;
+
+}
+
+
+/* Historial */
+
+.icon-history{
+
+    color:#6b7280;
+
+}
+
+
+/* Reportes */
+
+.icon-reports{
+
+    color:#1d4ed8;
+
+}

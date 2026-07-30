@@ -1391,7 +1391,7 @@ def ver_historial_inventario():
     talla_id = request.args.get("talla_id", "")
     estado_id = request.args.get("estado", "")
     page = request.args.get("page", 1, type=int)
-    per_page = 50  # 👉 Número de filas por página (ajústalo si quieres)
+    per_page = 20  # 👉 Número de filas por página (ajústalo si quieres)
 
     # Catálogos
     colores = Color.query.all()
