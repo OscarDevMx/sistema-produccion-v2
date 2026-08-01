@@ -213,6 +213,30 @@
 
     }
 
+    .badge-vendido {
+        background:#0c7454; /* Verde agua */
+        color:#E9FFFA;
+        border:1px solid #0c7454;
+        border-radius:999px;
+        padding:4px 10px;
+        font-weight:600;
+        min-width:42px;
+        display:inline-block;
+        font-size:0.9rem;
+    }
+
+    .badge-cancelado {
+        background:#d63e3e; /* Verde agua */
+        color:#E9FFFA;
+        border:1px solid #d63e3e;
+        border-radius:999px;
+        padding:4px 10px;
+        font-weight:600;
+        min-width:42px;
+        display:inline-block;
+        font-size:0.9rem;
+    }
+
     @media (max-width: 767px) {
         .table {
             font-size: 0.76rem;
@@ -389,7 +413,7 @@
                                         aria-expanded="false"
                                         aria-controls="{{ accordion_id }}">
                                     <div class="d-flex justify-content-between align-items-center w-100 gap-2">
-                                        <div class="color-nombre"><i class="bi bi-plus-circle icon-reports me-1"></i>{{ color }}</div>
+                                        <div class="color-nombre"><h6 class="fw-bold mb-3"><i class="bi bi-droplet-fill text-primary me-1"></i>{{ color }}</h6></div>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="color-piezas">{{ items_list | sum(attribute='cantidad') }} piezas</div>
                                             <div class="color-piezas">{{ items_list | length }} talla(s)</div>
@@ -463,9 +487,9 @@
                         Cancelar Pedido
                     </button>
                 {% elif pedido.status_pedido == 5 %}
-                    <span class="badge bg-success">VENDIDO</span>
+                    <span class="badge badge-vendido">Vendido</span>
                 {% elif pedido.status_pedido == 6 %}
-                    <span class="badge bg-danger">CANCELADO</span>
+                    <span class="badge badge-cancelado">Cancelado</span>
                 {% endif %}
                 <span>Registrado por: {{ pedido.usuario }}</span>
             </div>

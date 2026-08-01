@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Inventario Agrupado{% endblock %}
+{% block title %}Inventario General{% endblock %}
 {% block header %}
 <h3 class="fw-bold">
     <i class="bi bi-boxes text-primary me-2"></i>
@@ -219,7 +219,7 @@
     <div class="input-group input-group-sm">
       <span class="input-group-text">
 
-          <i class="bi bi-palette-fill"></i>
+          <i class="bi bi-droplet-fill me-1"></i>
 
       </span>
       <select name="color_id" class="form-select form-select-sm select-filtro">
@@ -287,7 +287,7 @@
       data-bs-toggle="collapse" data-bs-target="#collapse{{ color.id }}"
       aria-expanded="false" aria-controls="collapse{{ color.id }}">
 
-          <div class="color-nombre"><i class="bi bi-plus-circle icon-reports me-1"></i>{{ color.nombre }}</div>
+          <div class="color-nombre"><h6 class="fw-bold mb-3"><i class="bi bi-droplet-fill text-primary me-1"></i>{{ color.nombre }}</h6></div>
           <div class="d-flex align-items-center gap-2">
             <div class="color-piezas">{{ inventarios_color | map(attribute='cantidad') | sum }} piezas</div>
             <div class="color-piezas">{{ inventarios_color | length }} talla(s) </div>

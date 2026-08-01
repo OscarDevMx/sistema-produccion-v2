@@ -259,6 +259,43 @@
             text-align:right !important;
 
         }
+
+        .badge-surtido {
+            background:#0d6efd; 
+            color:#fff;
+            border:1px solid #0d6efd;
+            border-radius:999px;
+            padding:4px 10px;
+            font-weight:600;
+            min-width:42px;
+            display:inline-block;
+            font-size:0.9rem;
+        }
+
+        .badge-vendido {
+            background:#0c7454; 
+            color:#fff;
+            border:1px solid #0c7454;
+            border-radius:999px;
+            padding:4px 10px;
+            font-weight:600;
+            min-width:42px;
+            display:inline-block;
+            font-size:0.9rem;
+        }
+
+        .badge-cancelado {
+            background:#d63e3e; 
+            color:#fff;
+            border:1px solid #d63e3e;
+            border-radius:999px;
+            padding:4px 10px;
+            font-weight:600;
+            min-width:42px;
+            display:inline-block;
+            font-size:0.9rem;
+        }
+
         @media print{
 
             body {
@@ -682,16 +719,29 @@
             <div class="info-item">
                 <strong>Estado</strong>
                 <div class="info-valor">
-                    <span class="badge bg-primary">
-                        {{ pedido.status.nombre }}
-                    </span>
+                    {% if pedido.status.nombre == "Surtido" %}
+
+                        <span class="badge badge-surtido">
+                            {{ pedido.status.nombre }}
+                        </span>
+
+                    {% elif pedido.status.nombre == "Vendido" %}
+                        <span class="badge badge-vendido">
+                            {{ pedido.status.nombre }}
+                        </span>
+
+                    {% elif pedido.status.nombre == "Cancelado" %}
+                        <span class="badge badge-cancelado">
+                            {{ pedido.status.nombre }}
+                        </span>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Detalles -->
-    <div>
+    <div class="produccion-container">
         <h5 class="mb-3 text-secondary">Detalles del pedido</h5>
 
         {% set detalles_ordenados = pedido.detalles|sort(attribute='talla.id') %}
@@ -704,10 +754,23 @@
 
             <div class="bloque-color">
                 <div class="titulo-color">
-                    <h6 class="text-primary mb-0">
-                        <strong>{{ color }}</strong>
-                    </h6>
-                    <span class="badge-piezas">{{ items_list|length }} talla(s)</span>
+
+                    <div class="color-nombre">
+                        <h6 class="text-primary mb-0">
+                            <strong>{{ color }}</strong>
+                        </h6>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+
+                        <div class="color-piezas">
+                            <span class="badge-piezas">{{ items_list|length }} talla(s)</span>
+                        </div>
+                        <div class="color-piezas">
+                            <span class="badge-piezas">{{ items_list | sum(attribute='cantidad') }} piezas</span>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="contenido-color">
                     <table class="table table-sm table-bordered">
@@ -749,13 +812,13 @@
         <!-- Observaciones y Resumen -->
         <div class="contenedor-final">
             <div class="observaciones">
-                <h5>Observaciones</h5>
+                <h5 class="mb-3 text-secondary">Observaciones</h5>
                 <div class="caja">
                     {{ pedido.observaciones or "" }}
                 </div>
             </div>
             <div class="resumen">
-                <h5>Resumen del Pedido</h5>
+                <h5 class="mb-3 text-secondary">Resumen del Pedido</h5>
                 <div class="caja">
                     <div class="d-flex justify-content-between">
                         <strong>Total de piezas:</strong>

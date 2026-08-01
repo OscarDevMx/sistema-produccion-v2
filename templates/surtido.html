@@ -106,7 +106,7 @@
 
   <!-- 2️⃣ Selección de color -->
   <div class="card shadow-sm p-3 mb-4">
-    <h5 class="fw-bold text-primary mb-3"><i class="bi bi-palette me-2"></i>Selecciona el Color </h5>
+    <h5 class="fw-bold text-primary mb-3"><i class="bi bi-droplet-fill me-1"></i>Selecciona el Color </h5>
     <div class="d-flex align-items-center gap-2">
       <select class="form-select w-50" id="color">
         <option value="">-- Selecciona un color --</option>
@@ -350,7 +350,7 @@ function agregarResumenVertical(colorId, colorNombre, tallas, cantidadesPorTalla
   const header = document.createElement("div");
   header.className = "resumen-card-header";
   header.innerHTML = `
-    <span class="color-name"><i class="bi bi-palette me-1"></i> ${colorNombre}</span>
+    <h6 class="fw-bold mb-3"><i class="bi bi-droplet-fill text-primary me-1"></i>${colorNombre}</h6>
     <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar-vertical">
       <i class="bi bi-trash"></i> Eliminar
     </button>

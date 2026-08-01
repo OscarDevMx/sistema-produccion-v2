@@ -98,6 +98,93 @@
     display: inline-block;
   }
 
+  .badge-recepcion-produccion {
+    background:#198754; /* Verde Bootstrap */
+    color:#E9F7EF;
+    border:1px solid #B6E2C7;
+    border-radius:999px;
+    padding:4px 10px;
+    font-weight:600;
+    min-width:42px;
+    display:inline-block;
+  }
+  .badge-ingreso-manual{
+  background:#0d6efd; /* Azul Bootstrap */
+  color:#EEF4FF;
+  border:1px solid #C9D9F7;
+  border-radius:999px;
+  padding:4px 10px;
+  font-weight:600;
+  min-width:42px;
+  display:inline-block;
+  }
+
+  .badge-devolucion {
+  background:#6f42c1; /* Morado Bootstrap */
+  color:#F3E9FF;
+  border:1px solid #D6C2F0;
+  border-radius:999px;
+  padding:4px 10px;
+  font-weight:600;
+  min-width:42px;
+  display:inline-block;
+  }
+
+  .badge-ajuste-alta {
+    background:#20c997; /* Verde agua */
+    color:#E9FFFA;
+    border:1px solid #B6EDE0;
+    border-radius:999px;
+    padding:4px 10px;
+    font-weight:600;
+    min-width:42px;
+    display:inline-block;
+  }
+
+  .badge-ajuste-baja {
+    background:#dc3545; /* Rojo Bootstrap */
+    color:#FFE9EC;
+    border:1px solid #F5B6BE;
+    border-radius:999px;
+    padding:4px 10px;
+    font-weight:600;
+    min-width:42px;
+    display:inline-block;
+  }
+
+  .badge-preventa {
+    background:#fd7e14; /* Naranja Bootstrap */
+    color:#FFF3E9;
+    border:1px solid #F7C9A6;
+    border-radius:999px;
+    padding:4px 10px;
+    font-weight:600;
+    min-width:42px;
+    display:inline-block;
+  }
+
+  .badge-ventas {
+    background:#0dcaf0; /* Celeste Bootstrap */
+    color:#E9FBFF;
+    border:1px solid #B6E9F5;
+    border-radius:999px;
+    padding:4px 10px;
+    font-weight:600;
+    min-width:42px;
+    display:inline-block;
+  }
+
+  .badge-salidas {
+    background:#343a40; /* Gris oscuro Bootstrap */
+    color:#F8F9FA;      /* Texto claro */
+    border:1px solid #CED4DA;
+    border-radius:999px;
+    padding:4px 10px;
+    font-weight:600;
+    min-width:42px;
+    display:inline-block;
+  }
+
   /* Paginador */
   .pagination-wrapper {
     margin-top: 1.5rem;
@@ -205,7 +292,7 @@
       <div class="input-group input-group-sm">
         <span class="input-group-text">
 
-            <i class="bi bi-palette-fill"></i>
+            <i class="bi bi-droplet-fill me-1"></i>
 
         </span>
         <select name="color_id" class="form-select form-select-sm select-filtro">
@@ -263,16 +350,32 @@
   {% if movimientos %}
   <div class="tabla-wrapper">
       <table class="table table-hover tabla-historial">
-          <thead>
+          <thead class="table-light">
               <tr>
-                  <th><i class="bi bi-palette-fill me-1"></i>Color</th>
-                  <th><i class="bi bi-tag me-1"></i>Talla</th>
-                  <th><i class="bi bi-box-seam me-1"></i>Cantidad</th>
-                  <th><i class="bi bi-gear me-1"></i>Movimiento</th>
-                  <th><i class="bi bi-file-earmark me-1"></i>Estado</th>
-                  <th><i class="bi bi-person-circle me-1"></i>Usuario</th>
-                  <th><i class="bi bi-calendar3 me-1"></i>Fecha</th>
-                  <th><i class="bi bi-chat-left-text me-1"></i>Observación</th>
+                  <th>Color 
+                    <i class="bi bi-caret-down-fill text-muted"></i>
+                  </th>
+                  <th>Talla
+                    <i class="bi bi-caret-down-fill text-muted"></i>
+                  </th>
+                  <th>Cantidad
+                    <i class="bi bi-caret-down-fill text-muted"></i>
+                  </th>
+                  <th>Movimiento
+                    <i class="bi bi-caret-down-fill text-muted"></i>
+                  </th>
+                  <th>Estado
+                    <i class="bi bi-caret-down-fill text-muted"></i>
+                  </th>
+                  <th>Usuario
+                    <i class="bi bi-caret-down-fill text-muted"></i>
+                  </th>
+                  <th>Fecha
+                    <i class="bi bi-caret-down-fill text-muted"></i>
+                  </th>
+                  <th>Observación
+                    <i class="bi bi-caret-down-fill text-muted"></i>
+                  </th>
               </tr>
           </thead>
           <tbody>
@@ -286,23 +389,26 @@
                           <span class="badge bg-success">{{ m.tipo_movimiento }}</span>
 
                       {% elif m.tipo_movimiento == "Ingreso Manual" %}
-                          <span class="badge bg-primary">{{ m.tipo_movimiento }}</span>
+                          <span class="badge badge-ingreso-manual">{{ m.tipo_movimiento }}</span>
 
                         {% elif m.tipo_movimiento == "Devolución" %}
-                          <span class="badge bg-info text-dark">{{ m.tipo_movimiento }}</span>                          
+                          <span class="badge badge-devolucion">{{ m.tipo_movimiento }}</span>                          
                           
 
                       {% elif m.tipo_movimiento == "Ajuste Alta" %}
-                          <span class="badge bg-warning text-dark">{{ m.tipo_movimiento }}</span>
+                          <span class="badge badge-ajuste-alta">{{ m.tipo_movimiento }}</span>
 
                       {% elif m.tipo_movimiento == "Ajuste Baja" %}
-                          <span class="badge bg-warning text-dark">{{ m.tipo_movimiento }}</span>
+                          <span class="badge badge-ajuste-baja">{{ m.tipo_movimiento }}</span>
 
                       {% elif m.tipo_movimiento == "Salidas" %}
-                          <span class="badge bg-warning text-dark">{{ m.tipo_movimiento }}</span>
+                          <span class="badge badge-salidas">{{ m.tipo_movimiento }}</span>
+
+                      {% elif m.tipo_movimiento == "Preventa" %}
+                          <span class="badge badge-preventa">{{ m.tipo_movimiento }}</span>
 
                       {% elif m.tipo_movimiento == "Ventas" %}
-                          <span class="badge bg-warning text-dark">{{ m.tipo_movimiento }}</span>
+                          <span class="badge badge-ventas">{{ m.tipo_movimiento }}</span>
 
                       {% else %}
                           <span class="badge bg-danger">{{ m.tipo_movimiento }}</span>

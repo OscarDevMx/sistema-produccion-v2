@@ -115,7 +115,7 @@
 
             <!-- Color -->
             <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
-                <label for="color" class="form-label fs-6 fw-bold"><i class="bi bi-palette-fill"></i> Color</label>
+                <label for="color" class="form-label fs-6 fw-bold"><i class="bi bi-droplet-fill me-1"></i>Color</label>
                 <select class="form-select form-select-lg" id="color" name="color" required>
                     <option value="">Selecciona un color</option>
                     {% for c in colores %}
@@ -126,7 +126,7 @@
 
             <!-- Tallas -->
             <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
-                <label class="form-label fs-6 fw-bold"><i class="bi bi-tag"></i> Tallas</label>
+                <label class="form-label fs-6 fw-bold"><i class="bi bi-tag me-1"></i>Tallas</label>
                 <div class="d-flex flex-wrap gap-3">
                     {% for t in tallas %}
                         <div class="form-check form-check-inline">
@@ -140,12 +140,12 @@
             </div>
             <!-- Cantidad -->
             <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
-                <label for="cantidad" class="form-label fs-6 fw-bold"><i class="bi bi-box-seam"></i> Cantidad por Talla</label>
+                <label for="cantidad" class="form-label fs-6 fw-bold"><i class="bi bi-box-seam me-1"></i>Cantidad por Talla</label>
                 <input type="number" class="form-control form-control-lg" id="cantidad" name="cantidad" min="1" required>
             </div>
             <!-- Observaciones -->
             <div class="card shadow-sm mb-3 p-3 border-0 rounded-4">
-                <label for="observaciones" class="form-label fs-6 fw-bold"><i class="bi bi-chat-left-text"></i> Observaciones</label>
+                <label for="observaciones" class="form-label fs-6 fw-bold"><i class="bi bi-chat-left-text me-1"></i>Observaciones</label>
                 <textarea class="form-control form-control-lg" id="observaciones" name="observaciones" rows="2" placeholder="Opcional..."></textarea>
             </div>
             

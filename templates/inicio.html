@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Pagina Principal{% endblock %}
+{% block title %}Pagina de Inicio{% endblock %}
 
 {% block header %}
 <h3 class="fw-bold">
@@ -9,73 +9,210 @@
 </h3>{% endblock %}
 
 {% block content %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/oscardev-cards.css') }}">
+<style>
 
+    .badge-cantidad{
+    background:#EEF4FF;
+
+    color:#295DA8;
+
+    border:1px solid #C9D9F7;
+
+    border-radius:999px;
+
+    min-width:34px;
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:3px 10px;
+
+    font-size:.80rem;
+
+    font-weight:700;
+    }
+
+    @media (max-width: 768px) {
+        /* Asegurar que el contenedor raíz permite scroll */
+        .content {
+            overflow-y: scroll !important;
+            -webkit-overflow-scrolling: touch !important;
+            padding-bottom: 120px !important;
+        }
+    }
+</style>
 <!-- Tarjetas Dashboard -->
 <div class="dashboard-cards">
-    <div class="card-dashboard bg-cortes">
+    <div class="card-dashboard bg-colores">
         <div>
-            <h6>Total Cortes</h6>
-            <h3>120</h3>
+            <h6>Colores Registrados</h6>
+            <h3>{{ dashboard.kpis.colores_registrados }}</h3>
         </div>
-        <i class="bi bi-scissors fs-2"></i>
+        <i class="bi bi-droplet-fill fs-2"></i>
     </div>
     <div class="card-dashboard bg-inventario">
         <div>
             <h6>Inventario Disponible</h6>
-            <h3>450</h3>
+            <h3>{{ dashboard.kpis.inventario_disponible }}</h3>
         </div>
-        <i class="bi bi-boxes fs-2"></i>
+        <i class="bi bi-box fs-2"></i>
     </div>
     <div class="card-dashboard bg-ventas">
         <div>
-            <h6>Ventas este mes</h6>
-            <h3>$35,200</h3>
+            <h6>Ingresos Totales</h6>
+            <h3>${{ "{:,.2f}".format(dashboard.kpis.ingresos_totales) }}</h3>
         </div>
         <i class="bi bi-cash-coin fs-2"></i>
     </div>
-    <div class="card-dashboard bg-otros">
+    <div class="card-dashboard bg-prendas">
         <div>
-            <h6>Órdenes en Proceso</h6>
-            <h3>18</h3>
+            <h6>Prendas Vendidas</h6>
+            <h3>{{ dashboard.kpis.prendas_vendidas }}</h3>
         </div>
-        <i class="bi bi-gear fs-2"></i>
+        <i class="bi bi-bag-check-fill fs-2"></i>
     </div>
 </div>
 
 <!-- Sección dinámica -->
 <div>
-    <div class="table-modern p-3 table-responsive-cards">
-        <h5 class="mb-3">Listado General</h5>
-        <table class="table table-hover align-middle">
-            <thead>
-                <tr>
-                    <th># Corte</th>
-                    <th>Fecha</th>
-                    <th>Color</th>
-                    <th>Produccion</th>
-                    <th>Cantidad</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="# Corte">101</td>
-                    <td data-label="Fecha">2025-09-01</td>
-                    <td data-label="Color">Rojo</td>
-                    <td data-label="Produccion">Talla - Cantidad - Estado</td>
-                    <td data-label="Cantidad">50</td>
-                    <td data-label="Estado"><span class="badge bg-warning">En Proceso</span></td>
-                </tr>
-                <tr>
-                    <td data-label="# Corte">102</td>
-                    <td data-label="Fecha">2025-09-03</td>
-                    <td data-label="Color">Negro</td>
-                    <td data-label="Produccion">Talla - Cantidad - Estado</td>
-                    <td data-label="Cantidad">30</td>
-                    <td data-label="Estado"><span class="badge bg-success">Terminado</span></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="dashboard-ventas">
+    {% if dashboard.ventas_recientes %}
+
+        {% for venta in dashboard.ventas_recientes %}
+
+        <div class="oscardev-card">
+
+            <!-- Encabezado -->
+            <div class="oscardev-card-header">
+
+                <div>
+
+                    <div class="oscardev-card-title">
+
+                        <i class="bi bi-cart-check-fill text-success"></i>
+
+                        Pedido #{{ venta.pedido.numero_pedido }}
+
+                    </div>
+
+                    <small class="text-muted">
+
+                        Cliente: {{ venta.pedido.cliente or "Sin cliente" }}
+
+                    </small>
+
+                </div>
+
+                <div class="oscardev-card-date">
+
+                    {{ venta.pedido.fecha.strftime("%d/%m/%Y") }}
+
+                </div>
+
+            </div>
+
+            <!-- Información -->
+            <div class="oscardev-card-info">
+
+                <div>
+
+                    <span class="oscardev-label">
+                        Usuario:
+                    </span>
+
+                    <span class="oscardev-value">
+                        {{ venta.pedido.usuario }}
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <span class="oscardev-label">
+                        Total:
+                    </span>
+
+                    <span class="oscardev-value">
+                        {{ venta.total_prendas }} prendas
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Tabla -->
+            <div class="oscardev-card-body">
+
+                <table class="table table-sm align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Color <i class="bi bi-caret-down-fill text-muted"></i></th>
+
+                            <th>Talla <i class="bi bi-caret-down-fill text-muted"></i></th>
+
+                            <th class="text-center">Cantidad<i class="bi bi-caret-down-fill text-muted"></i></th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for detalle in venta.detalles %}
+
+                        <tr>
+
+                            <td>{{ detalle.color.nombre }}</td>
+
+                            <td>&nbsp;&nbsp;&nbsp;{{ detalle.talla.nombre }}</td>
+
+                            <td class="text-center">
+
+                                <span class="badge badge-cantidad">
+
+                                    {{ detalle.cantidad }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+    <div class="text-center text-muted py-5">
+
+        <i class="bi bi-inbox fs-1"></i>
+
+        <p class="mt-3">
+
+            No existen pedidos vendidos.
+
+        </p>
+
+    </div>
+
+    {% endif %}
     </div>
 </div>
 {% endblock %}
