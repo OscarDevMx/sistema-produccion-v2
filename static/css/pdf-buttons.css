@@ -66,29 +66,23 @@ Todos los botones deberán heredar de:
    PDF ESCRITORIO
    ========================================================== */
 
-.btn-pdf{
-
-    background:#f8f9fa;
-
-    color:#0d6efd;
-
-    border:1px solid #bcbcbc;
-
+.btn-pdf {
+  background:#ffffff;
+  color:#0d6efd;
+  border:1px solid #bcbcbc;
+  border-radius:8px; /* menos ovalado, más “documento” */
+  padding:6px 14px;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:6px; /* espacio entre icono y texto */
+  box-shadow:0 2px 4px rgba(0,0,0,0.1); /* sombra ligera */
 }
-
-
-.btn-pdf:hover{
-
-    background:#f8f9fa;
-
-    border-color:#0469ff;
-
-    color:#0469ff;
-
-    font-size:.86rem;
-
-    text-decoration:none;
-
+.btn-pdf:hover {
+  background:#f0f8ff; /* azul muy claro */
+  border-color:#0d6efd;
+  color:#0d6efd;
+  text-decoration:none;
 }
 
 

@@ -364,20 +364,24 @@
                 <p><strong>Cantidad Total:</strong> {{ pedido.detalles | sum(attribute='cantidad') }}</p>
                 <p><strong>Costo Total:</strong> ${{ pedido.costo_total }}</p>
                 <p><strong>Observaciones:</strong> {{ pedido.observaciones or "N/A" }}</p>
+
+                <!-- Botón para escritorio -->
                 <a href="{{ url_for('vista_previa_pedido', pedido_id=pedido.id) }}"
-                class="btn-action-secondary btn-pdf btn-loading" data-loading-text="Guardando..." >
+                class="btn-action-secondary btn-pdf d-none d-md-inline-block">
 
-                    <i class="bi bi-file-earmark-pdf"></i>
+                    <i class="bi bi-receipt"></i>
 
-                    PDF
+                    Ver Nota
 
                 </a>
+
+                <!-- Botón para móvil -->
                 <a href="{{ url_for('vista_mobile_pedido', pedido_id=pedido.id) }}"
-                class="btn-action-secondary btn-pdf-mobile">
+                class="btn-action-secondary btn-pdf d-md-none">
 
-                    <i class="bi bi-file-earmark-pdf"></i>
+                    <i class="bi bi-receipt"></i>
 
-                    PDF
+                    Ver Nota
 
                 </a>
 
@@ -413,7 +417,7 @@
                                         aria-expanded="false"
                                         aria-controls="{{ accordion_id }}">
                                     <div class="d-flex justify-content-between align-items-center w-100 gap-2">
-                                        <div class="color-nombre"><h6 class="fw-bold mb-3"><i class="bi bi-droplet-fill text-primary me-1"></i>{{ color }}</h6></div>
+                                        <div class="color-nombre align-items-left"><i class="bi bi-droplet-fill text-primary me-1"></i>{{ color }}</div>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="color-piezas">{{ items_list | sum(attribute='cantidad') }} piezas</div>
                                             <div class="color-piezas">{{ items_list | length }} talla(s)</div>
@@ -429,10 +433,10 @@
                                         <table class="table table-sm table-bordered mb-0">
                                             <thead class="table-secondary sticky-top">
                                                 <tr>
-                                                    <th class="text-center"><i class="bi bi-tag"></i> Talla</th>
-                                                    <th class="text-center"><i class="bi bi-box-seam"></i> Cantidad</th>
-                                                    <th class="text-center"><i class="bi bi-currency-dollar"></i> Precio</th>
-                                                    <th class="text-center"><i class="bi bi-cash-stack"></i> Subtotal</th>
+                                                    <th class="text-center"><i class="bi bi-tag d-none d-md-inline-block"></i> Talla</th>
+                                                    <th class="text-center"><i class="bi bi-box-seam d-none d-md-inline-block"></i> Cantidad</th>
+                                                    <th class="text-center"><i class="bi bi-currency-dollar d-none d-md-inline-block"></i> Precio</th>
+                                                    <th class="text-center"><i class="bi bi-cash-stack d-none d-md-inline-block"></i> Subtotal</th>
                                                 </tr>
                                             </thead>
 
@@ -479,7 +483,7 @@
                 {% if pedido.status_pedido != 5 and pedido.status_pedido != 6 %} 
                     <button id="btnVendido{{ pedido.id }}" class="btn btn-success btn-sm" onclick="marcarVendido({{ pedido.id }})">
                         <i class="bi bi-check-circle"></i>
-                        Marcar como Vendido
+                        Registrar Venta
                     </button>
 
                     <button id="btnCancelar{{ pedido.id }}" class="btn btn-danger btn-sm" onclick="cancelarPedido({{ pedido.id }})">
