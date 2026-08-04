@@ -16,55 +16,379 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            min-height: 100dvh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', sans-serif;
-            padding: 1rem;
-            box-sizing: border-box;
+            background:
+                radial-gradient(circle at top left,#3c6db8 0%,transparent 40%),
+                radial-gradient(circle at bottom right,#1f4f8e 0%,transparent 35%),
+                linear-gradient(135deg,#eef3f9,#d9e4f2);
+
+            min-height:100dvh;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            font-family:'Segoe UI',sans-serif;
+
+            padding:1rem;
         }
 
         .login-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            width: min(100%, 420px);
-            max-width: 100%;
-            margin: 0 auto;
+            background:rgba(255,255,255,.92);
+
+            backdrop-filter:blur(14px);
+
+            border:1px solid rgba(255,255,255,.35);
+
+            border-radius:22px;
+
+            box-shadow:
+
+                0 20px 45px rgba(0,0,0,.12);
+
+            padding:2.5rem;
+
+            width:min(100%,430px);
+
+            transition:all .30s ease;
+
+            animation:fadeRight .65s ease-out;
+
+        }
+        .login-card:hover{
+
+            transform:translateY(-3px);
+
+            box-shadow:
+
+                0 28px 55px rgba(0,0,0,.15);
+
+        }
+        .login-title{
+
+            text-align:center;
+
+            font-weight:600;
+
+            color:#2c3e50;
+
+            margin-bottom:4px;
+
+        }
+        .login-subtitle{
+
+            text-align:center;
+
+            color:#8c96a8;
+
+            font-size:.82rem;
+
+            letter-spacing:2px;
+
+            text-transform:uppercase;
+
+            margin-bottom:28px;
+
+        }
+        .login-brand{
+
+            text-align:center;
+
+            margin-bottom:24px;
+
+        }
+        .login-brand img{
+
+            width:220px;
+
+            max-width:100%;
+
+            height:auto;
+
         }
 
-        .login-title {
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #333;
+        .login-brand h2{
+
+            font-family:Georgia, serif;
+
+            font-size:1.8rem;
+
+            color:#1f2d3d;
+
+            margin-bottom:4px;
+
+            font-weight:700;
+
+        }
+        .login-brand p{
+
+            color:#7a8696;
+
+            font-size:.82rem;
+
+            text-transform:uppercase;
+
+            letter-spacing:2px;
+
+            margin:0;
+
+        }
+
+        .login-wrapper{
+
+            display:flex;
+
+            width:min(980px,100%);
+
+            min-height:620px;
+
+            border-radius:24px;
+
+            overflow:hidden;
+
+        }
+
+        .login-panel{
+
+            width:42%;
+
+            background:#000;
+
+            color:#fff;
+
+            display:flex;
+
+            flex-direction:column;
+
+            justify-content:center;
+
+            align-items:center;
+
+            padding:55px 45px;
+
+            animation:fadeLeft .65s ease-out;
+            
+
+        }
+        .panel-logo{
+
+            width:250px;
+
+            max-width:100%;
+
+            margin-bottom:50px;
+
+            filter:none;
+
+        }
+        .panel-header{
+
+            background:#000000;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            padding:55px 35px 45px;
+
+        }
+        .panel-divider{
+
+            width:80px;
+
+            height:2px;
+
+            background:#295DA8;
+
+            margin-bottom:2rem;
+
+        }
+        .panel-features{
+
+            width:100%;
+
+            padding:0;
+
+            margin:0;
+
+            list-style:none;
+
+        }
+        .panel-features li{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:14px;
+
+            color:#d9dce4;
+
+            margin-bottom:24px;
+
+            font-size:1rem;
+
+        }
+        .panel-features i{
+
+            color:#4e89dc;
+
+            font-size:1.2rem;
+
+        }
+        .panel-version{
+
+            margin-top:auto;
+
+            color:#8c96a8;
+
+            letter-spacing:2px;
+
+            text-transform:uppercase;
+
+        }
+
+        .feature{
+
+            color:#D7DCE5;
+        }       
+
+        .feature-dot{
+
+            width:10px;
+
+            height:10px;
+
+            border-radius:50%;
+
+            background:#3F7FE6;
+
+            box-shadow:0 0 6px rgba(63,127,230,.45);
+
+            flex-shrink:0;
+
+        }
+        .panel-title{
+
+            color:#FFFFFF;
+
+            font-size:1.55rem;
+
+            font-weight:600;
+
+            letter-spacing:.5px;
+
+            margin-bottom:12px;
+
+        }
+
+        .panel-subtitle{
+
+            color:#C8CDD6;
+
+            text-transform:uppercase;
+
+            letter-spacing:2px;
+
+            font-size:.95rem;
+
+            margin-bottom:38px;
+
+        }
+        .panel-line{
+
+            width:200px;
+
+            height:1px;
+
+            background:#295DA8;
+
+            margin-bottom:45px;
+
+        }
+        .panel-footer{
+
+            margin-top:65px;
+
+            color:#7E8796;
+
+            font-size:.80rem;
+
+            letter-spacing:1px;
+
+        }
+
+        .panel-footer span{
+
+            display:block;
+
+            margin-top:6px;
+
+            letter-spacing:2px;
+
+            text-transform:uppercase;
+
+            font-size:.68rem;
+
+        }
+
+        .panel-content{
+
+            flex:1;
+
+            display:flex;
+
+            flex-direction:column;
+
+            align-items:center;
+
+            padding:45px 45px 40px;
+
+            background:#171922;
+
         }
 
         .form-control {
-            border-radius: 10px;
-            padding: 0.8rem 0.9rem;
-            font-size: 1rem;
+            border-radius:12px;
+
+            border:1px solid #d5dde8;
+
+            padding:.85rem 1rem;
+
+            transition:.25s;
         }
 
         .form-control:focus {
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.2);
+            border-color:#295DA8;
+
+            box-shadow:
+
+                0 0 0 .18rem rgba(41,93,168,.15);
         }
 
         .btn-login {
-            background-color: #007bff;
-            color: white;
-            border-radius: 10px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.8rem 1rem;
-            width: 100%;
+            background:#295DA8;
+
+            border:none;
+
+            border-radius:12px;
+
+            color:white;
+
+            font-weight:600;
+
+            padding:.9rem;
+
+            transition:.25s;
         }
 
         .btn-login:hover {
-            background-color: #0056b3;
+            background:#1f4f8e;
+
+            transform:translateY(-1px);
         }
 
         .alert {
@@ -72,6 +396,65 @@
             font-size: 0.95rem;
         }
 
+        @keyframes fadeLeft{
+
+            from{
+
+                opacity:0;
+
+                transform:translateX(-35px);
+
+            }
+
+            to{
+
+                opacity:1;
+
+                transform:none;
+
+            }
+
+        }
+        @keyframes fadeRight{
+
+            from{
+
+                opacity:0;
+
+                transform:translateX(35px);
+
+            }
+
+            to{
+
+                opacity:1;
+
+                transform:none;
+
+            }
+
+        }
+        @media (max-width:768px){
+
+            .login-panel{
+
+                display:none;
+
+            }
+
+            .login-wrapper{
+
+                display:block;
+
+            }
+
+            .login-card{
+
+                width:100%;
+
+            }
+
+        }
         @media (max-width: 480px) {
             body {
                 padding: 0.75rem;
@@ -114,35 +497,116 @@
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <h3 class="login-title">Inicio de Sesión</h3>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    <div class="login-wrapper">
 
-        <form method="POST" action="{{ url_for('auth.login') }}">
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Usuario</label>
-                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
+        <!-- Panel izquierdo -->
+        <div class="login-panel">
+
+            <img
+                src="{{ url_for('static', filename='img/logo_cv_dark.png') }}"
+                class="panel-logo"
+                alt="Creaciones Vicky">
+
+            <div class="panel-line"></div>
+
+            <h2 class="panel-title">
+
+                Sistema Integral
+
+            </h2>
+
+            <p class="panel-subtitle">
+
+                CONTROL DE PRODUCCIÓN
+
+            </p>
+
+            <div class="panel-line"></div>
+
+            <ul class="panel-features">
+
+                <li>
+                    <span class="feature-dot"></span>
+                    Producción
+                </li>
+
+                <li>
+                    <span class="feature-dot"></span>
+                    Inventario
+                </li>
+
+                <li>
+                    <span class="feature-dot"></span>
+                    Pedidos
+                </li>
+
+                <li>
+                    <span class="feature-dot"></span>
+                    Ventas
+                </li>
+
+            </ul>
+
+            <div class="panel-footer">
+
+                ERP Producción
+
+                <span>Versión 2.0</span>
+
             </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" name="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
-            </div>
+        </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-login">Entrar</button>
+
+        <!-- Panel derecho -->
+
+        <div class="login-card">
+
+            <div class="login-brand">
+
+                <img src="{{ url_for('static', filename='img/logo_cv.png') }}"
+                    alt="Creaciones Vicky">
+
             </div>
-        </form>
+            <h4 class="login-title">
+
+            Acceso al Sistema
+
+            </h4>
+            <p class="login-subtitle">
+
+                ERP de Producción v2.0
+
+            </p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Usuario</label>
+                    <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-login">Entrar</button>
+                </div>
+            </form>
+
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

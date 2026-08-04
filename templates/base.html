@@ -78,27 +78,309 @@
             gap: 12px;
             padding: 12px 15px;
             border-radius: 10px;
-            transition: all 0.3s ease;
+
+            position: relative;
+            border-left: 4px solid transparent;
+
+            transition: all .20s ease;
+
             font-size: 14px;
             margin-bottom: 6px;
-            white-space: nowrap;
+            white-space: nowrap;          
         }
 
         .sidebar a:hover {
-            background-color: rgba(13, 110, 253, 0.15);
-            color: #fff;
-            transform: translateX(5px);
+            background:#2b3242;
+
+            border-left:4px solid #295DA8;
+
+            color:#ffffff;
         }
 
         .sidebar a.active {
-            background-color: #0d6efd;
-            color: #fff;
-            font-weight: 600;
+            background:#2f3748;
+
+            border-left:4px solid #295DA8;
+
+            color:#ffffff;
+
+            font-weight:600;
         }
 
         .sidebar hr {
             background-color: rgba(255, 255, 255, 0.15);
             margin: 10px 0;
+        }
+
+        .sidebar-section{
+
+            margin-top:22px;
+
+            margin-bottom:8px;
+
+            padding:0 15px;
+
+            font-size:.70rem;
+
+            font-weight:700;
+
+            letter-spacing:1px;
+
+            text-transform:uppercase;
+
+            color:#8c96a8;
+
+        }
+
+        .sidebar-brand{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:12px;
+
+            padding:12px 8px 28px;
+
+            margin-bottom:20px;
+
+            border-bottom:1px solid rgba(255,255,255,.08);
+
+            transition:all .25s ease;
+
+        }
+        .sidebar-brand:hover{
+
+            transform:translateY(-2px);
+
+        }
+
+        .brand-monogram{
+
+            position:relative;
+
+            width:72px;
+
+            height:72px;
+
+            flex-shrink:0;
+
+        }
+
+        .brand-logo{
+
+            width:58px;
+
+            height:58px;
+
+            border-radius:14px;
+
+            background:linear-gradient(
+                135deg,
+                #295DA8,
+                #1F4F8E
+            );
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            flex-shrink:0;
+
+            box-shadow:
+
+                0 6px 16px rgba(0,0,0,.18),
+
+                inset 0 1px 0 rgba(255,255,255,.08);
+
+        }
+
+        .cv-logo{
+
+            position:relative;
+
+            font-family:Times New Roman, serif;
+
+            font-size:2rem;
+
+            font-weight:700;
+
+            color:white;
+
+            line-height:1;
+
+        }
+
+        .cv-v{
+
+            position:absolute;
+
+            left:18px;
+
+            top:2px;
+
+            font-size:1.45rem;
+
+            font-weight:700;
+
+        }  
+
+        .letter-c{
+
+            position:absolute;
+
+            left:0;
+
+            top:0;
+
+            font-family:Times New Roman, serif;
+
+            font-size:5rem;
+
+            font-weight:700;
+
+            color:#295DA8;
+
+            line-height:1;
+
+            text-shadow:
+                0 1px 1px rgba(255,255,255,.15),
+                0 2px 6px rgba(0,0,0,.25);
+
+        }
+
+        .letter-v{
+
+            position:absolute;
+
+            left:42px;
+
+            top:18px;
+
+            font-family:Times New Roman, serif;
+
+            font-size:3.8rem;
+
+            font-weight:700;
+
+            color:#295DA8;
+
+            line-height:1;
+
+            text-shadow:
+                0 1px 1px rgba(255,255,255,.15),
+                0 2px 6px rgba(0,0,0,.25);
+
+        }
+
+        .brand-divider{
+
+            width:1px;
+
+            height:64px;
+
+            background:linear-gradient(
+                to bottom,
+                transparent,
+                rgba(255,255,255,.45),
+                transparent
+            );
+
+            flex-shrink:0;
+
+        }
+
+        .brand-info{
+
+            display:flex;
+
+            flex-direction:column;
+
+            justify-content:center;
+
+            flex:1;
+
+            min-width:0;
+
+        }
+
+        .brand-company{
+
+            color:#295DA8;
+
+            font-size:.68rem;
+
+            font-weight:600;
+
+            letter-spacing:3px;
+
+            margin-bottom:2px;
+        }
+
+        .brand-name{
+
+            color:#295DA8;
+
+            font-family:Times New Roman, serif;
+
+            font-size:1.65rem;
+
+            font-weight:700;
+
+            line-height:.9;
+
+            letter-spacing:.5px;
+
+        }
+
+        .brand-system{
+
+            margin-top:6px;
+
+            color:#8c96a8;
+
+            font-size:.58rem;
+
+            letter-spacing:1.8px;
+
+            text-transform:uppercase;
+
+        }
+
+        .brand-logo img{
+
+            width:100%;
+
+            height:100%;
+
+            object-fit:contain;
+
+        }
+
+        .brand-title{
+
+            color:#ffffff;
+
+            font-weight:700;
+
+            font-size:.90rem;
+
+            line-height:1.2;
+
+        }
+
+        .brand-subtitle{
+
+            color:#8c96a8;
+
+            font-size:.72rem;
+
+            margin-top:3px;
+
+            letter-spacing:.4px;
+
         }
 
         /* Contenido */
@@ -552,52 +834,90 @@
     <!-- Sidebar/Navegación -->
     <div class="sidebar">
 
-        <h3>
+        <div class="sidebar-brand">
 
-            🧵 Producción
-        
-        </h3>
+            <div class="brand-monogram">
 
-        <a href="/inicio" title="Inicio">
-            <i class="bi bi-house-door"></i>
+                <span class="letter-c">C</span>
+                <span class="letter-v">V</span>
 
-            <span>Inicio</span>
-        </a>
+            </div>
 
-        <a href="{{ url_for('catalogos.gestionar_colores') }}" title="Colores">
-            <i class="bi bi-palette-fill"></i>
-            <span>Colores</span>
-        </a>
+            <div class="brand-divider"></div>
 
-        <a href="{{ url_for('ingreso_manual') }}" title="Ingreso Manual">
-            <i class="bi bi-box-arrow-in-down"></i>
-            <span>Ingreso</span>
-        </a>
+            <div class="brand-info">
 
-        <a href="{{ url_for('inventario_disponible') }}" title="Inventario Disponible">
-            <i class="bi bi-box-seam"></i>
-            <span>Disponible</span>
-        </a>
+                <div class="brand-company">
+                    CREACIONES
+                </div>
 
-        <a href="{{ url_for('inventario_general') }}" title="Inventario General">
-            <i class="bi bi-boxes"></i>
-            <span>Inventario</span>
-        </a>
+                <div class="brand-name">
+                    VICKY
+                </div>
 
-        <a href="{{ url_for('surtido') }}" title="Ventana de Surtido">
-            <i class="bi bi-cart-check-fill"></i>
-            <span>Surtir</span>
-        </a>
+                <div class="brand-system">
+                    Control de Producción
+                </div>
 
-        <a href="{{ url_for('ver_pedidos') }}" title="Ventana de Pedidos">
-            <i class="bi bi-clipboard-check"></i>
-            <span>Pedidos</span>
-        </a>
+            </div>
 
-        <a href="{{ url_for('ver_historial_inventario') }}" title="Historial de Movimientos">
-            <i class="bi bi-clock-history"></i>
-            <span>Historial</span>
-        </a>
+        </div>
+
+        <div class="sidebar-section">
+
+            GENERAL
+            <a href="/inicio" title="Inicio">
+                <i class="bi bi-speedometer2"></i>
+
+                <span>Inicio</span>
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+            OPERACIÓN
+            <a href="{{ url_for('catalogos.gestionar_colores') }}" title="Colores">
+                <i class="bi bi-palette-fill"></i>
+                <span>Colores</span>
+            </a>
+
+            <a href="{{ url_for('ingreso_manual') }}" title="Ingreso Manual">
+                <i class="bi bi-box-arrow-in-down"></i>
+                <span>Ingreso</span>
+            </a>
+
+            <a href="{{ url_for('inventario_disponible') }}" title="Inventario Disponible">
+                <i class="bi bi-box-seam"></i>
+                <span>Disponible</span>
+            </a>
+
+            <a href="{{ url_for('inventario_general') }}" title="Inventario General">
+                <i class="bi bi-boxes"></i>
+                <span>Inventario</span>
+            </a>
+
+            <a href="{{ url_for('surtido') }}" title="Ventana de Surtido">
+                <i class="bi bi-cart-check-fill"></i>
+                <span>Surtir</span>
+            </a>
+
+            <a href="{{ url_for('ver_pedidos') }}" title="Ventana de Pedidos">
+                <i class="bi bi-clipboard-check"></i>
+                <span>Pedidos</span>
+            </a>
+
+        </div>
+
+        <div class="sidebar-section">
+            CONSULTA
+            <a href="{{ url_for('ver_historial_inventario') }}" title="Historial de Movimientos">
+                <i class="bi bi-clock-history"></i>
+                <span>Historial</span>
+            </a>
+
+        </div>
 
     </div>
 
