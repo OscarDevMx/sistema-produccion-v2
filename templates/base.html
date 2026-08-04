@@ -497,6 +497,10 @@
             margin-bottom: 15px;
         }
 
+        .mobile-menu {
+            display: none;
+        }
+
         /* ===== MEDIA QUERIES: TABLET ===== */
         @media (max-width: 1024px) {
             .sidebar {
@@ -520,53 +524,104 @@
                 padding-bottom: 0;
             }
 
-            /* Sidebar como barra inferior de navegación */
+            /* Sidebar oculto en móvil; usamos menú especializado arriba */
             .sidebar {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                top: auto;
-                height: auto;
-                width: 100%;
-                padding: 0;
-                flex-direction: row;
-                flex-wrap: wrap;
-                align-items: stretch;
-                background: #fff;
-                border-top: 2px solid #e9ecef;
-                box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
-                z-index: 1050;
-                overflow-y: visible;
-            }
-
-            .sidebar h3 {
                 display: none;
             }
 
-            .sidebar hr {
-                display: none;
+            .mobile-menu {
+                display: flex;
+                width: calc(100% - 24px);
+                margin: 8px 12px 6px;
+                padding: 6px;
+                gap: 8px;
+                justify-content: space-between;
+                background: linear-gradient(180deg, #ffffff 0%, #eef5ff 100%);
+                border: 1px solid rgba(13, 110, 253, 0.12);
+                border-radius: 20px;
+                box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+                position: sticky;
+                top: 6px;
+                z-index: 1051;
             }
 
-            .sidebar a {
-                flex: 1;
-                flex-basis: calc(20% - 1px);
-                padding: 10px 5px;
+            .mobile-menu details {
+                flex: 1 1 32%;
+                border-right: 1px solid rgba(13, 110, 253, 0.12);
                 margin: 0;
-                color: #6c757d;
-                flex-direction: column;
+                background: #fff;
+                border-radius: 18px;
+                overflow: hidden;
+            }
+
+            .mobile-menu details:last-child {
+                border-right: none;
+            }
+
+            .mobile-menu summary {
+                list-style: none;
+                padding: 14px 10px;
+                cursor: pointer;
+                display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 4px;
-                font-size: 11px;
-                border-radius: 0;
-                text-align: center;
-                border-right: 1px solid #e9ecef;
-                transition: all 0.3s ease;
+                gap: 8px;
+                font-size: 13px;
+                font-weight: 700;
+                color: #1f2937;
+                background: linear-gradient(180deg, #f8fbff 0%, #eff6ff 100%);
+                border: none;
+                outline: none;
+                border-radius: 18px;
+                transition: background 0.25s ease, color 0.25s ease;
             }
 
-            .sidebar a:last-child {
-                border-right: none;
+            .mobile-menu summary::-webkit-details-marker {
+                display: none;
+            }
+
+            .mobile-menu summary:hover {
+                background: #e7f1ff;
+            }
+
+            .mobile-menu details[open] summary {
+                background: linear-gradient(180deg, #e7f1ff 0%, #d2e4ff 100%);
+                color: #0d6efd;
+            }
+
+            .mobile-menu .mobile-menu-links {
+                display: none;
+                padding: 14px 12px 10px;
+                text-align: left;
+                background: #f8fbff;
+                border-top: 1px solid rgba(13, 110, 253, 0.08);
+                transition: max-height 0.3s ease, opacity 0.25s ease;
+            }
+
+            .mobile-menu details[open] .mobile-menu-links {
+                display: block;
+            }
+
+            .mobile-menu .mobile-menu-links a {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 14px;
+                color: #334155;
+                text-decoration: none;
+                font-size: 13px;
+                border-radius: 14px;
+                background: #ffffff;
+                margin: 8px 0;
+                border: 1px solid rgba(15, 23, 42, 0.06);
+                box-shadow: 0 10px 20px rgba(15, 23, 42, 0.04);
+                transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
+            }
+
+            .mobile-menu .mobile-menu-links a:hover {
+                color: #0d6efd;
+                background: #eef4ff;
+                transform: translateX(3px);
             }
 
             .sidebar a:hover {
@@ -598,20 +653,28 @@
 
             /* Topbar */
             .topbar {
-                padding: 12px 15px;
-                margin-bottom: 15px;
+                padding: 10px 12px;
+                margin-bottom: 10px;
                 border-radius: 10px;
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
-                justify-content: center;
-                text-align: center;
+                justify-content: space-between;
+                text-align: left;
+                flex-wrap: nowrap;
+                gap: 8px;
             }
 
             .topbar h5 {
                 font-size: 18px;
-                width: 100%;
-                text-align: center;
-                margin-bottom: 8px;
+                width: auto;
+                max-width: 60%;
+                text-align: left;
+                margin-bottom: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                flex-shrink: 1;
+                min-width: 0;
             }
 
             .topbar span {
@@ -619,10 +682,63 @@
             }
 
             .user-badge {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 8px;
+                display: inline-flex;
+                width: auto;
+                max-width: 60%;
+                justify-content: flex-end;
+                flex-wrap: nowrap;
+                gap: 6px;
+                min-width: 0;
+                padding: 4px 8px;
+            }
+
+            .user-badge .user-info {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                min-width: 0;
+            }
+
+            .user-badge .user-avatar {
+                width: 28px;
+                height: 28px;
+            }
+
+            .user-badge .user-name {
+                font-size: 12px;
+            }
+
+            .user-badge .user-name small {
+                font-size: 10px;
+            }
+
+            .user-badge .logout-link {
+                padding: 4px 7px;
+                font-size: 12px;
+            }
+
+            .user-badge .user-info > * {
+                min-width: 0;
+            }
+
+            .user-badge .user-name {
+                display: inline-flex;
+                flex-direction: column;
+                align-items: flex-start;
+                min-width: 0;
+                max-width: 100%;
+            }
+
+            .user-badge .user-name span,
+            .user-badge .user-name small {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+            }
+
+            .user-badge .user-salir {
+                flex-shrink: 0;
             }
 
             /* Dashboard Cards */
@@ -874,7 +990,6 @@
 
         </div>
 
-
         <div class="sidebar-section">
 
             OPERACIÓN
@@ -921,6 +1036,32 @@
 
     </div>
 
+    <div class="mobile-menu">
+        <details>
+            <summary><i class="bi bi-house-fill"></i> General</summary>
+            <div class="mobile-menu-links">
+                <a href="/inicio">Inicio</a>
+            </div>
+        </details>
+        <details>
+            <summary><i class="bi bi-gear-fill"></i> Operación</summary>
+            <div class="mobile-menu-links">
+                <a href="{{ url_for('catalogos.gestionar_colores') }}">Colores</a>
+                <a href="{{ url_for('ingreso_manual') }}">Ingreso</a>
+                <a href="{{ url_for('inventario_disponible') }}">Disponible</a>
+                <a href="{{ url_for('inventario_general') }}">Inventario</a>
+                <a href="{{ url_for('surtido') }}">Surtir</a>
+                <a href="{{ url_for('ver_pedidos') }}">Pedidos</a>
+            </div>
+        </details>
+        <details>
+            <summary><i class="bi bi-search"></i> Consulta</summary>
+            <div class="mobile-menu-links">
+                <a href="{{ url_for('ver_historial_inventario') }}">Historial</a>
+            </div>
+        </details>
+    </div>
+
     <!-- Contenido Principal -->
     <div class="content">
 
@@ -938,12 +1079,13 @@
                         <span>{{ session.get('usuario', 'Invitado') }}</span>
                         <small>Sesión activa</small>
                     </div>
+                    <div class="user-salir">
+                        <a href="{{ url_for('auth.logout') }}" class="logout-link" title="Salir">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Salir</span>
+                        </a>
+                    </div>
                 </div>
-
-                <a href="{{ url_for('auth.logout') }}" class="logout-link" title="Salir">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Salir</span>
-                </a>
             </div>
         </div>
 
