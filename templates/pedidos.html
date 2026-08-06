@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
 {% block title %}Listado de Pedidos{% endblock %}
+
+{% block header_icon %}
+    <i class="bi bi-clipboard-check me-1"></i>
+{% endblock %}
+
 {% block header %}
 
 <h3 class="fw-bold">
-    <i class="bi bi-clipboard-check text-primary me-2"></i>
     Pedidos
 </h3>
 {% endblock %}
@@ -57,6 +61,30 @@
 
     box-shadow:0 2px 8px rgba(0,0,0,.08);
 
+    }
+
+    .pedido-card-header {
+        background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent 30%),
+                    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.10), transparent 28%),
+                    linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid rgba(148, 163, 184, 0.26);
+        border-radius: 14px;
+        padding: 0.45rem 0.8rem;
+        color: #0f172a;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .pedido-card-header strong {
+        color: #0f172a;
+        letter-spacing: 0.01em;
+        font-size: 0.92rem;
+        line-height: 1.05;
+    }
+
+    .pedido-card-header .pedido-fecha {
+        color: rgba(71, 85, 105, 0.90);
+        font-size: 0.85rem;
+        line-height: 1.1;
     }
 
     .produccion-container{
@@ -276,6 +304,9 @@
             font-size: 0.72rem;
             padding: 3px 8px;
         }
+        .fw-bold {
+            font-size: 1.2rem !important;
+        }
     }
 </style>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf-buttons.css') }}">
@@ -354,9 +385,9 @@
     {% if pedidos %}
         {% for pedido in pedidos %}
         <div class="card shadow-sm mb-4">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <div class="card-header pedido-card-header d-flex justify-content-between align-items-center">
                 <span><strong>Pedido #{{ pedido.numero_pedido }}</strong></span>
-                <span>{{ pedido.fecha.strftime('%d-%m-%Y %H:%M') }}</span>
+                <span class="pedido-fecha">{{ pedido.fecha.strftime('%d-%m-%Y %H:%M') }}</span>
             </div>
 
             <div class="card-body">
@@ -417,7 +448,7 @@
                                         aria-expanded="false"
                                         aria-controls="{{ accordion_id }}">
                                     <div class="d-flex justify-content-between align-items-center w-100 gap-2">
-                                        <div class="color-nombre align-items-left"><i class="bi bi-droplet-fill text-primary me-1"></i>{{ color }}</div>
+                                        <div class="color-nombre align-items-left"><span class="color-badge me-2" aria-hidden="true"></span>{{ color }}</div>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="color-piezas">{{ items_list | sum(attribute='cantidad') }} piezas</div>
                                             <div class="color-piezas">{{ items_list | length }} talla(s)</div>

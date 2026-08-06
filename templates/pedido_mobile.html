@@ -63,20 +63,49 @@
 
             background:#ffffff;
 
-            border-radius:18px;
+            border-radius:16px;
 
-            padding:22px;
+            padding:18px;
 
-            box-shadow:0 3px 10px rgba(0,0,0,.08);
+            box-shadow:0 2px 8px rgba(0,0,0,.08);
 
         }
 
+        .pedido-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+            border: 1px solid rgba(13, 110, 253, 0.12);
+            border-radius: 16px;
+            padding: 14px 16px;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.07);
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .pedido-card .encabezado-logo {
+            display: inline-flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 180px;
+            margin: 0 auto 14px;
+            padding: 10px;
+            border-radius: 16px;
+            background: #ffffff;
+            box-shadow: 0 12px 26px rgba(15, 23, 42, 0.10);
+        }
+
+        .pedido-card .encabezado-logo img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;
+        }
+
         .numero-pedido{
-            font-size:1.45rem;
+            font-size:1rem;
             font-weight:700;
-            letter-spacing:1px;
+            letter-spacing:.5px;
             color:#0d6efd;
-            margin:15px 0;
+            margin:10px 0;
             text-align:center;
         }
 
@@ -96,7 +125,7 @@
         }
 
         .titulo-documento{
-            font-size:1rem;
+            font-size:0.8rem;
             letter-spacing:3px;
             font-weight:600;
             color:#6c757d;
@@ -108,7 +137,7 @@
 
             margin-top:8px;
 
-            font-size:1rem;
+            font-size:0.85rem;
 
             color:#6c757d;
 
@@ -546,16 +575,21 @@
 
         <div class="pedido-card card-mobile">
 
-            <div class="empresa">
-                <h2>🧵 Sistema de Producción</h2>
-            </div>
+            <div class="pedido-header">
+                <div class="encabezado-logo">
+                    <img src="{{ url_for('static', filename='img/logo_cv.png') }}" alt="Creaciones Vicky">
+                </div>
 
-            <div class="titulo-documento">
-                COMPROBANTE DE PEDIDO
-            </div>
+                <div class="empresa">
+                    <h2>Control de Producción</h2>
+                </div>
 
-            <div class="numero-pedido">
-                PEDIDO #{{ pedido.numero_pedido }}
+                <div class="titulo-documento">
+                    COMPROBANTE DE PEDIDO
+                </div>
+                <div class="numero-pedido">
+                    PEDIDO #{{ pedido.numero_pedido }}
+                </div>
             </div>
 
         </div>

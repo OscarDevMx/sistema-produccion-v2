@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Inventario General{% endblock %}
+
+{% block header_icon %}
+    <i class="bi bi-stack me-1"></i>
+{% endblock %}
+
 {% block header %}
 <h3 class="fw-bold">
-    <i class="bi bi-boxes text-primary me-2"></i>
     Inventario General
 </h3>{% endblock %}
 
@@ -210,6 +214,9 @@
       padding: 4px 8px;
       font-size: 12px;
     }
+    .fw-bold {
+        font-size: 1.2rem !important;
+    }
   }
 </style>
 
@@ -217,11 +224,9 @@
 <form class="row g-2 mb-3" method="GET" action="{{ url_for('inventario_general') }}">
   <div class="col-12 col-md-auto">
     <div class="input-group input-group-sm">
-      <span class="input-group-text">
-
-          <i class="bi bi-droplet-fill me-1"></i>
-
-      </span>
+        <span class="input-group-text">
+          <i class="bi bi-droplet-half me-1"></i>
+        </span>
       <select name="color_id" class="form-select form-select-sm select-filtro">
         <option value="">Todos los colores</option>
         {% for c in colores %}
@@ -287,7 +292,7 @@
       data-bs-toggle="collapse" data-bs-target="#collapse{{ color.id }}"
       aria-expanded="false" aria-controls="collapse{{ color.id }}">
 
-          <div class="color-nombre"><h6 class="fw-bold mb-3"><i class="bi bi-droplet-fill text-primary me-1"></i>{{ color.nombre }}</h6></div>
+          <div class="color-nombre"><h6 class="fw-bold mb-3"><span class="color-badge me-2" aria-hidden="true"></span>{{ color.nombre }}</h6></div>
           <div class="d-flex align-items-center gap-2">
             <div class="color-piezas">{{ inventarios_color | map(attribute='cantidad') | sum }} piezas</div>
             <div class="color-piezas">{{ inventarios_color | length }} talla(s) </div>

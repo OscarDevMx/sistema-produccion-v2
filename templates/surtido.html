@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Salidas por Lote - Producción{% endblock %}
-{% block header %}<h3 class="fw-bold"><i class="bi bi-box-arrow-up-right text-primary me-2"></i>Salida por Surtido</h3>{% endblock %}
+
+{% block header_icon %}
+
+  <i class="bi bi-truck me-1"></i>
+
+{% endblock %}
+
+{% block header %}<h3 class="fw-bold">Salida por Surtido</h3>{% endblock %}
 
 {% block content %}
 <style>
@@ -72,6 +79,9 @@
       font-size: 0.8rem;
       padding: 0.4rem 0.6rem;
     }
+    .fw-bold {
+        font-size: 1.2rem !important;
+    }
   }
 
   </style>
@@ -106,7 +116,7 @@
 
   <!-- 2️⃣ Selección de color -->
   <div class="card shadow-sm p-3 mb-4">
-    <h5 class="fw-bold text-primary mb-3"><i class="bi bi-droplet-fill me-1"></i>Selecciona el Color </h5>
+    <h5 class="fw-bold text-primary mb-3"><i class="bi bi-droplet-half me-1"></i>Selecciona el Color </h5>
     <div class="d-flex align-items-center gap-2">
       <select class="form-select w-50" id="color">
         <option value="">-- Selecciona un color --</option>
@@ -350,7 +360,7 @@ function agregarResumenVertical(colorId, colorNombre, tallas, cantidadesPorTalla
   const header = document.createElement("div");
   header.className = "resumen-card-header";
   header.innerHTML = `
-    <h6 class="fw-bold mb-3"><i class="bi bi-droplet-fill text-primary me-1"></i>${colorNombre}</h6>
+    <h6 class="fw-bold mb-3"><span class="color-badge me-2" aria-hidden="true"></span>${colorNombre}</h6>
     <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar-vertical">
       <i class="bi bi-trash"></i> Eliminar
     </button>

@@ -2,11 +2,16 @@
 
 {% block title %}Pagina de Inicio{% endblock %}
 
+
+{% block header_icon %}
+    <i class="bi bi-speedometer2"></i>
+{% endblock %}
+
 {% block header %}
 <h3 class="fw-bold">
-    <i class="bi bi-house-door text-primary me-2"></i>
     Inicio
-</h3>{% endblock %}
+</h3>
+{% endblock %}
 
 {% block content %}
 <link rel="stylesheet"
@@ -37,12 +42,27 @@
     font-weight:700;
     }
 
+    .section-title {
+        margin: 28px 0 16px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #3b4a61;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border-left: 3px solid #0d6efd;
+        padding-left: 12px;
+    }
+
     @media (max-width: 768px) {
         /* Asegurar que el contenedor raíz permite scroll */
         .content {
             overflow-y: scroll !important;
             -webkit-overflow-scrolling: touch !important;
             padding-bottom: 120px !important;
+        }
+
+        .fw-bold {
+            font-size: 1.2rem !important;
         }
     }
 </style>
@@ -53,14 +73,14 @@
             <h6>Colores Registrados</h6>
             <h3>{{ dashboard.kpis.colores_registrados }}</h3>
         </div>
-        <i class="bi bi-droplet-fill fs-2"></i>
+        <i class="bi bi-droplet-half fs-2"></i>
     </div>
     <div class="card-dashboard bg-inventario">
         <div>
             <h6>Inventario Disponible</h6>
             <h3>{{ dashboard.kpis.inventario_disponible }}</h3>
         </div>
-        <i class="bi bi-box fs-2"></i>
+        <i class="bi bi-check2-square fs-3"></i>
     </div>
     <div class="card-dashboard bg-ventas">
         <div>
@@ -76,6 +96,10 @@
         </div>
         <i class="bi bi-bag-check-fill fs-2"></i>
     </div>
+</div>
+
+<div class="section-title">
+    Últimos 3 Pedidos Vendidos
 </div>
 
 <!-- Sección dinámica -->

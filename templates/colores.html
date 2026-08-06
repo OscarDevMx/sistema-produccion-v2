@@ -2,9 +2,11 @@
 
 {% block title %}Administración de Colores{% endblock %}
 
+{% block header_icon %}
+    <i class="bi bi-droplet-half me-1"></i>
+{% endblock %}
 {% block header %}
 <h3 class="fw-bold">
-    <i class="bi bi-droplet-fill text-primary me-2"></i>
     Colores
 </h3>
 {% endblock %}
@@ -89,6 +91,9 @@
       font-size:14px;
 
     }
+    .fw-bold {
+        font-size: 1.2rem !important;
+    }
 }
 
 </style>
@@ -114,7 +119,7 @@
     <table class="table table-hover align-middle mb-0">
       <thead class="table-light">
         <tr>
-          <th><i class="bi bi-droplet-fill me-1"></i>Color</th>
+          <th><i class="bi bi-droplet-half me-1"></i>Color</th>
           <th class="text-center"><i class="bi bi-gear me-1"></i>Acciones</th>
         </tr>
       </thead>
